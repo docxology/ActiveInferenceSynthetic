@@ -1,0 +1,77 @@
+# Active Inference -- A Synthetic Overview
+# Project metadata consumed by the rendering + publishing infrastructure.
+# Loaded by `infrastructure/rendering/_pdf_combined_renderer.py` (manuscript
+# metadata) and `infrastructure.publishing.extract_publication_metadata`.
+
+paper:
+  title: "Active Inference -- A Synthetic Overview"
+  subtitle: "An applicable introduction across equilibrium and far-from-equilibrium systems"
+  version: "0.1.0"
+  date: "2026-06-28"
+
+authors:
+  - name: "Daniel Ari Friedman"
+    orcid: "0000-0001-6232-9096"
+    email: "daniel@activeinference.institute"
+    affiliation: "Active Inference Institute"
+    corresponding: true
+  - name: "Alexandra Mikhailova"
+    email: "alexandra@activeinference.institute"
+    affiliation: "Active Inference Institute"
+    corresponding: false
+
+publication:
+  github_repository: ""
+
+keywords:
+  - "active inference"
+  - "free energy principle"
+  - "Bayesian mechanics"
+  - "non-equilibrium steady state"
+  - "variational inference"
+  - "self-organization"
+
+metadata:
+  license: "CC-BY-4.0"
+  language: "en"
+
+# Lightweight first-iteration render: PDF + HTML only.
+render:
+  formats:
+    pdf: true
+    html: true
+    slides: false
+    docx: false
+    epub: false
+
+# Steganography off for this early educational draft.
+steganography:
+  enabled: false
+
+# No LLM stages for this overview draft.
+llm:
+  reviews:
+    enabled: false
+  translations:
+    enabled: false
+
+# Zero-tolerance test gate (inherited template policy).
+testing:
+  max_test_failures: 0
+  max_infra_test_failures: 0
+  max_project_test_failures: 0
+
+# Retained so the inherited template scripts/tests stay green while the
+# overview's own computational content grows. Not referenced by the
+# current manuscript prose.
+experiment:
+  step_sizes: [0.01, 0.1, 0.5, 1.0, 1.5, 2.5]
+  initial_point: 0.0
+  max_iterations: 1000
+  tolerance: 1.0e-8
+  convergence_tolerance: 1.0e-8
+  quadratic_A: [[1.0]]
+  quadratic_b: [1.0]
+  stability_starting_points: [-50.0, -10.0, -5.0, 0.0, 0.1, 5.0, 10.0, 50.0]
+  stability_step_sizes: [0.01, 0.05, 0.1, 0.2, 0.5, 0.9]
+  benchmark_dimensions: [1, 2, 5, 10, 20, 50]

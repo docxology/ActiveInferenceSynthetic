@@ -1,0 +1,22 @@
+authors:
+- affiliation: Active Inference Institute
+  family-names: Friedman
+  given-names: Daniel Ari
+  orcid: 0000-0001-6232-9096
+- affiliation: Active Inference Institute
+  family-names: Mikhailova
+  given-names: Alexandra
+cff-version: 1.2.0
+date-released: "2026-06-28"
+keywords:
+- active inference
+- free energy principle
+- Bayesian mechanics
+- non-equilibrium steady state
+- variational inference
+- self-organization
+license: CC-BY-4.0
+message: If you use this work, please cite it using the metadata from this file.
+title: "Active Inference -- A Synthetic Overview"
+type: dataset
+version: "0.1.0"

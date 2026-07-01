@@ -1,0 +1,48 @@
+\begin{thebibliography}{5}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi: #1}\else
+  \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[Da~Costa et~al.(2021)Da~Costa, Friston, Heins, and
+  Pavliotis]{dacosta2021bayesian}
+Lancelot Da~Costa, Karl Friston, Conor Heins, and Grigorios~A. Pavliotis.
+\newblock Bayesian mechanics for stationary processes.
+\newblock \emph{Proceedings of the Royal Society A}, 477\penalty0
+  (2256):\penalty0 20210518, 2021.
+\newblock \doi{10.1098/rspa.2021.0518}.
+
+\bibitem[Friston(2010)]{friston2010fep}
+Karl Friston.
+\newblock The free-energy principle: a unified brain theory?
+\newblock \emph{Nature Reviews Neuroscience}, 11\penalty0 (2):\penalty0
+  127--138, 2010.
+\newblock \doi{10.1038/nrn2787}.
+
+\bibitem[Friston et~al.(2023)Friston, Da~Costa, Sajid, Heins, Ueltzh{\"o}ffer,
+  Pavliotis, and Parr]{friston2023bayesian}
+Karl Friston, Lancelot Da~Costa, Noor Sajid, Conor Heins, Kai Ueltzh{\"o}ffer,
+  Grigorios~A. Pavliotis, and Thomas Parr.
+\newblock The free energy principle made simpler but not too simple.
+\newblock \emph{Physics Reports}, 1024:\penalty0 1--29, 2023.
+\newblock \doi{10.1016/j.physrep.2023.07.001}.
+
+\bibitem[Parr et~al.(2022)Parr, Pezzulo, and Friston]{parr2022active}
+Thomas Parr, Giovanni Pezzulo, and Karl~J. Friston.
+\newblock \emph{Active Inference: The Free Energy Principle in Mind, Brain, and
+  Behavior}.
+\newblock MIT Press, Cambridge, MA, USA, 2022.
+\newblock ISBN 978-0-262-04535-3.
+\newblock \doi{10.7551/mitpress/12441.001.0001}.
+
+\bibitem[Ramstead et~al.(2023)Ramstead, Sakthivadivel, Heins, Koudahl,
+  Millidge, Da~Costa, Klein, and Friston]{ramstead2023bayesian}
+Maxwell J.~D. Ramstead, Dalton A.~R. Sakthivadivel, Conor Heins, Magnus
+  Koudahl, Beren Millidge, Lancelot Da~Costa, Brennan Klein, and Karl~J.
+  Friston.
+\newblock On bayesian mechanics: a physics of and by beliefs.
+\newblock \emph{Interface Focus}, 13\penalty0 (3):\penalty0 20220029, 2023.
+\newblock \doi{10.1098/rsfs.2022.0029}.
+
+\end{thebibliography}

@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>01_extended_abstract.md.web</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+  </style>
+  <script data-template-mathjax-config>
+window.MathJax = window.MathJax || {};
+window.MathJax.chtml = Object.assign({}, window.MathJax.chtml, {
+  fontURL: "https://cdn.jsdelivr.net/npm/@mathjax/mathjax-newcm-font@4.0.0/chtml/woff2",
+  dynamicPrefix: "https://cdn.jsdelivr.net/npm/@mathjax/mathjax-newcm-font@4.0.0/chtml/dynamic"
+});
+</script>
+<script defer=""
+  src="https://cdn.jsdelivr.net/npm/mathjax@4.0.0/tex-chtml.js"
+  type="text/javascript" integrity="sha384-2BWc4dVaHADUocwKrUrK9u3iDwHxVMKXWEcoRmUkXYSFKhAsgVAYClu9ydNuo5Oz" crossorigin="anonymous"></script>
+</head>
+<body>
+<h1 id="sec:extended">Extended Abstract</h1>
+<p>A thing that persists must, in effect, hold a model of the world that
+keeps it intact. <strong>Active Inference</strong> turns that
+observation into mechanics: a system maintains itself by minimizing
+<em>variational free energy</em>, a single quantity that scores how
+badly its internal expectations fit incoming sensations [friston2010fep;
+parr2022active]. Perception lowers free energy by updating beliefs;
+action lowers it by changing the world so the beliefs come true. One
+currency, two directions — inference and control — which is why the same
+template reappears from single cells to brains to institutions.</p>
+<p>The bound is what makes this <em>applicable</em> rather than
+metaphorical. Variational free energy is an upper bound on
+<strong>surprise</strong>, the negative log evidence <span
+class="math inline">\(-\ln p(s)\)</span> a system assigns to its own
+sensory states. Because the bound is computable from a system’s own
+beliefs, minimizing it <em>is</em> approximate Bayesian inference
+carried out by the physical dynamics of the thing itself. The accounting
+is organized by a <strong>Markov blanket</strong>: a statistical
+boundary splitting <em>external</em> states <span
+class="math inline">\(\eta\)</span> from <em>internal</em> states <span
+class="math inline">\(\mu\)</span>, coupled only through
+<em>sensory</em> and <em>active</em> blanket states. Internal states
+come to parameterize beliefs about the external world they can never
+touch directly — the core claim of <strong>Bayesian mechanics</strong>,
+a physics written in terms of, and by, those beliefs
+[dacosta2021bayesian; ramstead2023bayesian].</p>
+<p><span class="citation"
+data-cites="fig:overview">[@fig:overview]</span> shows the move that
+this overview is built around, without a single equation of derivation.
+Both panels live on <em>the same</em> free-energy landscape — a Gaussian
+bowl whose floor is the system’s expected state. At
+<strong>equilibrium</strong> (panel a) the flow is pure descent, <span
+class="math inline">\(f=-\nabla F\)</span>: every trajectory falls
+straight to the mode and stops. Detailed balance holds, there is no net
+current, and — taken literally — nothing further happens. A rock is at
+equilibrium; so, eventually, is a system that has stopped doing
+anything. Living systems occupy panel (b). There the flow gains a
+<em>solenoidal</em> term, <span class="math inline">\(f=(Q-\Gamma)\nabla
+F\)</span>, that runs along the contours of <span
+class="math inline">\(F\)</span> rather than down them. Free energy is
+still minimized — the system still tracks its niche — yet probability
+mass <strong>circulates</strong> indefinitely in a
+<strong>non-equilibrium steady state</strong>. That persistent current
+is the signature of things that stay far from equilibrium: heartbeats,
+foraging, perception that never settles. The gradient part is the Free
+Energy Principle’s “climbing down surprise”; the solenoidal part is what
+keeps the system alive while doing so [friston2023bayesian].</p>
+<p>Read the two panels together and the headline of Active Inference is
+visible at a glance: the <em>same</em> imperative — minimize free energy
+— produces inert relaxation in one regime and open-ended,
+self-sustaining behavior in the other. The rest of this overview unpacks
+that picture in the spirit of <em>show, not tell</em>: each subsequent
+section adds one runnable, minimal demonstration rather than another
+layer of formalism.</p>
+<figure id="fig:overview">
+<img src="../figures/active_inference_overview.png" style="width:94.0%"
+alt="One landscape, two regimes. Both panels place the system on the same Gaussian free-energy bowl (grey contours; the black dot marks the mode, where free energy is least). (a) Equilibrium: the flow is pure gradient descent on free energy, f=-\nabla F (blue arrows). Detailed balance holds, so trajectories fall to the mode and come to rest with no net probability current. (b) Far-from-equilibrium (NESS): an antisymmetric solenoidal operator Q adds a conservative current, f=(Q-\Gamma)\nabla F (orange streamlines), that flows along the level sets of F. Free energy is still minimized, but probability mass circulates without end — the hallmark of living, self-organizing systems. The Free Energy Principle is the descent term; Bayesian mechanics adds the circulation. Internal states \mu infer external states \eta across a Markov blanket (sensory s, active a). Figure rendered deterministically by scripts/generate_overview_figure.py over the tested flow in src/free_energy_flow.py." />
+<figcaption aria-hidden="true"><strong>One landscape, two
+regimes.</strong> Both panels place the system on the same Gaussian
+free-energy bowl (grey contours; the black dot marks the mode, where
+free energy is least). <strong>(a) Equilibrium:</strong> the flow is
+pure gradient descent on free energy, <span
+class="math inline">\(f=-\nabla F\)</span> (blue arrows). Detailed
+balance holds, so trajectories fall to the mode and come to rest with no
+net probability current. <strong>(b) Far-from-equilibrium
+(NESS):</strong> an antisymmetric <em>solenoidal</em> operator <span
+class="math inline">\(Q\)</span> adds a conservative current, <span
+class="math inline">\(f=(Q-\Gamma)\nabla F\)</span> (orange
+streamlines), that flows along the level sets of <span
+class="math inline">\(F\)</span>. Free energy is still minimized, but
+probability mass circulates without end — the hallmark of living,
+self-organizing systems. The Free Energy Principle is the descent term;
+Bayesian mechanics adds the circulation. Internal states <span
+class="math inline">\(\mu\)</span> infer external states <span
+class="math inline">\(\eta\)</span> across a Markov blanket (sensory
+<span class="math inline">\(s\)</span>, active <span
+class="math inline">\(a\)</span>). Figure rendered deterministically by
+<code>scripts/generate_overview_figure.py</code> over the tested flow in
+<code>src/free_energy_flow.py</code>.</figcaption>
+</figure>
+</body>
+</html>
