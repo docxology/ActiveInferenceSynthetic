@@ -60,18 +60,3 @@ testing:
   max_test_failures: 0
   max_infra_test_failures: 0
   max_project_test_failures: 0
-
-# Retained so the inherited template scripts/tests stay green while the
-# overview's own computational content grows. Not referenced by the
-# current manuscript prose.
-experiment:
-  step_sizes: [0.01, 0.1, 0.5, 1.0, 1.5, 2.5]
-  initial_point: 0.0
-  max_iterations: 1000
-  tolerance: 1.0e-8
-  convergence_tolerance: 1.0e-8
-  quadratic_A: [[1.0]]
-  quadratic_b: [1.0]
-  stability_starting_points: [-50.0, -10.0, -5.0, 0.0, 0.1, 5.0, 10.0, 50.0]
-  stability_step_sizes: [0.01, 0.05, 0.1, 0.2, 0.5, 0.9]
-  benchmark_dimensions: [1, 2, 5, 10, 20, 50]

@@ -1,25 +1,18 @@
 conditions:
-  - name: conservative_step
+  - name: equilibrium
     role: reference
-    description: "Stable gradient-descent step below the spectral bound."
-  - name: near_optimal_step
+    description: "Pure gradient descent on free energy (omega=0). Detailed balance holds; Q=0; the flow relaxes to the mode with no net probability current."
+  - name: non_equilibrium_steady_state
     role: proposed
-    description: "Template-recommended step near the stable convergence region."
-  - name: aggressive_step
-    role: variant
-    description: "Stress condition near or above the stability boundary."
+    description: "Same Gaussian free-energy landscape plus an antisymmetric solenoidal term (omega=2.4). Free energy is still minimised, but a persistent probability current circulates along the level sets of F."
 metrics:
   primary:
-    name: objective_value
+    name: free_energy
     direction: minimize
-protocol: "Run the deterministic quadratic optimization sweep with identical initialization, seeds, tolerance, and iteration cap across all declared step-size conditions."
+protocol: "Evaluate the analytic Bayesian-mechanics flow f = (Q - Gamma) grad F over one shared isotropic Gaussian free-energy landscape for both the equilibrium (omega=0) and NESS (omega!=0) regimes. Everything is closed-form and deterministic: no RNG, no fitting, no iteration cap. The solenoidal term is verified orthogonal to grad F (does no work against free energy) to machine precision."
 expected_figures:
-  - fig:convergence_plot
-  - fig:performance_benchmark
-  - fig:step_size_sensitivity
-expected_tables:
-  - tbl:optimization_results
+  - fig:overview
 baselines:
-  - conservative_step
+  - equilibrium
 ablations:
-  - aggressive_step
+  - non_equilibrium_steady_state

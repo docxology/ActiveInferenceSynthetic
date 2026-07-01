@@ -1,56 +1,54 @@
-# template_code_project TODO
+# Active Inference -- A Synthetic Overview: TODO
 
-Forward-only integrity backlog for the optimization research control-positive
-exemplar. Keep this file focused on template status, not general feature ideas.
+Forward roadmap for the educational overview. The guiding principle is
+**show, not tell**: each addition is a runnable, minimal, deterministic
+demonstration backed by tested code in `src/`, not more formalism.
 
-## Current validation evidence
+## Current state (`v0.1.0`)
 
-- Manuscript pre-render gate: `uv run python -m infrastructure.validation.cli prerender projects/templates/template_code_project/manuscript --repo-root .`
-- Project tests and coverage: `uv run pytest projects/templates/template_code_project/tests/ --cov=projects/templates/template_code_project/src --cov-fail-under=90`
-- Stage 02 analysis must write `output/data/optimization_results.csv` before strict manuscript-variable generation.
-- Repo drift gate: `uv run python scripts/check_template_drift.py --strict`
-- Stage 04 warning snapshot, 2026-06-20: PDF, markdown, output structure, figure registry, evidence registry, and design overlays pass; artifact manifest reports advisory drift after single-stage regeneration.
-- Code quality: `uv run ruff check projects/templates/template_code_project/src/` and `uv run mypy projects/templates/template_code_project/src/` must both pass clean.
-- Coverage floor: 231 tests, ≥97.65% coverage on `src/`; live count in `docs/_generated/COUNTS.md`.
+- **Numerical core:** `src/free_energy_flow.py` — the analytic Bayesian-mechanics
+  flow `f = (Q - Gamma) grad F` on an isotropic Gaussian free-energy landscape
+  (free energy, gradient, flow field, solenoidal-orthogonality check, detailed-
+  balance predicate). Deterministic; no RNG.
+- **Figure orchestrator:** `scripts/generate_overview_figure.py` — thin wrapper
+  that renders the sole manuscript anchor, `output/figures/active_inference_overview.png`
+  (one landscape, two regimes: equilibrium vs NESS).
+- **Manuscript:** `manuscript/00_abstract.md`, `manuscript/01_extended_abstract.md`
+  (built around `[@fig:overview]`), and `manuscript/99_references.md` + `references.bib`.
+- **Tests:** `tests/test_free_energy_flow.py`, `tests/test_project_paths.py`, and a
+  figure smoke test — no mocks, 100% coverage of `src/` (gate: >=90%).
 
-## Recent improvements (2026-06)
+## Validation evidence
 
-- Fixed ruff errors: removed unused `field` import from `scientific_complexity.py`; suppressed unused variable via `# noqa: F841`.
-- Fixed mypy errors: renamed loop variable in `multi_factor_analysis` fallback branch (`v` → `variant`) to resolve type-inference conflict; removed stale `type: ignore[misc]` from `log_success` fallback definition.
-- Added `# pragma: no cover` to standalone-mode import fallback lines in `_runtime.py` and `_infra.py` (covered by subprocess isolation tests already in the suite).
-- Added 34 new tests covering previously untested code paths:
-  - `compare_algorithms` (all branches: pre-computed results, timing, stability, convergence rate, fastest/slowest ranking)
-  - `multi_factor_analysis` (all branches: custom weights with unknown keys, zero-total weights, low convergence/stability recommendations, `_variant_score` for unconverged variants, degenerate empty-variants case)
-  - `BackendProfile` analysis methods: `effective_max_stable_alpha` with explicit override, `effective_label_alpha` both paths, `profile_stable_region`, `compare_profiles_at_alpha`
-  - `AlphaSweepConfig.resolved_alphas` ValueError path (neither alphas nor min/max/num provided) and linspace path
-  - `convergence_rate = 0.0` branch for single-history-point variants
+- Project tests + coverage:
+  `uv run pytest projects/working/ActiveInferenceSynthetic/tests/ --cov=projects/working/ActiveInferenceSynthetic/src --cov-fail-under=90`
+- Regenerate the figure (deterministic):
+  `uv run python projects/working/ActiveInferenceSynthetic/scripts/generate_overview_figure.py`
+- Render the manuscript:
+  `uv run python scripts/03_render_pdf.py --project working/ActiveInferenceSynthetic`
 
-## Integrity and template-status gaps
+## Roadmap — one demonstration per section
 
-- Keep this exemplar as the smallest reliable control-positive path for code-centric research projects.
-- Add a project-local output validation script only if it checks artifacts beyond the generic Stage 04 validators.
-- Keep dashboard, API docs, figures, and manuscript variables generated from source, not hand-maintained output snapshots.
+1. **Generative model.** Add a minimal tested generative model (states, observations,
+   likelihood `p(s|x)` and prior `p(x)`) in `src/`, with a figure showing beliefs
+   updating under new evidence. Perception as free-energy minimization.
+2. **Variational vs expected free energy.** Contrast VFE (perception/inference on
+   past-and-present sensations) with EFE (action selection over expected future
+   observations, balancing pragmatic and epistemic value). One worked, deterministic
+   example each; make the pragmatic/epistemic split visible.
+3. **Markov blanket.** A small, tested demonstration of the statistical boundary —
+   external `eta`, sensory `s`, active `a`, internal `mu` — showing conditional
+   independence of internal and external states given the blanket.
+4. **Worked equilibrium / non-equilibrium examples.** Extend the current flow demo
+   into concrete trajectories: an equilibrium system relaxing to the mode vs a
+   NESS system sustaining a persistent current, quantifying the entropy-production
+   / probability-current difference.
 
-## Configurable-surface gaps
+## Working agreements
 
-- Keep `manuscript/config.yaml.example` as the richer copy-and-customize template for publication, LLM, testing, and steganography toggles.
-- Add any future optimizer hyperparameter config under typed source loaders rather than reading ad hoc YAML from scripts.
-
-## Documentation and signposting gaps
-
-- Keep README quick-start commands aligned with the qualified project name `templates/template_code_project`.
-- Link new public artifacts from README, AGENTS, and `docs/_generated/exemplar_roster.md` through the generator.
-
-## Test and validator gaps
-
-- Add a negative control before widening optimizer claims beyond the bundled deterministic objectives.
-- Add dashboard schema assertions whenever dashboard fields or chart payloads change.
-- Add or document a stable final artifact-manifest refresh path for single-stage analysis/render/copy checks.
-- `analysis/scientific_reports.py` lines 234, 274-277 (infrastructure-path branches) and `analysis/workflow.py` branch misses remain; these are only reachable with specific infrastructure states. Consider subprocess isolation tests mirroring `TestImportFallback` if coverage gates tighten further.
-
-## Ordered improvement ladder
-
-1. Preserve the strict analysis-to-manuscript variable contract.
-2. Add focused validators for any new generated artifact family.
-3. Expand benchmark scenarios only with deterministic seeds, expected-shape tests, and documented claim boundaries.
-4. Refresh generated docs after any public-surface change.
+- Keep business logic in `src/` (tested); keep `scripts/` as thin orchestrators
+  that only handle I/O, layout, and rendering.
+- Every new section ships with no-mocks tests and holds the `src/` coverage gate.
+- Keep figures deterministic (fixed parameters, no RNG) so renders are reproducible.
+- Keep `data/claim_ledger.yaml` and `experiment_plan.yaml` describing only what the
+  project's real code produces — no carryover from the upstream template.
