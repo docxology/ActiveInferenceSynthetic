@@ -6,8 +6,8 @@
 paper:
   title: "Active Inference -- A Synthetic Overview"
   subtitle: "An applicable introduction across equilibrium and far-from-equilibrium systems"
-  version: "0.1.0"
-  date: "2026-06-28"
+  version: "0.5.0"
+  date: "2026-07-22"
 
 authors:
   - name: "Daniel Ari Friedman"

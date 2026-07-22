@@ -34,3 +34,142 @@ claims:
     source_tier: project_source
     freshness: active
     artifact_path: output/figures/active_inference_overview.png
+
+  # --- Perception-as-inference figure (belief_update.png, section 2) ---
+  - claim_id: belief-model-prior
+    kind: vector
+    value: [0.6, 0.4]
+    source: scripts/generate_belief_update_figure.py PRIOR (categorical prior p(x))
+    source_tier: project_source
+    freshness: active
+    artifact_path: output/figures/belief_update.png
+  - claim_id: belief-posterior-x0
+    kind: number
+    value: 0.8709677419354839
+    source: src/generative_model.py posterior(); p(x0|s=0)=0.54/0.62 (verified in tests/test_generative_model.py)
+    source_tier: project_source
+    freshness: active
+    artifact_path: output/figures/belief_update.png
+  - claim_id: belief-inference-learning-rate
+    kind: number
+    value: 0.3
+    source: scripts/generate_belief_update_figure.py LEARNING_RATE (free-energy descent step)
+    source_tier: project_source
+    freshness: active
+    artifact_path: output/figures/belief_update.png
+
+  # --- Worked-trajectories figure (worked_trajectories.png, section 3) ---
+  - claim_id: trajectory-ness-omega
+    kind: number
+    value: 6.0
+    source: scripts/generate_trajectory_figure.py OMEGA_NESS (solenoidal strength for the NESS panel)
+    source_tier: project_source
+    freshness: active
+    artifact_path: output/figures/worked_trajectories.png
+  - claim_id: trajectory-integrator-dt
+    kind: number
+    value: 0.002
+    source: scripts/generate_trajectory_figure.py DT (RK4 fixed time step)
+    source_tier: project_source
+    freshness: active
+    artifact_path: output/figures/worked_trajectories.png
+  - claim_id: trajectory-integrator-steps
+    kind: number
+    value: 6000
+    source: scripts/generate_trajectory_figure.py STEPS (RK4 integration steps)
+    source_tier: project_source
+    freshness: active
+    artifact_path: output/figures/worked_trajectories.png
+  - claim_id: trajectory-ness-net-rotation-turns
+    kind: number
+    value: -11.46
+    note: "Window-dependent total winding over horizon T = DT*STEPS = 12; grows with T. Not intrinsic — see trajectory-ness-rotation-rate."
+    source: src/trajectories.py net_rotation()/2pi for the NESS run (annotated on figure panel b)
+    source_tier: derived
+    freshness: active
+    artifact_path: output/figures/worked_trajectories.png
+  - claim_id: trajectory-ness-rotation-rate
+    kind: number
+    value: -0.9549296585513721
+    note: "Intrinsic IC-independent rotation rate = -omega*precision/(2pi) turns per unit time; analytic dθ/dt = -omega*precision. Exactly 0 at equilibrium. Verified in tests/test_trajectories.py::test_ness_rotation_rate_is_intrinsic (with omega=5, precision=1.3)."
+    source: src/trajectories.py net_rotation over horizon / (2pi * T); analytic -omega*precision/(2pi) with omega=6, precision=1
+    source_tier: derived
+    freshness: active
+    artifact_path: output/figures/worked_trajectories.png
+
+  # --- Expected-free-energy figure (expected_free_energy.png, section 4) ---
+  - claim_id: efe-cue-epistemic-value
+    kind: number
+    value: 0.3680642071684971
+    note: "Expected information gain of the informative 'cue' action = KL([0.9,0.1]||[0.5,0.5]) (both outcomes symmetric); verified in tests/test_expected_free_energy.py::test_epistemic_value_hand_value."
+    source: src/expected_free_energy.py epistemic_value(CUE, [0.5,0.5])
+    source_tier: derived
+    freshness: active
+    artifact_path: output/figures/expected_free_energy.png
+  - claim_id: efe-flat-choice
+    kind: string
+    value: explore
+    note: "Under flat preferences the argmin-EFE policy is the informative cue (explore): G_cue=0.33 < G_bet=0.69."
+    source: src/expected_free_energy.py select_policy([CUE,BET],[0.5,0.5],[0.5,0.5])
+    source_tier: derived
+    freshness: active
+    artifact_path: output/figures/expected_free_energy.png
+  - claim_id: efe-sharp-choice
+    kind: string
+    value: exploit
+    note: "Under sharp preferences [0.9,0.1] the argmin-EFE policy is the rewarding bet (exploit): G_bet=0.43 < G_cue=0.84."
+    source: src/expected_free_energy.py select_policy([CUE,BET],[0.5,0.5],[0.9,0.1])
+    source_tier: derived
+    freshness: active
+    artifact_path: output/figures/expected_free_energy.png
+
+  # --- Markov-blanket figure (markov_blanket.png, section 5) ---
+  - claim_id: blanket-eta-mu-precision
+    kind: number
+    value: 0.0
+    note: "Zero internal-external precision entry Pi[eta,mu] encodes eta ⊥ mu | {s,a}; the Markov-blanket condition by construction."
+    source: scripts/generate_markov_blanket_figure.py PRECISION[0,3]
+    source_tier: project_source
+    freshness: active
+    artifact_path: output/figures/markov_blanket.png
+  - claim_id: blanket-eta-mu-marginal-correlation
+    kind: number
+    value: 0.19
+    note: "Marginal correlation of external eta and internal mu (nonzero: they couple through the blanket); from correlation_matrix(inv(PRECISION))[0,3]. Verified in tests/test_markov_blanket.py::test_internal_and_external_are_marginally_dependent."
+    source: src/markov_blanket.py correlation_matrix(inv(PRECISION))[eta,mu]
+    source_tier: derived
+    freshness: active
+    artifact_path: output/figures/markov_blanket.png
+  - claim_id: blanket-eta-mu-partial-correlation-given-blanket
+    kind: number
+    value: 0.0
+    note: "Partial correlation of eta and mu given the blanket {s,a} vanishes (~1e-10): conditional independence. Verified in tests/test_markov_blanket.py::test_partial_correlation_zero_given_full_blanket."
+    source: src/markov_blanket.py partial_correlation(cov, eta, mu, [s,a])
+    source_tier: derived
+    freshness: active
+    artifact_path: output/figures/markov_blanket.png
+
+  # --- Steady-state figure (steady_state_current.png, section 6) ---
+  - claim_id: steady-state-ness-omega
+    kind: number
+    value: 2.4
+    source: scripts/generate_steady_state_figure.py OMEGA_NESS (solenoidal strength for the NESS panel)
+    source_tier: project_source
+    freshness: active
+    artifact_path: output/figures/steady_state_current.png
+  - claim_id: steady-state-entropy-production-equilibrium
+    kind: number
+    value: 0.0
+    note: "Entropy-production rate at equilibrium (omega=0) is exactly 0 (detailed balance). Verified in tests/test_steady_state.py::test_entropy_production_zero_at_equilibrium."
+    source: src/steady_state.py entropy_production_rate(precision=1, gamma=1, omega=0)
+    source_tier: derived
+    freshness: active
+    artifact_path: output/figures/steady_state_current.png
+  - claim_id: steady-state-entropy-production-ness
+    kind: number
+    value: 11.52
+    note: "NESS entropy-production rate sigma = 2*omega^2*precision/gamma = 2*2.4^2*1/1 = 11.52 nats/time; closed form verified in tests/test_steady_state.py::test_entropy_production_matches_closed_form."
+    source: src/steady_state.py entropy_production_rate(precision=1, gamma=1, omega=2.4)
+    source_tier: derived
+    freshness: active
+    artifact_path: output/figures/steady_state_current.png

@@ -4,15 +4,61 @@ conditions:
     description: "Pure gradient descent on free energy (omega=0). Detailed balance holds; Q=0; the flow relaxes to the mode with no net probability current."
   - name: non_equilibrium_steady_state
     role: proposed
-    description: "Same Gaussian free-energy landscape plus an antisymmetric solenoidal term (omega=2.4). Free energy is still minimised, but a persistent probability current circulates along the level sets of F."
+    description: "Same Gaussian free-energy landscape plus an antisymmetric solenoidal term (omega!=0). Free energy is still minimised, but a persistent probability current circulates along the level sets of F."
+  - name: perception_as_inference
+    role: proposed
+    description: "Gradient descent on variational free energy over a discrete generative model's belief simplex. The belief converges to the exact Bayesian posterior and F converges to the surprise -ln p(s) it bounds — Bayesian updating carried out by free-energy minimisation."
+  - name: worked_trajectories
+    role: proposed
+    description: "The equilibrium and NESS flows integrated (fixed-step RK4) into concrete paths. Equilibrium relaxes to the mode with ~0 net rotation; the NESS spirals through many full turns, making the persistent probability current quantitative as accumulated angle."
+  - name: expected_free_energy_action
+    role: proposed
+    description: "Action selection by minimizing expected free energy G over policies, decomposed into pragmatic (expected log preference) and epistemic (expected information gain) value. Same argmin-G rule yields exploration under flat preferences and exploitation under sharp preferences."
+  - name: markov_blanket
+    role: proposed
+    description: "A jointly-Gaussian world over (eta, s, a, mu) with a zero eta-mu precision block. Internal mu and external eta are marginally correlated but conditionally independent given the blanket b={s,a}, shown via the Schur complement and partial correlation."
+  - name: steady_state
+    role: proposed
+    description: "The Ornstein-Uhlenbeck steady state of the Bayesian-mechanics flow with matched noise (D=Gamma). Analytic Lyapunov stationary covariance (=P^-1), closed-form probability current j=(QPx)rho, and entropy-production rate sigma=2*omega^2*precision/gamma. Equilibrium (omega=0): zero current, sigma=0. NESS (omega!=0): sustained divergence-free current, sigma>0."
 metrics:
   primary:
     name: free_energy
     direction: minimize
-protocol: "Evaluate the analytic Bayesian-mechanics flow f = (Q - Gamma) grad F over one shared isotropic Gaussian free-energy landscape for both the equilibrium (omega=0) and NESS (omega!=0) regimes. Everything is closed-form and deterministic: no RNG, no fitting, no iteration cap. The solenoidal term is verified orthogonal to grad F (does no work against free energy) to machine precision."
+  secondary:
+    - name: kl_to_posterior
+      direction: minimize
+      applies_to: perception_as_inference
+      note: "Variational gap F - (-ln p(s)) = KL[q || p(x|s)]; zero at the posterior."
+    - name: net_rotation
+      direction: characterize
+      applies_to: worked_trajectories
+      note: "Accumulated signed angle about the mode; ~0 at equilibrium, large in a NESS."
+    - name: expected_free_energy
+      direction: minimize
+      applies_to: expected_free_energy_action
+      note: "G = -(pragmatic + epistemic); the selected policy is argmin G."
+    - name: partial_correlation
+      direction: characterize
+      applies_to: markov_blanket
+      note: "corr(eta,mu) != 0 marginally; ~0 conditioned on the blanket {s,a}."
+    - name: entropy_production_rate
+      direction: characterize
+      applies_to: steady_state
+      note: "sigma = 2*omega^2*precision/gamma; exactly 0 iff detailed balance (omega=0)."
+protocol: "All demonstrations are closed-form and deterministic: no RNG, no fitting. (1) Bayesian-mechanics flow f = (Q - Gamma) grad F over one shared isotropic Gaussian free-energy landscape, for equilibrium (omega=0) and NESS (omega!=0); the solenoidal term is verified orthogonal to grad F to machine precision. (2) Perception: descend variational free energy over a discrete generative model to the exact posterior, verified against closed-form Bayes and the surprise bound. (3) Worked trajectories: integrate the flow with fixed-step RK4 (validated against the linear-ODE closed form) and quantify the equilibrium-vs-NESS difference as net rotation."
 expected_figures:
   - fig:overview
+  - fig:belief
+  - fig:trajectories
+  - fig:efe
+  - fig:blanket
+  - fig:steady
 baselines:
   - equilibrium
 ablations:
   - non_equilibrium_steady_state
+  - perception_as_inference
+  - worked_trajectories
+  - expected_free_energy_action
+  - markov_blanket
+  - steady_state

@@ -1,0 +1,5 @@
+# Lean / Lake build artifacts — regeneratable, never committed.
+/.lake/
+/build/
+*.olean
+*.ilean

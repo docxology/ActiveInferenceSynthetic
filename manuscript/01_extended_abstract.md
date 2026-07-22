@@ -44,7 +44,23 @@ Read the two panels together and the headline of Active Inference is
 visible at a glance: the *same* imperative — minimize free energy — produces
 inert relaxation in one regime and open-ended, self-sustaining behavior in
 the other. The rest of this overview unpacks that picture in the spirit of
-*show, not tell*: each subsequent section adds one runnable, minimal
-demonstration rather than another layer of formalism.
+*show, not tell*: each section adds one runnable, minimal demonstration
+rather than another layer of formalism. [@sec:generative-model] makes the
+*inference* concrete — that minimizing variational free energy over a
+generative model **is** Bayesian updating, and that free energy is a tight
+upper bound on surprise. [@sec:worked-regimes] makes the *mechanics*
+concrete — integrating the flow above into worked equilibrium and
+non-equilibrium trajectories and quantifying the persistent current that
+separates the living regime from the inert one. [@sec:expected-free-energy]
+turns to *action* — minimizing the same currency over policies, whose pragmatic
+and epistemic terms produce the explore/exploit balance from one rule. [@sec:markov-blanket] exhibits the *boundary* itself — the Markov blanket that
+makes internal states inferring an external world a well-posed idea rather than
+a metaphor. [@sec:steady-state] quantifies the far-from-equilibrium
+regime outright — the analytic probability current and the entropy-production
+rate that is zero exactly at detailed balance and positive out of it. Finally
+[@sec:formal] closes the loop on rigour: the load-bearing theorems — Gibbs'
+inequality, the free-energy bound, the conservative solenoidal current, the sign
+of entropy production — are **machine-checked in Lean 4**, proved from the
+kernel's axioms with no `sorry` and no external library.
 
 ![**One landscape, two regimes.** Both panels place the system on the same Gaussian free-energy bowl (grey contours; the black dot marks the mode, where free energy is least). **(a) Equilibrium:** the flow is pure gradient descent on free energy, $f=-\nabla F$ (blue arrows). Detailed balance holds, so trajectories fall to the mode and come to rest with no net probability current. **(b) Far-from-equilibrium (NESS):** an antisymmetric *solenoidal* operator $Q$ adds a conservative current, $f=(Q-\Gamma)\nabla F$ (orange streamlines), that flows along the level sets of $F$. Free energy is still minimized, but probability mass circulates without end — the hallmark of living, self-organizing systems. The Free Energy Principle is the descent term; Bayesian mechanics adds the circulation. Internal states $\mu$ infer external states $\eta$ across a Markov blanket (sensory $s$, active $a$). Figure rendered deterministically by `scripts/generate_overview_figure.py` over the tested flow in `src/free_energy_flow.py`.](../output/figures/active_inference_overview.png){#fig:overview width=94%}

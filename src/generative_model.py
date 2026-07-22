@@ -1,0 +1,309 @@
+"""Discrete generative model — perception as free-energy minimization.
+
+This is the *inference* half of Active Inference, the complement to the
+Bayesian-mechanics flow in :mod:`free_energy_flow`. Where that module shows the
+thermodynamic descent of a system on its own free-energy landscape, this one
+shows the epistemic content of that descent: **perception is approximate
+Bayesian inference, carried out by minimizing variational free energy.**
+
+The setup is the smallest thing that still says something true. A system holds
+a categorical *generative model* of hidden states ``x`` and observations ``s``:
+
+* a **prior** ``p(x)`` — a probability vector over ``K`` hidden states;
+* a **likelihood** ``p(s | x)`` — an ``O × K`` matrix whose column ``x`` is the
+  distribution over the ``O`` possible observations given state ``x``.
+
+Together they define the joint ``p(s, x) = p(s | x) p(x)`` and the model
+**evidence** ``p(s) = Σ_x p(s | x) p(x)``. The exact Bayesian **posterior** is
+``p(x | s) = p(s, x) / p(s)``.
+
+The load-bearing quantity is **variational free energy**. For any belief
+``q(x)`` about the hidden state, given an observation ``s``:
+
+    F[q] = E_q[ ln q(x) − ln p(s, x) ]
+         = KL[ q(x) ‖ p(x) ]  −  E_q[ ln p(s | x) ]
+           └── complexity ──┘    └──── accuracy ────┘
+
+Two facts make this *applicable* rather than decorative, and both are asserted
+to machine precision in the tests:
+
+1. **F is an upper bound on surprise.** ``F[q] = −ln p(s) + KL[q ‖ p(x|s)] ≥
+   −ln p(s)`` for every ``q``. Minimizing F over beliefs therefore minimizes an
+   accessible bound on the (inaccessible) surprise ``−ln p(s)``.
+2. **The bound is tight at the posterior.** ``F`` is minimized exactly when
+   ``q = p(x | s)``, where it *equals* the surprise. So free-energy
+   minimization **is** Bayesian inference — the belief that minimizes F is the
+   posterior, and the minimized value is the surprise it bounds.
+
+:func:`minimize_free_energy` makes the descent explicit: gradient descent on F
+over the belief simplex (softmax parameterization) drives an arbitrary starting
+belief to the posterior while F falls monotonically to the surprise. That is
+"perception lowers free energy by updating beliefs," shown rather than told.
+
+Everything is analytic and deterministic — no RNG, no fitting.
+"""
+
+from __future__ import annotations
+
+import numpy as np
+from numpy.typing import NDArray
+
+__all__ = [
+    "joint",
+    "evidence",
+    "surprise",
+    "posterior",
+    "variational_free_energy",
+    "vfe_components",
+    "minimize_free_energy",
+]
+
+_TOL = 1e-9
+
+
+def _as_vector(p: NDArray[np.float64] | list[float], name: str) -> NDArray[np.float64]:
+    arr = np.asarray(p, dtype=np.float64)
+    if arr.ndim != 1:
+        raise ValueError(f"{name} must be 1-D, got shape {arr.shape}")
+    return arr
+
+
+def _check_distribution(p: NDArray[np.float64], name: str) -> NDArray[np.float64]:
+    """Validate that ``p`` is a proper probability vector (>=0, sums to 1)."""
+    if not np.all(np.isfinite(p)):
+        raise ValueError(f"{name} must be finite (no NaN/inf), got {p}")
+    if np.any(p < -_TOL):
+        raise ValueError(f"{name} must be non-negative, got {p}")
+    total = float(p.sum())
+    if abs(total - 1.0) > 1e-8:
+        raise ValueError(f"{name} must sum to 1, got {total}")
+    return np.clip(p, 0.0, None)
+
+
+def _check_likelihood(a: NDArray[np.float64]) -> NDArray[np.float64]:
+    """Validate an ``O × K`` likelihood: non-negative, each column sums to 1."""
+    arr = np.asarray(a, dtype=np.float64)
+    if arr.ndim != 2:
+        raise ValueError(f"likelihood must be 2-D (O x K), got shape {arr.shape}")
+    if not np.all(np.isfinite(arr)):
+        raise ValueError("likelihood must be finite (no NaN/inf)")
+    if np.any(arr < -_TOL):
+        raise ValueError("likelihood must be non-negative")
+    col_sums = arr.sum(axis=0)
+    if not np.allclose(col_sums, 1.0, atol=1e-8):
+        raise ValueError(
+            f"each likelihood column p(s|x) must sum to 1, got column sums {col_sums}"
+        )
+    return np.clip(arr, 0.0, None)
+
+
+def _prepare(
+    likelihood: NDArray[np.float64],
+    prior: NDArray[np.float64],
+    obs: int,
+) -> tuple[NDArray[np.float64], NDArray[np.float64]]:
+    """Validate inputs and return ``(likelihood_row_for_obs, prior)``."""
+    a = _check_likelihood(likelihood)
+    p = _check_distribution(_as_vector(prior, "prior"), "prior")
+    n_obs, n_states = a.shape
+    if p.shape[0] != n_states:
+        raise ValueError(
+            f"prior length {p.shape[0]} != likelihood state count {n_states}"
+        )
+    if not isinstance(obs, (int, np.integer)) or not 0 <= int(obs) < n_obs:
+        raise ValueError(f"obs must be an integer in [0, {n_obs}), got {obs!r}")
+    return a[int(obs)], p
+
+
+def joint(
+    likelihood: NDArray[np.float64],
+    prior: NDArray[np.float64],
+    obs: int,
+) -> NDArray[np.float64]:
+    """Joint ``p(s, x) = p(s | x) p(x)`` for the observed ``s``, over states."""
+    a_row, p = _prepare(likelihood, prior, obs)
+    return a_row * p
+
+
+def evidence(
+    likelihood: NDArray[np.float64],
+    prior: NDArray[np.float64],
+    obs: int,
+) -> float:
+    """Model evidence (marginal likelihood) ``p(s) = Σ_x p(s | x) p(x)``."""
+    return float(joint(likelihood, prior, obs).sum())
+
+
+def surprise(
+    likelihood: NDArray[np.float64],
+    prior: NDArray[np.float64],
+    obs: int,
+) -> float:
+    """Surprise ``−ln p(s)`` — the quantity variational free energy bounds."""
+    p_s = evidence(likelihood, prior, obs)
+    if p_s <= 0.0:
+        raise ValueError("evidence p(s) is zero; observation impossible under model")
+    return -float(np.log(p_s))
+
+
+def posterior(
+    likelihood: NDArray[np.float64],
+    prior: NDArray[np.float64],
+    obs: int,
+) -> NDArray[np.float64]:
+    """Exact Bayesian posterior ``p(x | s) = p(s, x) / p(s)``."""
+    j = joint(likelihood, prior, obs)
+    p_s = float(j.sum())
+    if p_s <= 0.0:
+        raise ValueError("evidence p(s) is zero; observation impossible under model")
+    return j / p_s
+
+
+def variational_free_energy(
+    q: NDArray[np.float64],
+    likelihood: NDArray[np.float64],
+    prior: NDArray[np.float64],
+    obs: int,
+) -> float:
+    """Variational free energy ``F[q] = E_q[ln q(x) − ln p(s, x)]``.
+
+    Args:
+        q: Belief over hidden states — a probability vector of length ``K``.
+        likelihood: ``O × K`` likelihood ``p(s | x)``.
+        prior: Prior ``p(x)`` of length ``K``.
+        obs: Observed index ``s`` in ``[0, O)``.
+
+    Returns:
+        The (scalar) variational free energy of belief ``q`` under observation
+        ``s``. Always ``>= surprise(...)``, with equality iff ``q`` is the
+        posterior.
+    """
+    a_row, p = _prepare(likelihood, prior, obs)
+    qv = _check_distribution(_as_vector(q, "q"), "q")
+    if qv.shape[0] != p.shape[0]:
+        raise ValueError(f"q length {qv.shape[0]} != state count {p.shape[0]}")
+    # F = Σ q (ln q − ln(p(s|x) p(x))). Terms with q==0 contribute 0 (0·ln0→0).
+    joint_x = a_row * p
+    mask = qv > 0.0
+    return float(np.sum(qv[mask] * (np.log(qv[mask]) - np.log(joint_x[mask]))))
+
+
+def vfe_components(
+    q: NDArray[np.float64],
+    likelihood: NDArray[np.float64],
+    prior: NDArray[np.float64],
+    obs: int,
+) -> tuple[float, float]:
+    """Return ``(complexity, accuracy)`` with ``F = complexity − accuracy``.
+
+    * **complexity** = ``KL[q ‖ prior]`` — how far belief moved from the prior.
+    * **accuracy**   = ``E_q[ln p(s | x)]`` — how well the belief explains ``s``.
+
+    Perception trades these off: it moves beliefs (paying complexity) only as
+    far as the evidence (accuracy) warrants.
+    """
+    a_row, p = _prepare(likelihood, prior, obs)
+    qv = _check_distribution(_as_vector(q, "q"), "q")
+    if qv.shape[0] != p.shape[0]:
+        raise ValueError(f"q length {qv.shape[0]} != state count {p.shape[0]}")
+    mask = qv > 0.0
+    complexity = float(np.sum(qv[mask] * (np.log(qv[mask]) - np.log(p[mask]))))
+    # Mask on q>0 so a zero-belief entry never triggers 0*ln(0)->nan. A state
+    # the belief has abandoned contributes nothing to accuracy; a state with
+    # q>0 but p(s|x)=0 legitimately yields -inf accuracy (i.e. +inf free
+    # energy — infinitely surprising to believe an impossible explanation).
+    accuracy = float(np.sum(qv[mask] * np.log(a_row[mask])))
+    return complexity, accuracy
+
+
+def minimize_free_energy(
+    likelihood: NDArray[np.float64],
+    prior: NDArray[np.float64],
+    obs: int,
+    *,
+    learning_rate: float = 0.2,
+    steps: int = 200,
+    q_init: NDArray[np.float64] | None = None,
+) -> dict[str, NDArray[np.float64]]:
+    """Descend variational free energy to the posterior — perception as optimization.
+
+    Runs deterministic gradient descent on ``F`` over the belief simplex using a
+    softmax parameterization ``q = softmax(z)``. The gradient has the closed
+    form ``∂F/∂z_j = q_j (c_j − F)`` where ``c_x = ln q_x − ln p(s, x)`` is the
+    pointwise free-energy density and ``E_q[c] = F``. The unique fixed point is
+    the exact posterior, where every ``c_x`` equals the surprise and the
+    gradient vanishes.
+
+    Because ``F`` is convex in ``q`` (a KL divergence is convex), a
+    *sufficiently small* step size gives monotone descent that converges to the
+    unique posterior minimizer. The default ``learning_rate`` is small enough
+    for the small models this overview uses; an overly large step can overshoot
+    and is not guaranteed monotone (as for any explicit gradient scheme). This
+    routine also requires the observed likelihood column ``p(s | x)`` to have
+    full support (every state assigns nonzero probability to ``s``), so the
+    log-joint is finite; a state that makes ``s`` impossible would give that
+    belief infinite free energy and is rejected up front.
+
+    Args:
+        likelihood: ``O × K`` likelihood ``p(s | x)`` with a strictly positive
+            observed column.
+        prior: Prior ``p(x)``.
+        obs: Observed index ``s``.
+        learning_rate: Step size (``> 0``). Small values guarantee monotone
+            descent; the default is safe for the models this overview uses.
+        steps: Number of descent iterations (``>= 1``).
+        q_init: Optional starting belief (probability vector). Defaults to the
+            uniform belief — maximally uncommitted.
+
+    Returns:
+        A dict with ``"beliefs"`` (``(steps+1, K)`` array of the belief at each
+        iteration) and ``"free_energy"`` (``(steps+1,)`` array of ``F`` at each
+        iteration). ``beliefs[0]`` is ``q_init``; ``beliefs[-1]`` is the
+        converged posterior.
+
+    Raises:
+        ValueError: If ``learning_rate <= 0``, ``steps < 1``, or the observed
+            likelihood column has a zero entry (a state under which ``s`` is
+            impossible).
+    """
+    if learning_rate <= 0.0:
+        raise ValueError(f"learning_rate must be > 0, got {learning_rate}")
+    if steps < 1:
+        raise ValueError(f"steps must be >= 1, got {steps}")
+
+    a_row, p = _prepare(likelihood, prior, obs)
+    joint_x = a_row * p
+    if np.any(joint_x <= 0.0):
+        raise ValueError(
+            "minimize_free_energy requires a strictly positive joint p(s, x) "
+            "over all states (finite log-joint) — every state must have nonzero "
+            f"prior and assign nonzero probability to obs={obs}; got joint {joint_x}"
+        )
+    log_joint = np.log(joint_x)
+    n_states = p.shape[0]
+
+    if q_init is None:
+        q = np.full(n_states, 1.0 / n_states, dtype=np.float64)
+    else:
+        q = _check_distribution(_as_vector(q_init, "q_init"), "q_init").copy()
+
+    z = np.log(np.clip(q, 1e-300, None))
+    beliefs = np.empty((steps + 1, n_states), dtype=np.float64)
+    free_energy = np.empty(steps + 1, dtype=np.float64)
+
+    def _softmax(logits: NDArray[np.float64]) -> NDArray[np.float64]:
+        shifted = logits - logits.max()
+        exps = np.exp(shifted)
+        return exps / exps.sum()
+
+    for t in range(steps + 1):
+        q = _softmax(z)
+        beliefs[t] = q
+        density = np.log(q) - log_joint  # c_x
+        f = float(np.sum(q * density))
+        free_energy[t] = f
+        if t < steps:  # take a descent step after every belief except the last
+            grad = q * (density - f)  # ∂F/∂z
+            z = z - learning_rate * grad
+
+    return {"beliefs": beliefs, "free_energy": free_energy}
