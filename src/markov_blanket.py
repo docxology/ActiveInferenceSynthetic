@@ -52,17 +52,17 @@ __all__ = [
 _TOL = 1e-9
 
 
-def _check_precision(precision: NDArray[np.float64]) -> NDArray[np.float64]:
-    """Validate a symmetric positive-definite (finite) precision matrix."""
-    arr = np.asarray(precision, dtype=np.float64)
+def _check_spd(matrix: NDArray[np.float64], name: str) -> NDArray[np.float64]:
+    """Validate a symmetric positive-definite (finite) matrix."""
+    arr = np.asarray(matrix, dtype=np.float64)
     if arr.ndim != 2 or arr.shape[0] != arr.shape[1]:
-        raise ValueError(f"precision must be square 2-D, got shape {arr.shape}")
+        raise ValueError(f"{name} must be square 2-D, got shape {arr.shape}")
     if not np.all(np.isfinite(arr)):
-        raise ValueError("precision must be finite (no NaN/inf)")
+        raise ValueError(f"{name} must be finite (no NaN/inf)")
     if not np.allclose(arr, arr.T, atol=1e-10):
-        raise ValueError("precision must be symmetric")
+        raise ValueError(f"{name} must be symmetric")
     if float(np.linalg.eigvalsh(arr).min()) <= 0.0:
-        raise ValueError("precision must be positive-definite")
+        raise ValueError(f"{name} must be positive-definite")
     return arr
 
 
@@ -79,7 +79,7 @@ def covariance_from_precision(precision: NDArray[np.float64]) -> NDArray[np.floa
         ValueError: If ``precision`` is not square, not finite, not symmetric,
             not positive-definite, or too ill-conditioned to invert stably.
     """
-    arr = _check_precision(precision)
+    arr = _check_spd(precision, "precision")
     cov = np.linalg.inv(arr)
     if not np.all(np.isfinite(cov)):
         raise ValueError(
@@ -88,26 +88,7 @@ def covariance_from_precision(precision: NDArray[np.float64]) -> NDArray[np.floa
     return 0.5 * (cov + cov.T)
 
 
-def _check_covariance(cov: NDArray[np.float64]) -> NDArray[np.float64]:
-    """Validate a symmetric positive-definite covariance matrix."""
-    arr = np.asarray(cov, dtype=np.float64)
-    if arr.ndim != 2 or arr.shape[0] != arr.shape[1]:
-        raise ValueError(f"covariance must be square 2-D, got shape {arr.shape}")
-    if not np.all(np.isfinite(arr)):
-        raise ValueError("covariance must be finite (no NaN/inf)")
-    if not np.allclose(arr, arr.T, atol=1e-10):
-        raise ValueError("covariance must be symmetric")
-    eigvals = np.linalg.eigvalsh(arr)
-    if float(eigvals.min()) <= 0.0:
-        raise ValueError(
-            f"covariance must be positive-definite; smallest eigenvalue {eigvals.min()}"
-        )
-    return arr
-
-
-def _check_indices(
-    idx: NDArray[np.int_] | list[int], n: int, name: str
-) -> list[int]:
+def _check_indices(idx: NDArray[np.int_] | list[int], n: int, name: str) -> list[int]:
     out = [int(i) for i in idx]
     if len(out) == 0:
         raise ValueError(f"{name} must be non-empty")
@@ -141,12 +122,14 @@ def conditional_covariance(
         ValueError: If ``cov`` is not SPD, indices are out of range, or target
             and given overlap.
     """
-    arr = _check_covariance(cov)
+    arr = _check_spd(cov, "covariance")
     n = arr.shape[0]
     t = _check_indices(target_idx, n, "target_idx")
     g = _check_indices(given_idx, n, "given_idx")
     if set(t) & set(g):
-        raise ValueError(f"target and given must be disjoint; overlap {set(t) & set(g)}")
+        raise ValueError(
+            f"target and given must be disjoint; overlap {set(t) & set(g)}"
+        )
     s_tt = arr[np.ix_(t, t)]
     s_tg = arr[np.ix_(t, g)]
     s_gg = arr[np.ix_(g, g)]
@@ -184,7 +167,7 @@ def partial_correlation(
 
 def correlation_matrix(cov: NDArray[np.float64]) -> NDArray[np.float64]:
     """Convert a covariance matrix to its correlation matrix (unit diagonal)."""
-    arr = _check_covariance(cov)
+    arr = _check_spd(cov, "covariance")
     d = np.sqrt(np.diag(arr))
     return arr / np.outer(d, d)
 
@@ -219,7 +202,7 @@ def is_markov_blanket(
     """
     if not np.isfinite(tol) or tol < 0.0:
         raise ValueError(f"tol must be finite and non-negative, got {tol}")
-    arr = _check_precision(precision)
+    arr = _check_spd(precision, "precision")
     n = arr.shape[0]
     internal = _check_indices(internal_idx, n, "internal_idx")
     external = _check_indices(external_idx, n, "external_idx")

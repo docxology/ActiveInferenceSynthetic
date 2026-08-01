@@ -51,10 +51,15 @@ Everything is analytic and deterministic — no RNG, no fitting.
 
 from __future__ import annotations
 
+from dataclasses import dataclass
+
 import numpy as np
 from numpy.typing import NDArray
 
+from ._prob import as_column_stochastic, as_distribution, as_prob_vector, kl_divergence
+
 __all__ = [
+    "PolicySelection",
     "predicted_outcomes",
     "predicted_posteriors",
     "pragmatic_value",
@@ -63,55 +68,64 @@ __all__ = [
     "select_policy",
 ]
 
-_TOL = 1e-9
 
+@dataclass(frozen=True)
+class PolicySelection:
+    """Expected-free-energy decomposition over candidate actions."""
 
-def _as_vector(p: NDArray[np.float64] | list[float], name: str) -> NDArray[np.float64]:
-    arr = np.asarray(p, dtype=np.float64)
-    if arr.ndim != 1:
-        raise ValueError(f"{name} must be 1-D, got shape {arr.shape}")
-    return arr
-
-
-def _check_distribution(p: NDArray[np.float64], name: str) -> NDArray[np.float64]:
-    if not np.all(np.isfinite(p)):
-        raise ValueError(f"{name} must be finite (no NaN/inf), got {p}")
-    if np.any(p < -_TOL):
-        raise ValueError(f"{name} must be non-negative, got {p}")
-    total = float(p.sum())
-    if abs(total - 1.0) > 1e-8:
-        raise ValueError(f"{name} must sum to 1, got {total}")
-    return np.clip(p, 0.0, None)
-
-
-def _check_outcome_model(a: NDArray[np.float64]) -> NDArray[np.float64]:
-    """Validate an ``O × K`` outcome model ``p(o | s, a)`` (columns sum to 1)."""
-    arr = np.asarray(a, dtype=np.float64)
-    if arr.ndim != 2:
-        raise ValueError(f"outcome_model must be 2-D (O x K), got shape {arr.shape}")
-    if not np.all(np.isfinite(arr)):
-        raise ValueError("outcome_model must be finite (no NaN/inf)")
-    if np.any(arr < -_TOL):
-        raise ValueError("outcome_model must be non-negative")
-    col_sums = arr.sum(axis=0)
-    if not np.allclose(col_sums, 1.0, atol=1e-8):
-        raise ValueError(
-            f"each outcome_model column p(o|s,a) must sum to 1, got {col_sums}"
-        )
-    return np.clip(arr, 0.0, None)
+    choice: int
+    efe: NDArray[np.float64]
+    pragmatic: NDArray[np.float64]
+    epistemic: NDArray[np.float64]
 
 
 def _prepare(
     outcome_model: NDArray[np.float64],
     belief: NDArray[np.float64],
 ) -> tuple[NDArray[np.float64], NDArray[np.float64]]:
-    a = _check_outcome_model(outcome_model)
-    q = _check_distribution(_as_vector(belief, "belief"), "belief")
+    a = as_column_stochastic(outcome_model, "outcome_model")
+    q = as_distribution(as_prob_vector(belief, "belief"), "belief")
     if a.shape[1] != q.shape[0]:
         raise ValueError(
             f"outcome_model has {a.shape[1]} states but belief has {q.shape[0]}"
         )
     return a, q
+
+
+def _epistemic_from_prepared(
+    a: NDArray[np.float64],
+    q: NDArray[np.float64],
+) -> float:
+    q_o = a @ q
+    posts = (a * q) / np.where(q_o[:, None] > 0.0, q_o[:, None], 1.0)
+    posts = np.where(q_o[:, None] > 0.0, posts, q)
+    info = 0.0
+    for o in range(a.shape[0]):
+        if q_o[o] <= 0.0:
+            continue
+        info += float(q_o[o] * kl_divergence(posts[o], q))
+    if -1e-9 < info < 0.0:
+        info = 0.0
+    return info
+
+
+def _action_values(
+    outcome_model: NDArray[np.float64],
+    belief: NDArray[np.float64],
+    preferences: NDArray[np.float64],
+) -> tuple[float, float]:
+    """Return ``(pragmatic, epistemic)`` for one action in a single pass."""
+    a, q = _prepare(outcome_model, belief)
+    c = as_distribution(as_prob_vector(preferences, "preferences"), "preferences")
+    if c.shape[0] != a.shape[0]:
+        raise ValueError(f"preferences length {c.shape[0]} != outcomes {a.shape[0]}")
+    if np.any(c <= 0.0):
+        raise ValueError("preferences must be strictly positive (finite log)")
+
+    q_o = a @ q
+    pragmatic = float(np.sum(q_o * np.log(c)))
+    epistemic = _epistemic_from_prepared(a, q)
+    return pragmatic, epistemic
 
 
 def predicted_outcomes(
@@ -135,8 +149,8 @@ def predicted_posteriors(
     prior belief (it carries zero weight in every expectation).
     """
     a, q = _prepare(outcome_model, belief)
-    joint = a * q  # O x K, joint p(o, s | a)
-    q_o = joint.sum(axis=1, keepdims=True)  # O x 1
+    joint = a * q
+    q_o = joint.sum(axis=1, keepdims=True)
     posteriors = np.where(q_o > 0.0, joint / np.where(q_o > 0.0, q_o, 1.0), q)
     return posteriors
 
@@ -152,14 +166,8 @@ def pragmatic_value(
     prefers. ``preferences`` must be a strictly positive distribution over
     outcomes (a zero-preference outcome would give ``-inf`` cost).
     """
-    a, q = _prepare(outcome_model, belief)
-    c = _check_distribution(_as_vector(preferences, "preferences"), "preferences")
-    if c.shape[0] != a.shape[0]:
-        raise ValueError(f"preferences length {c.shape[0]} != outcomes {a.shape[0]}")
-    if np.any(c <= 0.0):
-        raise ValueError("preferences must be strictly positive (finite log)")
-    q_o = a @ q
-    return float(np.sum(q_o * np.log(c)))
+    pragmatic, _ = _action_values(outcome_model, belief, preferences)
+    return pragmatic
 
 
 def epistemic_value(
@@ -174,21 +182,7 @@ def epistemic_value(
     the state (an uninformative action).
     """
     a, q = _prepare(outcome_model, belief)
-    joint = a * q  # p(o, s | a)
-    q_o = joint.sum(axis=1)  # p(o | a)
-    info = 0.0
-    for o in range(a.shape[0]):
-        if q_o[o] <= 0.0:
-            continue
-        post = joint[o] / q_o[o]  # q(s | o, a)
-        mask = post > 0.0
-        info += float(q_o[o] * np.sum(post[mask] * (np.log(post[mask]) - np.log(q[mask]))))
-    # Mutual information is provably >= 0; a tiny negative here is pure
-    # floating-point roundoff (e.g. a near-uninformative action), so clamp it.
-    # A grossly negative value would indicate a real bug and is left to surface.
-    if -1e-9 < info < 0.0:
-        info = 0.0
-    return info
+    return _epistemic_from_prepared(a, q)
 
 
 def expected_free_energy(
@@ -202,17 +196,15 @@ def expected_free_energy(
     means outcomes that are both preferred (pragmatic) and informative
     (epistemic).
     """
-    return -(
-        pragmatic_value(outcome_model, belief, preferences)
-        + epistemic_value(outcome_model, belief)
-    )
+    pragmatic, epistemic = _action_values(outcome_model, belief, preferences)
+    return -(pragmatic + epistemic)
 
 
 def select_policy(
     outcome_models: list[NDArray[np.float64]],
     belief: NDArray[np.float64],
     preferences: NDArray[np.float64],
-) -> dict[str, object]:
+) -> PolicySelection:
     """Choose the expected-free-energy-minimizing policy from a list of actions.
 
     Args:
@@ -221,9 +213,10 @@ def select_policy(
         preferences: Strictly-positive preference distribution over outcomes.
 
     Returns:
-        A dict with ``"choice"`` (index of the argmin-EFE action), ``"efe"``
-        (per-action ``G``), ``"pragmatic"`` and ``"epistemic"`` (the per-action
-        decomposition). Lower ``efe`` is better; ``choice`` is ``argmin(efe)``.
+        A :class:`PolicySelection` with ``choice`` (index of the argmin-EFE
+        action), ``efe`` (per-action ``G``), ``pragmatic`` and ``epistemic``
+        (the per-action decomposition). Lower ``efe`` is better;
+        ``choice`` is ``argmin(efe)``.
 
     Raises:
         ValueError: If ``outcome_models`` is empty or its members disagree on
@@ -231,14 +224,28 @@ def select_policy(
     """
     if len(outcome_models) == 0:
         raise ValueError("outcome_models must be non-empty")
-    pragmatic = np.array(
-        [pragmatic_value(m, belief, preferences) for m in outcome_models]
-    )
-    epistemic = np.array([epistemic_value(m, belief) for m in outcome_models])
+
+    n_outcomes: int | None = None
+    n_states: int | None = None
+    pragmatic_list: list[float] = []
+    epistemic_list: list[float] = []
+    for model in outcome_models:
+        a = as_column_stochastic(model, "outcome_model")
+        if n_outcomes is None:
+            n_outcomes = a.shape[0]
+            n_states = a.shape[1]
+        elif a.shape != (n_outcomes, n_states):
+            raise ValueError("outcome_models must share the same (O, K) shape")
+        p_val, e_val = _action_values(model, belief, preferences)
+        pragmatic_list.append(p_val)
+        epistemic_list.append(e_val)
+
+    pragmatic = np.array(pragmatic_list, dtype=np.float64)
+    epistemic = np.array(epistemic_list, dtype=np.float64)
     efe = -(pragmatic + epistemic)
-    return {
-        "choice": int(np.argmin(efe)),
-        "efe": efe,
-        "pragmatic": pragmatic,
-        "epistemic": epistemic,
-    }
+    return PolicySelection(
+        choice=int(np.argmin(efe)),
+        efe=efe,
+        pragmatic=pragmatic,
+        epistemic=epistemic,
+    )

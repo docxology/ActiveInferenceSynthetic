@@ -14,7 +14,6 @@ from src.free_energy_flow import (
     flow_field,
     free_energy,
     grad_free_energy,
-    obeys_detailed_balance,
     solenoidal_is_conservative,
 )
 
@@ -95,9 +94,3 @@ def test_ness_flow_has_rotational_component() -> None:
 def test_flow_rejects_negative_gamma() -> None:
     with pytest.raises(ValueError, match="gamma must be >= 0"):
         flow_field(np.array(1.0), np.array(1.0), gamma=-0.1)
-
-
-def test_detailed_balance_predicate() -> None:
-    assert obeys_detailed_balance(0.0) is True
-    assert obeys_detailed_balance(1e-15) is True
-    assert obeys_detailed_balance(0.5) is False

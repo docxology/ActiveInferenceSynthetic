@@ -1,6 +1,6 @@
-# template_code_project/data
+# Project data
 
-Project-maintained **inputs** for the code exemplar (not pipeline outputs).
+Project-maintained inputs for the Active Inference overview.
 
 ## Quick reference
 

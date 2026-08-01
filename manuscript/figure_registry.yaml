@@ -1,0 +1,60 @@
+# Figure registry for Active Inference -- A Synthetic Overview.
+#
+# Single source of truth for the figures rendered by scripts/generate_all_figures.py
+# and embedded inline in the manuscript (each `[#fig:<id>]` label). Consumed by the
+# manuscript pipeline docs; keep labels in sync with experiment_plan.yaml
+# (expected_figures) and with the `{#fig:...}` anchors in manuscript/*.md.
+#
+# Export settings (src/figures/save.py save_figure): dpi=300, bbox_inches='tight'.
+
+figures:
+  - id: fig:overview
+    file: output/figures/active_inference_overview.png
+    section: extended
+    caption: "One free-energy landscape, two regimes — equilibrium (Q=0) vs far-from-equilibrium NESS (Q!=0)."
+    alt_text: "Two-panel flow figure: pure gradient descent at equilibrium (left) and a solenoidal current on a non-equilibrium steady state (right) over the same Gaussian free-energy landscape."
+    builder: src/figures/overview.py
+    script: scripts/generate_overview_figure.py
+
+  - id: fig:belief
+    file: output/figures/belief_update.png
+    section: generative-model
+    caption: "Perception as free-energy minimization — gradient descent on variational free energy drives beliefs to the Bayesian posterior."
+    alt_text: "Two-panel figure: a belief bar chart sharpening toward the posterior over descent steps (left) and variational free energy falling monotonically to the surprise it bounds (right)."
+    builder: src/figures/belief.py
+    script: scripts/generate_belief_update_figure.py
+
+  - id: fig:trajectories
+    file: output/figures/worked_trajectories.png
+    section: worked-regimes
+    caption: "Worked equilibrium vs non-equilibrium trajectories — the equilibrium spiral relaxes to the mode; the NESS sustains a persistent probability current."
+    alt_text: "Two-panel figure comparing an equilibrium trajectory that falls straight to the mode with a non-equilibrium trajectory that spirals, annotated with the accumulated rotation angle."
+    builder: src/figures/trajectories_figure.py
+    script: scripts/generate_trajectory_figure.py
+
+  - id: fig:efe
+    file: output/figures/expected_free_energy.png
+    section: expected-free-energy
+    caption: "Expected free energy over policies — the argmin-EFE rule yields exploration under flat preferences and exploitation under sharp preferences."
+    alt_text: "Figure contrast a 'cue' action with a 'bet' action across flat and sharp preferences, showing the same argmin-expected-free-energy rule flip from exploration to exploitation."
+    builder: src/figures/efe.py
+    script: scripts/generate_efe_figure.py
+
+  - id: fig:blanket
+    file: output/figures/markov_blanket.png
+    section: markov-blanket
+    caption: "The Markov blanket — internal and external states are marginally dependent yet conditionally independent given the sensory/active blanket."
+    alt_text: "Figure showing a four-variable Gaussian precision matrix with a zero internal-external block and the resulting zero partial correlation of internal and external states given the blanket."
+    builder: src/figures/blanket.py
+    script: scripts/generate_markov_blanket_figure.py
+
+  - id: fig:steady
+    file: output/figures/steady_state_current.png
+    section: steady-state
+    caption: "The steady state, quantified — the NESS carries a divergence-free probability current at a positive entropy-production rate."
+    alt_text: "Two-panel figure over a stationary Gaussian density: at equilibrium the probability current is zero and entropy production vanishes; in the NESS a divergence-free current circulates at sigma > 0."
+    builder: src/figures/steady_state.py
+    script: scripts/generate_steady_state_figure.py
+
+export:
+  dpi: 300

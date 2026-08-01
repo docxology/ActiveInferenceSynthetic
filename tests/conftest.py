@@ -16,19 +16,29 @@ SRC = ROOT / "src"
 
 
 def _find_repo_root(start: Path) -> Path:
-    """Walk parent directories until one contains ``infrastructure/``.
+    """Walk ancestors until one contains ``infrastructure/``.
 
-    A fixed ``../../..`` hop assumes the canonical ``projects/templates/<name>/``
-    nesting depth and breaks once this project is reached through its
-    ``projects/working/<name>`` symlink into the private sidecar repo. Searching
-    upward for the ``infrastructure/`` marker makes root resolution independent
-    of nesting depth. ``absolute()`` (not ``resolve()``) is deliberate: the
-    ``infrastructure/`` tree lives on the symlink side of the path, so the
-    symlinked ancestors must be preserved.
+    Checks both the literal path and its resolved target so the suite works
+    when the project lives in the private sidecar but is executed through the
+    template ``projects/working/`` symlink.
     """
-    for parent in (start, *start.parents):
+    seen: set[Path] = set()
+    queue: list[Path] = [
+        start,
+        *start.parents,
+        start.resolve(),
+        *start.resolve().parents,
+    ]
+    for parent in queue:
+        if parent in seen:
+            continue
+        seen.add(parent)
         if (parent / "infrastructure").is_dir():
             return parent
+    for parent in start.resolve().parents:
+        sibling_template = parent / "template"
+        if (sibling_template / "infrastructure").is_dir():
+            return sibling_template
     raise RuntimeError(
         "Could not locate the repository root: no ancestor of "
         f"{start} contains an 'infrastructure/' directory."
@@ -37,6 +47,6 @@ def _find_repo_root(start: Path) -> Path:
 
 REPO_ROOT = _find_repo_root(ROOT)
 
-for _path in (str(REPO_ROOT), str(SRC)):
+for _path in (str(REPO_ROOT), str(ROOT), str(SRC)):
     if _path not in sys.path:
         sys.path.insert(0, _path)

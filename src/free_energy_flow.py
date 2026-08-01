@@ -22,7 +22,10 @@ sustains a persistent probability current — a *non-equilibrium steady
 state* (NESS), the regime of living, far-from-equilibrium systems.
 
 The free energy here is isotropic, ``F(x, y) = 0.5 * precision * (x^2 + y^2)``,
-i.e. the negative log of a zero-mean Gaussian belief with scalar precision.
+i.e. the negative log of a zero-mean Gaussian *kernel*, up to an additive
+constant independent of ``x`` (the code keeps only the ``x``-dependent part;
+the full 2-D normalization ``ln(precision / 2π)`` is dropped), with scalar
+precision.
 Everything is analytic and deterministic — no RNG, no fitting.
 """
 
@@ -31,13 +34,22 @@ from __future__ import annotations
 import numpy as np
 from numpy.typing import NDArray
 
+from .ou_model import IsotropicOU
+
 __all__ = [
     "free_energy",
     "grad_free_energy",
     "flow_field",
     "solenoidal_is_conservative",
-    "obeys_detailed_balance",
 ]
+
+
+def _model(
+    precision: float = 1.0,
+    gamma: float = 1.0,
+    omega: float = 0.0,
+) -> IsotropicOU:
+    return IsotropicOU(precision=precision, gamma=gamma, omega=omega)
 
 
 def free_energy(
@@ -61,11 +73,7 @@ def free_energy(
     Raises:
         ValueError: If ``precision`` is not strictly positive.
     """
-    if precision <= 0.0:
-        raise ValueError(f"precision must be > 0, got {precision}")
-    xa = np.asarray(x, dtype=np.float64)
-    ya = np.asarray(y, dtype=np.float64)
-    return 0.5 * precision * (xa**2 + ya**2)
+    return _model(precision=precision).free_energy(x, y)
 
 
 def grad_free_energy(
@@ -86,11 +94,7 @@ def grad_free_energy(
     Raises:
         ValueError: If ``precision`` is not strictly positive.
     """
-    if precision <= 0.0:
-        raise ValueError(f"precision must be > 0, got {precision}")
-    xa = np.asarray(x, dtype=np.float64)
-    ya = np.asarray(y, dtype=np.float64)
-    return precision * xa, precision * ya
+    return _model(precision=precision).grad_free_energy(x, y)
 
 
 def flow_field(
@@ -128,12 +132,7 @@ def flow_field(
         ValueError: If ``gamma`` is negative (``precision`` is validated by
             :func:`grad_free_energy`).
     """
-    if gamma < 0.0:
-        raise ValueError(f"gamma must be >= 0, got {gamma}")
-    dfdx, dfdy = grad_free_energy(x, y, precision)
-    fx = -gamma * dfdx + omega * dfdy
-    fy = -gamma * dfdy - omega * dfdx
-    return fx, fy
+    return _model(precision=precision, gamma=gamma, omega=omega).flow_field(x, y)
 
 
 def solenoidal_is_conservative(
@@ -161,16 +160,3 @@ def solenoidal_is_conservative(
     qx = omega * dfdy
     qy = -omega * dfdx
     return qx * dfdx + qy * dfdy
-
-
-def obeys_detailed_balance(omega: float, tol: float = 1e-12) -> bool:
-    """Return ``True`` when the solenoidal current vanishes (equilibrium).
-
-    Args:
-        omega: Solenoidal strength.
-        tol: Magnitude below which ``omega`` counts as zero.
-
-    Returns:
-        ``True`` if ``|omega| <= tol`` (detailed balance / equilibrium).
-    """
-    return abs(omega) <= tol

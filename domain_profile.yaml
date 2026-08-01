@@ -1,5 +1,5 @@
-domain: code_research
-display_name: Code Research Exemplar
+domain: active_inference
+display_name: Active Inference Synthetic Overview
 required_packages:
   - numpy
   - matplotlib
@@ -16,21 +16,26 @@ validation_gates:
   - render_validation
   - publication_readiness
 figure_types:
-  - convergence_plot
-  - performance_benchmark
-  - sensitivity_analysis
+  - free_energy_flow
+  - belief_update
+  - worked_trajectories
+  - expected_free_energy
+  - markov_blanket
+  - steady_state_current
 citation_policy: official_or_scholarly
-source_policy: "Prefer primary project outputs, official package documentation, and scholarly optimization references."
+source_policy: "Prefer primary project outputs and scholarly Active Inference, Free Energy Principle, and Bayesian-mechanics references."
 review_gates:
   - experiment_method_design
   - render_validation
   - publication_readiness
 artifact_expectations:
-  - output/data/manuscript_variables.json
-  - output/data/optimization_results.csv
-  - output/figures/convergence_plot.png
-  - output/reports/validation_report.json
-  - output/pdf/template_code_project_combined.pdf
+  - output/figures/active_inference_overview.png
+  - output/figures/belief_update.png
+  - output/figures/worked_trajectories.png
+  - output/figures/expected_free_energy.png
+  - output/figures/markov_blanket.png
+  - output/figures/steady_state_current.png
+  - output/pdf/ActiveInferenceSynthetic_combined.pdf
 benchmark_rubric:
   name: code-research-readiness
   dimensions:
@@ -46,4 +51,4 @@ benchmark_rubric:
       weight: 1.0
     - name: publication_readiness
       weight: 1.0
-llm_prompt_guidance: "Use generated optimization artifacts and manuscript variables as the evidence source; do not invent numeric results."
+llm_prompt_guidance: "Use tested numerical cores, generated figures, Lean proofs, and manuscript citations as evidence; do not invent numeric results."

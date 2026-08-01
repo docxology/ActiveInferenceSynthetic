@@ -7,7 +7,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "active_inference_synthetic"
-version = "0.1.0"
+version = "0.5.0"
 description = "Active Inference -- A Synthetic Overview: an applicable introduction across equilibrium and far-from-equilibrium systems"
 authors = [
     {name = "Daniel Ari Friedman", email = "daniel@activeinference.institute"},
@@ -60,3 +60,16 @@ exclude_lines = [
 
 [tool.uv]
 # Inherits workspace settings from root pyproject.toml
+
+# Explicit local Ruff config. The project is a private sidecar that is also
+# symlinked into the template checkout; pinning [tool.ruff] here makes the lint
+# and format surface deterministic regardless of which directory Ruff resolves
+# config from, instead of silently inheriting a 120-column / 88-column default.
+[tool.ruff]
+target-version = "py310"
+line-length = 88
+
+[tool.ruff.lint.per-file-ignores]
+# The thin figure scripts insert the project root on sys.path before importing
+# `src.*`; that legitimate bootstrap must precede the imports (E402).
+"scripts/*.py" = ["E402"]

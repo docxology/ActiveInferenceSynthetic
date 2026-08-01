@@ -99,6 +99,15 @@ def test_blanket_marginal_dependent_but_conditionally_independent() -> None:
     assert abs(conditional) < 1e-10  # independent given the blanket
 
 
+def test_marginal_correlation_matches_pinned_ledger_value() -> None:
+    # Regression-guards the derived pin `blanket-eta-mu-marginal-correlation =
+    # 0.19` in data/claim_ledger.yaml and the manuscript/figure caption. If the
+    # demonstration joint changes, this exact assertion forces a deliberate,
+    # auditable update of the ledger + figure text together.
+    corr = correlation_matrix(_COV)[_ETA, _MU]
+    assert float(corr) == pytest.approx(0.18938495031558975, rel=1e-9)
+
+
 def test_partial_correlation_nonzero_given_partial_blanket() -> None:
     # Negative control: conditioning on only s (not a) leaves the eta-a-mu path
     # open, so eta and mu remain conditionally correlated.

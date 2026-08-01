@@ -27,6 +27,7 @@ def _strip_lean_comments(text: str) -> str:
     text = re.sub(r"--[^\n]*", " ", text)
     return text
 
+
 _FORMAL = Path(__file__).absolute().parent.parent / "formal"
 _LEAN_SOURCES = sorted((_FORMAL / "ActiveInferenceFormal").glob("*.lean"))
 
@@ -49,9 +50,9 @@ _HEADLINE_THEOREMS = [
 # vacuously true.
 _WITNESS_THEOREMS = [
     "relEntropy_can_be_negative",  # negative control: hypothesis is load-bearing
-    "okL_gibbs_holds",             # positive control: hypotheses are satisfiable
-    "okL_bound_holds",             # positive control: the bound fires non-vacuously
-    "okL_bound_is_strict",         # the fired bound is a real gap, not x ≤ x
+    "okL_gibbs_holds",  # positive control: hypotheses are satisfiable
+    "okL_bound_holds",  # positive control: the bound fires non-vacuously
+    "okL_bound_is_strict",  # the fired bound is a real gap, not x ≤ x
 ]
 
 

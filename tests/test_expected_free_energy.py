@@ -90,31 +90,29 @@ def test_uninformative_action_has_zero_epistemic_value() -> None:
 
 def test_expected_free_energy_decomposition_identity() -> None:
     g = expected_free_energy(_CUE, _BELIEF, _SHARP)
-    parts = -(
-        pragmatic_value(_CUE, _BELIEF, _SHARP) + epistemic_value(_CUE, _BELIEF)
-    )
+    parts = -(pragmatic_value(_CUE, _BELIEF, _SHARP) + epistemic_value(_CUE, _BELIEF))
     assert g == pytest.approx(parts, abs=1e-12)
 
 
 def test_flat_preferences_select_the_informative_action() -> None:
     # With nothing to prefer, epistemic value dominates: explore (cue) wins.
     result = select_policy([_CUE, _BET], _BELIEF, _FLAT)
-    assert result["choice"] == 0  # cue
-    assert result["efe"][0] < result["efe"][1]
+    assert result.choice == 0  # cue
+    assert result.efe[0] < result.efe[1]
 
 
 def test_sharp_preferences_select_the_rewarding_action() -> None:
     # With a strong goal, pragmatic value dominates: exploit (bet) wins.
     result = select_policy([_CUE, _BET], _BELIEF, _SHARP)
-    assert result["choice"] == 1  # bet
-    assert result["efe"][1] < result["efe"][0]
+    assert result.choice == 1  # bet
+    assert result.efe[1] < result.efe[0]
 
 
 def test_select_policy_reports_decomposition() -> None:
     result = select_policy([_CUE, _BET], _BELIEF, _SHARP)
-    assert result["epistemic"][0] > 0.0  # cue is informative
-    assert result["epistemic"][1] == pytest.approx(0.0, abs=1e-12)  # bet is not
-    assert result["pragmatic"][1] > result["pragmatic"][0]  # bet is more preferred
+    assert result.epistemic[0] > 0.0  # cue is informative
+    assert result.epistemic[1] == pytest.approx(0.0, abs=1e-12)  # bet is not
+    assert result.pragmatic[1] > result.pragmatic[0]  # bet is more preferred
 
 
 # --- input validation ---
@@ -165,6 +163,12 @@ def test_preferences_must_match_outcome_count() -> None:
 def test_preferences_must_be_strictly_positive() -> None:
     with pytest.raises(ValueError, match="strictly positive"):
         pragmatic_value(_CUE, _BELIEF, np.array([1.0, 0.0]))
+
+
+def test_select_policy_rejects_mismatched_shapes() -> None:
+    bad = np.array([[0.5, 0.2, 0.3], [0.5, 0.8, 0.7]])
+    with pytest.raises(ValueError, match="same \\(O, K\\) shape"):
+        select_policy([_CUE, bad], _BELIEF, _FLAT)
 
 
 def test_select_policy_rejects_empty_policy_set() -> None:

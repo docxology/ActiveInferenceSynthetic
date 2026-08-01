@@ -16,7 +16,7 @@ def resolve_project_root(package_name: str) -> Path:
 
 
 def project_output_dirs(project_root: Path | None = None) -> dict[str, Path]:
-    """Return common output directories for the code exemplar."""
+    """Return common output directories for the Active Inference project."""
     root = project_root or _DEFAULT_ROOT
     output = root / "output"
     return {

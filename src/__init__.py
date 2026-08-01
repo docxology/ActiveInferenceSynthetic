@@ -26,6 +26,7 @@ overview's thesis — *one currency, two directions* — concrete:
 """
 
 from .expected_free_energy import (
+    PolicySelection,
     epistemic_value,
     expected_free_energy,
     pragmatic_value,
@@ -37,10 +38,10 @@ from .free_energy_flow import (
     flow_field,
     free_energy,
     grad_free_energy,
-    obeys_detailed_balance,
     solenoidal_is_conservative,
 )
 from .generative_model import (
+    BeliefDescent,
     evidence,
     joint,
     minimize_free_energy,
@@ -56,6 +57,7 @@ from .markov_blanket import (
     is_markov_blanket,
     partial_correlation,
 )
+from .ou_model import IsotropicOU
 from .steady_state import (
     current_circulation,
     drift_matrix,
@@ -70,13 +72,13 @@ from .trajectories import (
 )
 
 __all__ = [
-    # free_energy_flow
+    "BeliefDescent",
+    "PolicySelection",
+    "IsotropicOU",
     "free_energy",
     "grad_free_energy",
     "flow_field",
     "solenoidal_is_conservative",
-    "obeys_detailed_balance",
-    # generative_model
     "joint",
     "evidence",
     "surprise",
@@ -84,24 +86,20 @@ __all__ = [
     "variational_free_energy",
     "vfe_components",
     "minimize_free_energy",
-    # trajectories
     "integrate_trajectory",
     "free_energy_along",
     "net_rotation",
-    # expected_free_energy
     "predicted_outcomes",
     "predicted_posteriors",
     "pragmatic_value",
     "epistemic_value",
     "expected_free_energy",
     "select_policy",
-    # markov_blanket
     "conditional_covariance",
     "partial_correlation",
     "correlation_matrix",
     "covariance_from_precision",
     "is_markov_blanket",
-    # steady_state
     "drift_matrix",
     "stationary_covariance",
     "probability_current",

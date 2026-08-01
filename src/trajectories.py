@@ -46,30 +46,14 @@ from __future__ import annotations
 import numpy as np
 from numpy.typing import NDArray
 
-from .free_energy_flow import flow_field, free_energy
+from .free_energy_flow import free_energy
+from .ou_model import IsotropicOU
 
 __all__ = [
     "integrate_trajectory",
     "net_rotation",
     "free_energy_along",
 ]
-
-
-def _velocity(
-    state: NDArray[np.float64],
-    precision: float,
-    gamma: float,
-    omega: float,
-) -> NDArray[np.float64]:
-    """Evaluate the flow field at a single ``(x, y)`` state as a 2-vector."""
-    fx, fy = flow_field(
-        np.asarray(state[0]),
-        np.asarray(state[1]),
-        precision=precision,
-        gamma=gamma,
-        omega=omega,
-    )
-    return np.array([float(fx), float(fy)], dtype=np.float64)
 
 
 def integrate_trajectory(
@@ -98,7 +82,7 @@ def integrate_trajectory(
     Raises:
         ValueError: If ``dt <= 0``, ``steps < 1``, or ``start`` is not a
             2-vector. (``precision``/``gamma`` are validated by
-            :func:`free_energy_flow.flow_field`.)
+            :class:`~src.ou_model.IsotropicOU`.)
     """
     if dt <= 0.0:
         raise ValueError(f"dt must be > 0, got {dt}")
@@ -108,14 +92,16 @@ def integrate_trajectory(
     if state.shape != (2,):
         raise ValueError(f"start must be a 2-vector (x, y), got shape {state.shape}")
 
+    model = IsotropicOU(precision=precision, gamma=gamma, omega=omega)
     path = np.empty((steps + 1, 2), dtype=np.float64)
     path[0] = state
 
-    def f(s: NDArray[np.float64]) -> NDArray[np.float64]:
-        return _velocity(s, precision, gamma, omega)
-
     for i in range(steps):
         s = path[i]
+
+        def f(point: NDArray[np.float64]) -> NDArray[np.float64]:
+            return model.velocity(point)
+
         k1 = f(s)
         k2 = f(s + 0.5 * dt * k1)
         k3 = f(s + 0.5 * dt * k2)

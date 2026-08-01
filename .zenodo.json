@@ -4,27 +4,25 @@
       "affiliation": "Active Inference Institute",
       "name": "Friedman, Daniel Ari",
       "orcid": "0000-0001-6232-9096"
+    },
+    {
+      "affiliation": "Active Inference Institute",
+      "name": "Mikhailova, Alexandra"
     }
   ],
-  "description": "Source code for Convergence Analysis of Gradient Descent Optimization (2026).",
+  "description": "Source code, deterministic demonstrations, and Lean proofs for Active Inference -- A Synthetic Overview.",
   "keywords": [
-    "optimization algorithms",
-    "gradient descent",
-    "convergence analysis",
-    "numerical methods",
-    "mathematical programming",
+    "active inference",
+    "free energy principle",
+    "Bayesian mechanics",
+    "non-equilibrium steady state",
+    "variational inference",
     "reproducible research",
     "infrastructure automation"
   ],
-  "license": "MIT",
-  "related_identifiers": [
-    {
-      "identifier": "10.5281/zenodo.20417136",
-      "relation": "isVersionOf",
-      "scheme": "doi"
-    }
-  ],
-  "title": "Convergence Analysis of Gradient Descent Optimization",
+  "license": "CC-BY-4.0",
+  "related_identifiers": [],
+  "title": "Active Inference -- A Synthetic Overview",
   "upload_type": "software",
-  "version": "2.5.2"
+  "version": "0.5.0"
 }

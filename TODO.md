@@ -4,7 +4,7 @@ Forward roadmap for the educational overview. The guiding principle is
 **show, not tell**: each addition is a runnable, minimal, deterministic
 demonstration backed by tested code in `src/`, not more formalism.
 
-## Current state (`v0.3.0`)
+## Current state (`v0.5.0`)
 
 - **Numerical cores** (all deterministic, no RNG):
   - `src/free_energy_flow.py` — the analytic Bayesian-mechanics flow
@@ -22,36 +22,37 @@ demonstration backed by tested code in `src/`, not more formalism.
   - `src/markov_blanket.py` — Gaussian conditioning (Schur complement), partial
     correlation, and a precision-zero-block blanket predicate, demonstrating
     conditional independence of internal/external states (the boundary).
-  - `src/steady_state.py` — the analytic non-equilibrium steady state: Lyapunov
-    stationary covariance, probability-current field `j=(QPx)ρ`, and
-    entropy-production rate `σ=2ω²·precision/γ` (zero iff detailed balance),
-    closing the deterministic-drift gap of §3 with no RNG.
+  - `src/steady_state.py` — NESS current and entropy production (analytic).
+  - `src/_prob.py`, `src/ou_model.py`, `src/demos.py` — shared validators, flow model, demo fixtures.
+  - `src/project_paths.py` — canonical `output/figures/` paths for scripts and tests.
+  - `src/figures/` — shared Matplotlib builders; `render_all()` for atomic figure generation.
 - **Formal proofs:** `formal/` — a self-contained Lean 4 development (no mathlib)
   machine-checking the load-bearing theorems: solenoidal orthogonality, the
   free-energy-descent rate, detailed-balance equivalence, entropy-production
   sign (Geometry.lean); Gibbs' inequality and the free-energy bound tight at the
   posterior (Information.lean). Every headline theorem's `#print axioms` reports
-  only `[propext, Quot.sound]` — no `sorry`, no mathlib. Verified by
+  exactly `[propept, Quot.sound]` — no `sorry`, no mathlib, no `Classical.choice`
+  (verified by `lake build`; see below). Verified by
   `tests/test_formal_lean.py` (grep + real `lake build`).
-- **Figure orchestrators** (thin wrappers over `src/`), one per section:
-  overview, belief-update, worked-trajectories, expected-free-energy,
-  markov-blanket → the five PNGs under `output/figures/`.
+- **Figure orchestrators** (thin wrappers over `src/figures/`), one per section plus
+  `generate_all_figures.py` → six PNGs under `output/figures/`.
 - **Manuscript:** `00_abstract.md`, `01_extended_abstract.md` (`[@fig:overview]`),
   `02_generative_model.md` (`[@fig:belief]`), `03_worked_regimes.md`
   (`[@fig:trajectories]`), `04_expected_free_energy.md` (`[@fig:efe]`),
   `05_markov_blanket.md` (`[@fig:blanket]`), `06_steady_state.md`
-  (`[@fig:steady]`), and `99_references.md` + `.bib`.
+  (`[@fig:steady]`), `07_formal_verification.md`, and `99_references.md` + `.bib`.
 - **Tests:** one no-mocks suite per core plus figure smoke tests — every
-  assertion bound to an analytic reference; 100% coverage of `src/` (gate: >=90%).
+  assertion bound to an analytic reference; configured `src/` coverage gate:
+  at least 90%.
 
 ## Validation evidence
 
 - Project tests + coverage:
-  `uv run pytest projects/working/ActiveInferenceSynthetic/tests/ --cov=projects/working/ActiveInferenceSynthetic/src --cov-fail-under=90`
-- Regenerate the figure (deterministic):
-  `uv run python projects/working/ActiveInferenceSynthetic/scripts/generate_overview_figure.py`
+  `uv run pytest tests/ --cov=src --cov-fail-under=90`
+- Regenerate all figures (deterministic):
+  `uv run python scripts/generate_all_figures.py`
 - Render the manuscript:
-  `uv run python scripts/03_render_pdf.py --project working/ActiveInferenceSynthetic`
+  `uv run python scripts/pipeline/stage_03_render.py --project working/ActiveInferenceSynthetic`
 
 ## Roadmap — one demonstration per section
 

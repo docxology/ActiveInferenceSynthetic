@@ -58,6 +58,8 @@ from __future__ import annotations
 import numpy as np
 from numpy.typing import NDArray
 
+from .ou_model import IsotropicOU
+
 __all__ = [
     "drift_matrix",
     "stationary_covariance",
@@ -66,33 +68,20 @@ __all__ = [
     "current_circulation",
 ]
 
-_ROT = np.array([[0.0, 1.0], [-1.0, 0.0]])  # antisymmetric generator J
 
-
-def _matrices(
-    precision: float, gamma: float, omega: float
-) -> tuple[NDArray[np.float64], NDArray[np.float64], NDArray[np.float64]]:
-    """Return ``(P, Gamma, Q)`` for the isotropic 2-D model; validate inputs."""
-    if not (np.isfinite(precision) and np.isfinite(gamma) and np.isfinite(omega)):
-        raise ValueError(
-            f"precision, gamma, omega must be finite; got {precision}, {gamma}, {omega}"
-        )
-    if precision <= 0.0:
-        raise ValueError(f"precision must be > 0, got {precision}")
-    if gamma <= 0.0:
-        raise ValueError(f"gamma must be > 0, got {gamma}")
-    p = precision * np.eye(2)
-    g = gamma * np.eye(2)
-    q = omega * _ROT
-    return p, g, q
+def _model(
+    precision: float = 1.0, gamma: float = 1.0, omega: float = 0.0
+) -> IsotropicOU:
+    model = IsotropicOU(precision=precision, gamma=gamma, omega=omega)
+    model.require_positive_gamma()
+    return model
 
 
 def drift_matrix(
     precision: float = 1.0, gamma: float = 1.0, omega: float = 0.0
 ) -> NDArray[np.float64]:
     """Drift matrix ``M = (Γ − Q) P`` of the linear diffusion ``dx = −M x dt + …``."""
-    p, g, q = _matrices(precision, gamma, omega)
-    return (g - q) @ p
+    return _model(precision, gamma, omega).drift_M()
 
 
 def stationary_covariance(
@@ -102,7 +91,11 @@ def stationary_covariance(
 
     Solved generally (via the Kronecker vectorization
     ``(I⊗M + M⊗I) vec(Σ) = vec(2D)``) rather than assuming the answer, so the
-    tests can confirm it equals the analytic ``P^{-1}`` independently.
+    tests can confirm it equals the analytic ``P^{-1}`` independently. When the
+    direct solve is ill-conditioned (large ``|omega| · precision``), the exact
+    closed form ``Σ = P^{-1}`` (which satisfies the equation identically for this
+    isotropic ``D = Γ`` class) is returned instead, so the covariance no longer
+    fails for any well-defined stable parameters.
 
     Args:
         precision: Belief precision (``> 0``).
@@ -112,18 +105,29 @@ def stationary_covariance(
     Returns:
         The ``2 × 2`` symmetric positive-definite stationary covariance.
     """
-    p, g, q = _matrices(precision, gamma, omega)
-    m = (g - q) @ p
-    d = g  # fluctuation–dissipation: diffusion equals dissipation
+    model = _model(precision, gamma, omega)
+    m = model.drift_M()
+    d = model.Gamma
     eye = np.eye(2)
     lhs = np.kron(eye, m) + np.kron(m, eye)
     sigma = np.linalg.solve(lhs, (2.0 * d).reshape(-1)).reshape(2, 2)
     sigma = 0.5 * (sigma + sigma.T)
-    # Guard: the symmetrization can hide a bad solve, so verify the recovered
-    # matrix actually satisfies the Lyapunov equation before returning it.
     residual = m @ sigma + sigma @ m.T - 2.0 * d
     scale = max(1.0, float(np.abs(2.0 * d).max()))
     if not np.all(np.isfinite(sigma)) or float(np.abs(residual).max()) > 1e-6 * scale:
+        # The direct Kronecker solve is ill-conditioned for large |omega|·precision.
+        # For this isotropic class with D = Gamma the stationary covariance is
+        # *exactly* Sigma = P^{-1} — substituting it reduces the Lyapunov equation
+        # MΣ + ΣMᵀ to (Γ−Q) + (Γ+Q) = 2Γ = 2D identically, for any omega. Rather
+        # than raise (the previous behaviour), return that exact closed form when
+        # it satisfies the equation to tolerance.
+        sigma_analytic = np.linalg.inv(model.P)
+        residual_analytic = m @ sigma_analytic + sigma_analytic @ m.T - 2.0 * d
+        analytic_ok = np.all(np.isfinite(sigma_analytic)) and (
+            float(np.abs(residual_analytic).max()) <= 1e-6 * scale
+        )
+        if analytic_ok:
+            return 0.5 * (sigma_analytic + sigma_analytic.T)
         raise ValueError(
             "Lyapunov solve is unreliable for these parameters "
             f"(|omega|/gamma too large): max residual {float(np.abs(residual).max())}"
@@ -153,14 +157,13 @@ def probability_current(
     Returns:
         A ``(j_x, j_y)`` tuple of the current-density components at each point.
     """
-    p, _, q = _matrices(precision, gamma, omega)
+    model = _model(precision, gamma, omega)
     xa = np.asarray(x, dtype=np.float64)
     ya = np.asarray(y, dtype=np.float64)
-    qp = q @ p  # velocity operator: v(x) = QP x
+    qp = model.Q @ model.P
     vx = qp[0, 0] * xa + qp[0, 1] * ya
     vy = qp[1, 0] * xa + qp[1, 1] * ya
-    # Stationary density rho ∝ exp(-F) = N(0, P^{-1}); F = 0.5*precision*(x^2+y^2).
-    norm = precision / (2.0 * np.pi)  # 1/sqrt((2π)^2 det(P^{-1})) = precision/2π
+    norm = precision / (2.0 * np.pi)
     rho = norm * np.exp(-0.5 * precision * (xa**2 + ya**2))
     return vx * rho, vy * rho
 
@@ -182,14 +185,10 @@ def entropy_production_rate(
     Returns:
         The entropy-production rate ``σ ≥ 0``.
     """
-    p, g, q = _matrices(precision, gamma, omega)
+    model = _model(precision, gamma, omega)
     sigma = stationary_covariance(precision, gamma, omega)
-    d_inv = np.linalg.inv(g)
-    value = float(np.trace(d_inv @ q @ p @ sigma @ p.T @ q.T))
-    # σ = tr(D⁻¹ (QP) Σ (QP)ᵀ) with D⁻¹ positive-definite and Σ, (QP)Σ(QP)ᵀ
-    # positive-semidefinite, so it is provably >= 0. Inputs are validated finite
-    # upstream, so the only way `value` is negative here is floating-point
-    # roundoff near zero — clamp that to 0.
+    d_inv = np.linalg.inv(model.Gamma)
+    value = float(np.trace(d_inv @ model.Q @ model.P @ sigma @ model.P.T @ model.Q.T))
     return max(0.0, value)
 
 
@@ -210,8 +209,7 @@ def current_circulation(
     Returns:
         The mean current angular momentum (radians·variance per unit time).
     """
-    p, _, q = _matrices(precision, gamma, omega)
+    model = _model(precision, gamma, omega)
     sigma = stationary_covariance(precision, gamma, omega)
-    # E_rho[ x × v ] with v = QP x. The z-cross-product x×v = xᵀ R v with
-    # R = [[0,1],[-1,0]], so E[xᵀ R QP x] = tr(R QP Σ).
-    return float(np.trace(_ROT @ q @ p @ sigma))
+    rot = np.array([[0.0, 1.0], [-1.0, 0.0]])
+    return float(np.trace(rot @ model.Q @ model.P @ sigma))

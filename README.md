@@ -42,47 +42,36 @@ regimes*. At equilibrium the flow is pure gradient descent on free energy
 ($f=-\nabla F$) and comes to rest; far from equilibrium an antisymmetric
 solenoidal term adds a persistent probability current ($f=(Q-\Gamma)\nabla F$) —
 the signature of living systems. This is the Free Energy Principle (the descent)
-plus Bayesian mechanics (the circulation). The four demonstration sections then
-*show* each pillar: §2 perception (inference), §3 the mechanics (equilibrium vs
+plus Bayesian mechanics (the circulation). The demonstration sections then
+show each pillar: §2 perception (inference), §3 the mechanics (equilibrium vs
 non-equilibrium trajectories), §4 action (expected free energy / explore-exploit),
 §5 the Markov blanket (the boundary that makes inference well-posed).
 
 ## Layout
 
 ```
-manuscript/   abstract + extended abstract + four demonstration sections + references
-src/          tested numerical cores:
-                free_energy_flow.py    — Bayesian-mechanics flow (overview figure)
-                generative_model.py    — perception as free-energy minimization
-                trajectories.py        — RK4 worked equilibrium/NESS trajectories
-                expected_free_energy.py — action selection, explore/exploit
-                markov_blanket.py      — Gaussian conditional independence
-                steady_state.py        — NESS current + entropy production (analytic)
-scripts/      thin orchestrators over src/ (one figure generator each)
-tests/        no-mocks tests; 100% coverage of src/ (+ Lean build verification)
+manuscript/   abstract through formal verification + references
+src/          tested numerical cores + figures/ builders
+scripts/      thin orchestrators (generate_all_figures.py + per-figure aliases)
+tests/        no-mocks tests; ≥90% coverage of src/ (+ Lean build verification)
 formal/       Lean 4 formalization — the theorems, machine-checked (no mathlib)
 output/       disposable rendered artifacts (PDF/HTML/figures)
 ```
 
-This project was scaffolded from `projects/templates/template_code_project`;
-the optimizer demo content has been pruned and replaced with Active-Inference
-material. The build/test/render infrastructure (Layer 1) is unchanged.
+The project uses the template repository's build, validation, and rendering
+infrastructure while keeping its scientific code self-contained under `src/`.
 
 ## Build
 
 ```bash
-# Generate the figures (all deterministic) and render the manuscript:
-uv run python projects/working/ActiveInferenceSynthetic/scripts/generate_overview_figure.py
-uv run python projects/working/ActiveInferenceSynthetic/scripts/generate_belief_update_figure.py
-uv run python projects/working/ActiveInferenceSynthetic/scripts/generate_trajectory_figure.py
-uv run python projects/working/ActiveInferenceSynthetic/scripts/generate_efe_figure.py
-uv run python projects/working/ActiveInferenceSynthetic/scripts/generate_markov_blanket_figure.py
-uv run python projects/working/ActiveInferenceSynthetic/scripts/generate_steady_state_figure.py
-uv run python scripts/03_render_pdf.py --project working/ActiveInferenceSynthetic
+# Generate all figures (deterministic):
+uv run python scripts/generate_all_figures.py
 
-# Tests (100% src coverage, no mocks):
-uv run pytest projects/working/ActiveInferenceSynthetic/tests/ \
-  --cov=projects/working/ActiveInferenceSynthetic/src --cov-fail-under=90
+# Render PDF from the template checkout:
+uv run python scripts/pipeline/stage_03_render.py --project working/ActiveInferenceSynthetic
+
+# Tests (≥90% src coverage, no mocks):
+uv run pytest tests/ --cov=src --cov-fail-under=90
 
 # Formal proofs (machine-checked, no mathlib, ~1s):
 cd formal && lake build   # prints clean axiom sets; no `sorry`

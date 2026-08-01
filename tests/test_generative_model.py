@@ -44,10 +44,9 @@ def test_evidence_is_marginal_likelihood() -> None:
     assert evidence(_LIKELIHOOD, _PRIOR, 0) == pytest.approx(0.62)
     # p(s=1) = 0.06 + 0.32 = 0.38; both observations partition the mass.
     assert evidence(_LIKELIHOOD, _PRIOR, 1) == pytest.approx(0.38)
-    assert (
-        evidence(_LIKELIHOOD, _PRIOR, 0) + evidence(_LIKELIHOOD, _PRIOR, 1)
-        == pytest.approx(1.0)
-    )
+    assert evidence(_LIKELIHOOD, _PRIOR, 0) + evidence(
+        _LIKELIHOOD, _PRIOR, 1
+    ) == pytest.approx(1.0)
 
 
 def test_posterior_matches_exact_bayes() -> None:
@@ -118,14 +117,14 @@ def test_prior_belief_has_zero_complexity() -> None:
 
 def test_minimize_free_energy_converges_to_posterior() -> None:
     result = minimize_free_energy(_LIKELIHOOD, _PRIOR, 0, learning_rate=0.3, steps=500)
-    final_belief = result["beliefs"][-1]
+    final_belief = result.beliefs[-1]
     assert np.allclose(final_belief, posterior(_LIKELIHOOD, _PRIOR, 0), atol=1e-6)
 
 
 def test_minimize_free_energy_is_monotonic() -> None:
     # Perception lowers free energy: F is non-increasing every step.
     result = minimize_free_energy(_LIKELIHOOD, _PRIOR, 0, learning_rate=0.3, steps=500)
-    fe = result["free_energy"]
+    fe = result.free_energy
     diffs = np.diff(fe)
     assert np.all(diffs <= 1e-12)
 
@@ -133,23 +132,23 @@ def test_minimize_free_energy_is_monotonic() -> None:
 def test_minimize_free_energy_reaches_surprise() -> None:
     # The minimized free energy equals the surprise it bounds.
     result = minimize_free_energy(_LIKELIHOOD, _PRIOR, 0, learning_rate=0.3, steps=500)
-    assert result["free_energy"][-1] == pytest.approx(
+    assert result.free_energy[-1] == pytest.approx(
         surprise(_LIKELIHOOD, _PRIOR, 0), abs=1e-6
     )
 
 
 def test_minimize_free_energy_records_full_trajectory() -> None:
     result = minimize_free_energy(_LIKELIHOOD, _PRIOR, 0, steps=10)
-    assert result["beliefs"].shape == (11, 2)
-    assert result["free_energy"].shape == (11,)
+    assert result.beliefs.shape == (11, 2)
+    assert result.free_energy.shape == (11,)
     # Step 0 is the uniform starting belief.
-    assert np.allclose(result["beliefs"][0], _uniform(2))
+    assert np.allclose(result.beliefs[0], _uniform(2))
 
 
 def test_minimize_free_energy_accepts_custom_init() -> None:
     q0 = np.array([0.8, 0.2])
     result = minimize_free_energy(_LIKELIHOOD, _PRIOR, 0, q_init=q0, steps=5)
-    assert np.allclose(result["beliefs"][0], q0)
+    assert np.allclose(result.beliefs[0], q0)
 
 
 # --- input validation (no-mocks: real bad inputs, real exceptions) ---

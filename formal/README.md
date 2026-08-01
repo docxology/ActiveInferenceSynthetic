@@ -14,7 +14,8 @@ lake build
 
 The build finishes in about a second (no dependencies to fetch or compile) and
 prints, via the `Audit` module, the axiom set of each headline theorem — every
-one reports `depends on axioms: [propext, Quot.sound]`, never `sorryAx`.
+one reports exactly `depends on axioms: [propept, Quot.sound]`, never `sorryAx`
+and no `Classical.choice`.
 
 ## Layout
 

@@ -37,7 +37,9 @@ to machine precision in the tests:
 
 :func:`minimize_free_energy` makes the descent explicit: gradient descent on F
 over the belief simplex (softmax parameterization) drives an arbitrary starting
-belief to the posterior while F falls monotonically to the surprise. That is
+belief *toward* the posterior while F falls monotonically toward the surprise —
+a small step and enough iterations close the gap (the default ``steps=200``
+lands within ~1e-5 of the posterior; ~500 steps reaches machine precision). That is
 "perception lowers free energy by updating beliefs," shown rather than told.
 
 Everything is analytic and deterministic — no RNG, no fitting.
@@ -45,10 +47,15 @@ Everything is analytic and deterministic — no RNG, no fitting.
 
 from __future__ import annotations
 
+from dataclasses import dataclass
+
 import numpy as np
 from numpy.typing import NDArray
 
+from ._prob import as_column_stochastic, as_distribution, as_prob_vector
+
 __all__ = [
+    "BeliefDescent",
     "joint",
     "evidence",
     "surprise",
@@ -58,43 +65,13 @@ __all__ = [
     "minimize_free_energy",
 ]
 
-_TOL = 1e-9
 
+@dataclass(frozen=True)
+class BeliefDescent:
+    """Belief trajectory and free-energy values from gradient descent on VFE."""
 
-def _as_vector(p: NDArray[np.float64] | list[float], name: str) -> NDArray[np.float64]:
-    arr = np.asarray(p, dtype=np.float64)
-    if arr.ndim != 1:
-        raise ValueError(f"{name} must be 1-D, got shape {arr.shape}")
-    return arr
-
-
-def _check_distribution(p: NDArray[np.float64], name: str) -> NDArray[np.float64]:
-    """Validate that ``p`` is a proper probability vector (>=0, sums to 1)."""
-    if not np.all(np.isfinite(p)):
-        raise ValueError(f"{name} must be finite (no NaN/inf), got {p}")
-    if np.any(p < -_TOL):
-        raise ValueError(f"{name} must be non-negative, got {p}")
-    total = float(p.sum())
-    if abs(total - 1.0) > 1e-8:
-        raise ValueError(f"{name} must sum to 1, got {total}")
-    return np.clip(p, 0.0, None)
-
-
-def _check_likelihood(a: NDArray[np.float64]) -> NDArray[np.float64]:
-    """Validate an ``O × K`` likelihood: non-negative, each column sums to 1."""
-    arr = np.asarray(a, dtype=np.float64)
-    if arr.ndim != 2:
-        raise ValueError(f"likelihood must be 2-D (O x K), got shape {arr.shape}")
-    if not np.all(np.isfinite(arr)):
-        raise ValueError("likelihood must be finite (no NaN/inf)")
-    if np.any(arr < -_TOL):
-        raise ValueError("likelihood must be non-negative")
-    col_sums = arr.sum(axis=0)
-    if not np.allclose(col_sums, 1.0, atol=1e-8):
-        raise ValueError(
-            f"each likelihood column p(s|x) must sum to 1, got column sums {col_sums}"
-        )
-    return np.clip(arr, 0.0, None)
+    beliefs: NDArray[np.float64]
+    free_energy: NDArray[np.float64]
 
 
 def _prepare(
@@ -103,8 +80,8 @@ def _prepare(
     obs: int,
 ) -> tuple[NDArray[np.float64], NDArray[np.float64]]:
     """Validate inputs and return ``(likelihood_row_for_obs, prior)``."""
-    a = _check_likelihood(likelihood)
-    p = _check_distribution(_as_vector(prior, "prior"), "prior")
+    a = as_column_stochastic(likelihood, "likelihood")
+    p = as_distribution(as_prob_vector(prior, "prior"), "prior")
     n_obs, n_states = a.shape
     if p.shape[0] != n_states:
         raise ValueError(
@@ -179,10 +156,9 @@ def variational_free_energy(
         posterior.
     """
     a_row, p = _prepare(likelihood, prior, obs)
-    qv = _check_distribution(_as_vector(q, "q"), "q")
+    qv = as_distribution(as_prob_vector(q, "q"), "q")
     if qv.shape[0] != p.shape[0]:
         raise ValueError(f"q length {qv.shape[0]} != state count {p.shape[0]}")
-    # F = Σ q (ln q − ln(p(s|x) p(x))). Terms with q==0 contribute 0 (0·ln0→0).
     joint_x = a_row * p
     mask = qv > 0.0
     return float(np.sum(qv[mask] * (np.log(qv[mask]) - np.log(joint_x[mask]))))
@@ -203,15 +179,11 @@ def vfe_components(
     far as the evidence (accuracy) warrants.
     """
     a_row, p = _prepare(likelihood, prior, obs)
-    qv = _check_distribution(_as_vector(q, "q"), "q")
+    qv = as_distribution(as_prob_vector(q, "q"), "q")
     if qv.shape[0] != p.shape[0]:
         raise ValueError(f"q length {qv.shape[0]} != state count {p.shape[0]}")
     mask = qv > 0.0
     complexity = float(np.sum(qv[mask] * (np.log(qv[mask]) - np.log(p[mask]))))
-    # Mask on q>0 so a zero-belief entry never triggers 0*ln(0)->nan. A state
-    # the belief has abandoned contributes nothing to accuracy; a state with
-    # q>0 but p(s|x)=0 legitimately yields -inf accuracy (i.e. +inf free
-    # energy — infinitely surprising to believe an impossible explanation).
     accuracy = float(np.sum(qv[mask] * np.log(a_row[mask])))
     return complexity, accuracy
 
@@ -224,7 +196,7 @@ def minimize_free_energy(
     learning_rate: float = 0.2,
     steps: int = 200,
     q_init: NDArray[np.float64] | None = None,
-) -> dict[str, NDArray[np.float64]]:
+) -> BeliefDescent:
     """Descend variational free energy to the posterior — perception as optimization.
 
     Runs deterministic gradient descent on ``F`` over the belief simplex using a
@@ -256,10 +228,11 @@ def minimize_free_energy(
             uniform belief — maximally uncommitted.
 
     Returns:
-        A dict with ``"beliefs"`` (``(steps+1, K)`` array of the belief at each
-        iteration) and ``"free_energy"`` (``(steps+1,)`` array of ``F`` at each
-        iteration). ``beliefs[0]`` is ``q_init``; ``beliefs[-1]`` is the
-        converged posterior.
+        A :class:`BeliefDescent` with ``beliefs`` (``(steps+1, K)`` array of
+        the belief at each iteration) and ``free_energy`` (``(steps+1,)`` array
+        of ``F`` at each iteration). ``beliefs[0]`` is ``q_init``;
+        ``beliefs[-1]`` is the final learned belief — the posterior as ``steps`` grows
+        (the default of 200 is within ~1e-5 of it; ~500 reaches machine precision).
 
     Raises:
         ValueError: If ``learning_rate <= 0``, ``steps < 1``, or the observed
@@ -285,7 +258,7 @@ def minimize_free_energy(
     if q_init is None:
         q = np.full(n_states, 1.0 / n_states, dtype=np.float64)
     else:
-        q = _check_distribution(_as_vector(q_init, "q_init"), "q_init").copy()
+        q = as_distribution(as_prob_vector(q_init, "q_init"), "q_init").copy()
 
     z = np.log(np.clip(q, 1e-300, None))
     beliefs = np.empty((steps + 1, n_states), dtype=np.float64)
@@ -299,11 +272,11 @@ def minimize_free_energy(
     for t in range(steps + 1):
         q = _softmax(z)
         beliefs[t] = q
-        density = np.log(q) - log_joint  # c_x
+        density = np.log(q) - log_joint
         f = float(np.sum(q * density))
         free_energy[t] = f
-        if t < steps:  # take a descent step after every belief except the last
-            grad = q * (density - f)  # ∂F/∂z
+        if t < steps:
+            grad = q * (density - f)
             z = z - learning_rate * grad
 
-    return {"beliefs": beliefs, "free_energy": free_energy}
+    return BeliefDescent(beliefs=beliefs, free_energy=free_energy)

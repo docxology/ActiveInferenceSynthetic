@@ -11,20 +11,28 @@
       },
       "familyName": "Friedman",
       "givenName": "Daniel Ari"
+    },
+    {
+      "@type": "Person",
+      "affiliation": {
+        "@type": "Organization",
+        "name": "Active Inference Institute"
+      },
+      "familyName": "Mikhailova",
+      "givenName": "Alexandra"
     }
   ],
-  "codeRepository": "https://github.com/docxology/template_code_project",
-  "dateModified": "2026-05-27",
+  "dateModified": "2026-07-22",
   "keywords": [
-    "optimization algorithms",
-    "gradient descent",
-    "convergence analysis",
-    "numerical methods",
-    "mathematical programming",
+    "active inference",
+    "free energy principle",
+    "Bayesian mechanics",
+    "non-equilibrium steady state",
+    "variational inference",
     "reproducible research",
     "infrastructure automation"
   ],
-  "license": "https://spdx.org/licenses/MIT",
-  "name": "Convergence Analysis of Gradient Descent Optimization",
-  "version": "2.3"
+  "license": "https://spdx.org/licenses/CC-BY-4.0",
+  "name": "Active Inference -- A Synthetic Overview",
+  "version": "0.5.0"
 }

@@ -55,9 +55,7 @@ def test_entropy_production_matches_current_field_integral() -> None:
     jx, jy = probability_current(xx, yy, precision=p, gamma=g, omega=w)
     rho = (p / (2 * np.pi)) * np.exp(-0.5 * p * (xx**2 + yy**2))
     numer = (jx**2 + jy**2) / g
-    integrand = np.divide(
-        numer, rho, out=np.zeros_like(numer), where=rho > 1e-300
-    )
+    integrand = np.divide(numer, rho, out=np.zeros_like(numer), where=rho > 1e-300)
     sigma_grid = float(np.sum(integrand) * d_area)
     assert sigma_grid == pytest.approx(entropy_production_rate(p, g, w), rel=1e-3)
     assert sigma_grid == pytest.approx(2.0 * w**2 * p / g, rel=1e-3)
@@ -65,9 +63,9 @@ def test_entropy_production_matches_current_field_integral() -> None:
 
 def test_entropy_production_zero_at_equilibrium() -> None:
     # Positive control: exactly zero iff detailed balance (omega = 0).
-    assert entropy_production_rate(precision=1.3, gamma=0.9, omega=0.0) == pytest.approx(
-        0.0, abs=1e-12
-    )
+    assert entropy_production_rate(
+        precision=1.3, gamma=0.9, omega=0.0
+    ) == pytest.approx(0.0, abs=1e-12)
 
 
 def test_entropy_production_is_nonnegative_and_grows_with_omega() -> None:
@@ -112,7 +110,9 @@ def test_probability_current_pointwise_orientation() -> None:
     # at unit precision. A sign-flipped current would fail this even though it
     # would still be divergence-free and orthogonal to grad F.
     x, y, p, w = 1.0, 0.5, 1.0, 2.0
-    jx, jy = probability_current(np.array(x), np.array(y), precision=p, gamma=1.0, omega=w)
+    jx, jy = probability_current(
+        np.array(x), np.array(y), precision=p, gamma=1.0, omega=w
+    )
     rho = (p / (2.0 * np.pi)) * np.exp(-0.5 * p * (x**2 + y**2))
     assert float(jx) == pytest.approx(rho * w * y)
     assert float(jy) == pytest.approx(rho * (-w * x))
@@ -174,9 +174,24 @@ def test_rejects_non_finite_parameters() -> None:
         stationary_covariance(omega=np.inf)
 
 
-def test_lyapunov_solve_rejects_unreliable_regime() -> None:
-    # Extreme precision x solenoidal strength makes the direct Kronecker solve
-    # lose precision (residual ~1e-4); the guard must reject rather than return
-    # a silently-wrong matrix.
-    with pytest.raises(ValueError, match="unreliable|residual"):
-        stationary_covariance(precision=1e6, gamma=1.0, omega=1e12)
+def test_stationary_covariance_falls_back_to_analytic_closed_form() -> None:
+    # Large |omega| * precision makes the direct Kronecker solve lose precision
+    # (residual ~6e-5 > tolerance), but for this isotropic D = Gamma class the
+    # stationary covariance is EXACTLY Sigma = P^{-1}; the function must return
+    # that closed form instead of raising (previous behaviour).
+    p, g, w = 1e6, 1.0, 1e12
+    sigma = stationary_covariance(precision=p, gamma=g, omega=w)
+    assert np.allclose(sigma, (1.0 / p) * np.eye(2), rtol=1e-12, atol=1e-18)
+    # ... and the downstream entropy production still matches its closed form.
+    assert entropy_production_rate(precision=p, gamma=g, omega=w) == pytest.approx(
+        2.0 * w**2 * p / g, rel=1e-9
+    )
+
+
+def test_stationary_covariance_raises_on_overflow_parameters() -> None:
+    # With parameters so extreme that BOTH the direct solve and the analytic
+    # P^{-1} overflow to infinity, the guard still rejects rather than return a
+    # silently-wrong matrix.
+    with np.errstate(over="ignore", invalid="ignore", divide="ignore"):
+        with pytest.raises(ValueError, match="unreliable|residual"):
+            stationary_covariance(precision=1e200, gamma=1.0, omega=1e200)

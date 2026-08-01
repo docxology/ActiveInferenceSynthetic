@@ -45,7 +45,7 @@ metrics:
       direction: characterize
       applies_to: steady_state
       note: "sigma = 2*omega^2*precision/gamma; exactly 0 iff detailed balance (omega=0)."
-protocol: "All demonstrations are closed-form and deterministic: no RNG, no fitting. (1) Bayesian-mechanics flow f = (Q - Gamma) grad F over one shared isotropic Gaussian free-energy landscape, for equilibrium (omega=0) and NESS (omega!=0); the solenoidal term is verified orthogonal to grad F to machine precision. (2) Perception: descend variational free energy over a discrete generative model to the exact posterior, verified against closed-form Bayes and the surprise bound. (3) Worked trajectories: integrate the flow with fixed-step RK4 (validated against the linear-ODE closed form) and quantify the equilibrium-vs-NESS difference as net rotation."
+protocol: "All demonstrations are analytic and deterministic: no RNG, no fitting. (1) Bayesian-mechanics flow f = (Q - Gamma) grad F over one shared isotropic Gaussian free-energy landscape, for equilibrium (omega=0) and NESS (omega!=0); the solenoidal term is verified orthogonal to grad F. (2) Perception descends variational free energy to the exact posterior, checked against Bayes and the surprise bound. (3) Fixed-step RK4 trajectories are checked against the linear-ODE solution; intrinsic rotation rate is separated from window-dependent total winding. (4) Expected free energy decomposes each action into pragmatic and epistemic value and selects argmin G. (5) A Gaussian precision zero-block verifies Markov-blanket conditional independence. (6) The matched-noise OU steady state verifies covariance, divergence-free current, and entropy production."
 expected_figures:
   - fig:overview
   - fig:belief

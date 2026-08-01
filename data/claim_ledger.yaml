@@ -2,35 +2,35 @@ claims:
   - claim_id: figure-export-dpi
     kind: number
     value: 300
-    source: scripts/generate_overview_figure.py main() savefig dpi
+    source: src/figures/save.py save_figure() dpi
     source_tier: project_source
     freshness: active
     artifact_path: output/figures/active_inference_overview.png
   - claim_id: belief-precision
     kind: number
     value: 1.0
-    source: scripts/generate_overview_figure.py PRECISION constant (Gaussian belief precision)
+    source: src/demos.py FLOW.precision (Gaussian belief precision)
     source_tier: project_source
     freshness: active
     artifact_path: output/figures/active_inference_overview.png
   - claim_id: dissipative-strength-gamma
     kind: number
     value: 1.0
-    source: scripts/generate_overview_figure.py GAMMA constant (symmetric dissipative operator)
+    source: src/demos.py FLOW.gamma (symmetric dissipative operator)
     source_tier: project_source
     freshness: active
     artifact_path: output/figures/active_inference_overview.png
   - claim_id: solenoidal-strength-omega-ness
     kind: number
     value: 2.4
-    source: scripts/generate_overview_figure.py OMEGA constant (solenoidal strength for the NESS panel)
+    source: src/demos.py OMEGA_NESS (solenoidal strength for the NESS panel)
     source_tier: project_source
     freshness: active
     artifact_path: output/figures/active_inference_overview.png
   - claim_id: equilibrium-solenoidal-strength
     kind: number
     value: 0.0
-    source: scripts/generate_overview_figure.py equilibrium panel omega (detailed balance, Q=0)
+    source: src/demos.py FLOW.omega (detailed balance, Q=0)
     source_tier: project_source
     freshness: active
     artifact_path: output/figures/active_inference_overview.png
@@ -39,7 +39,7 @@ claims:
   - claim_id: belief-model-prior
     kind: vector
     value: [0.6, 0.4]
-    source: scripts/generate_belief_update_figure.py PRIOR (categorical prior p(x))
+    source: src/demos.py PRIOR (categorical prior p(x))
     source_tier: project_source
     freshness: active
     artifact_path: output/figures/belief_update.png
@@ -53,7 +53,7 @@ claims:
   - claim_id: belief-inference-learning-rate
     kind: number
     value: 0.3
-    source: scripts/generate_belief_update_figure.py LEARNING_RATE (free-energy descent step)
+    source: src/demos.py BELIEF_LEARNING_RATE (free-energy descent step)
     source_tier: project_source
     freshness: active
     artifact_path: output/figures/belief_update.png
@@ -61,28 +61,28 @@ claims:
   # --- Worked-trajectories figure (worked_trajectories.png, section 3) ---
   - claim_id: trajectory-ness-omega
     kind: number
-    value: 6.0
-    source: scripts/generate_trajectory_figure.py OMEGA_NESS (solenoidal strength for the NESS panel)
+    value: 2.4
+    source: src/demos.py TRAJECTORY_OMEGA_NESS (solenoidal strength for the NESS panel)
     source_tier: project_source
     freshness: active
     artifact_path: output/figures/worked_trajectories.png
   - claim_id: trajectory-integrator-dt
     kind: number
     value: 0.002
-    source: scripts/generate_trajectory_figure.py DT (RK4 fixed time step)
+    source: src/demos.py TRAJECTORY_DT (RK4 fixed time step)
     source_tier: project_source
     freshness: active
     artifact_path: output/figures/worked_trajectories.png
   - claim_id: trajectory-integrator-steps
     kind: number
     value: 6000
-    source: scripts/generate_trajectory_figure.py STEPS (RK4 integration steps)
+    source: src/demos.py TRAJECTORY_STEPS (RK4 integration steps)
     source_tier: project_source
     freshness: active
     artifact_path: output/figures/worked_trajectories.png
   - claim_id: trajectory-ness-net-rotation-turns
     kind: number
-    value: -11.46
+    value: -4.583662361046586
     note: "Window-dependent total winding over horizon T = DT*STEPS = 12; grows with T. Not intrinsic — see trajectory-ness-rotation-rate."
     source: src/trajectories.py net_rotation()/2pi for the NESS run (annotated on figure panel b)
     source_tier: derived
@@ -90,9 +90,9 @@ claims:
     artifact_path: output/figures/worked_trajectories.png
   - claim_id: trajectory-ness-rotation-rate
     kind: number
-    value: -0.9549296585513721
+    value: -0.3819718634205488
     note: "Intrinsic IC-independent rotation rate = -omega*precision/(2pi) turns per unit time; analytic dθ/dt = -omega*precision. Exactly 0 at equilibrium. Verified in tests/test_trajectories.py::test_ness_rotation_rate_is_intrinsic (with omega=5, precision=1.3)."
-    source: src/trajectories.py net_rotation over horizon / (2pi * T); analytic -omega*precision/(2pi) with omega=6, precision=1
+    source: src/trajectories.py net_rotation over horizon / (2pi * T); analytic -omega*precision/(2pi) with omega=2.4, precision=1
     source_tier: derived
     freshness: active
     artifact_path: output/figures/worked_trajectories.png
@@ -128,7 +128,7 @@ claims:
     kind: number
     value: 0.0
     note: "Zero internal-external precision entry Pi[eta,mu] encodes eta ⊥ mu | {s,a}; the Markov-blanket condition by construction."
-    source: scripts/generate_markov_blanket_figure.py PRECISION[0,3]
+    source: src/demos.py BLANKET_PRECISION[0,3]
     source_tier: project_source
     freshness: active
     artifact_path: output/figures/markov_blanket.png
@@ -153,7 +153,7 @@ claims:
   - claim_id: steady-state-ness-omega
     kind: number
     value: 2.4
-    source: scripts/generate_steady_state_figure.py OMEGA_NESS (solenoidal strength for the NESS panel)
+    source: src/demos.py OMEGA_NESS (solenoidal strength for the NESS panel)
     source_tier: project_source
     freshness: active
     artifact_path: output/figures/steady_state_current.png
