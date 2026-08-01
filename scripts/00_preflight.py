@@ -7,7 +7,7 @@ import sys
 from pathlib import Path
 
 
-def _find_repo_root(start: Path) -> Path:
+def _find_repo_root(start: Path) -> Path | None:
     """Walk parent directories until one contains ``infrastructure/``.
 
     A fixed ``parents[N]`` index breaks when this project is reached through
@@ -17,23 +17,40 @@ def _find_repo_root(start: Path) -> Path:
     root resolution independent of nesting depth. ``absolute()`` (not
     ``resolve()``) is deliberate: the ``infrastructure/`` tree lives on the
     symlink side of the path, so the symlinked ancestors must be preserved.
+
+    Returns ``None`` (instead of raising) when no ancestor carries the marker —
+    the script is being run standalone, outside a template checkout.
     """
     for parent in (start, *start.parents):
         if (parent / "infrastructure").is_dir():
             return parent
-    raise RuntimeError(
-        "Could not locate the repository root: no ancestor of "
-        f"{start} contains an 'infrastructure/' directory."
-    )
-
-
-REPO_ROOT = _find_repo_root(Path(__file__).absolute())
-sys.path.insert(0, str(REPO_ROOT))
-
-from infrastructure.rendering.preflight import run_manuscript_preflight  # noqa: E402
+    return None
 
 
 def main() -> int:
+    # Resolve the template repo root lazily (in ``main``) so importing this
+    # module standalone does not crash: the template ``infrastructure/`` tree is
+    # only present when running through the template checkout.
+    repo_root = _find_repo_root(Path(__file__).absolute())
+    if repo_root is None:
+        sys.stderr.write(
+            "00_preflight: no ancestor of this file contains an "
+            "'infrastructure/' directory — the manuscript preflight requires "
+            "the template checkout.\n"
+            "Run this script from the template checkout, e.g.\n"
+            "  uv run python projects/working/ActiveInferenceSynthetic/scripts/00_preflight.py\n"
+        )
+        return 2
+
+    sys.path.insert(0, str(repo_root))
+    try:
+        from infrastructure.rendering.preflight import run_manuscript_preflight
+    except ImportError as exc:  # pragma: no cover - defensive, infra is present here
+        sys.stderr.write(
+            f"00_preflight: could not import the preflight helper: {exc}\n"
+        )
+        return 2
+
     manuscript_dir = Path(__file__).resolve().parent.parent / "manuscript"
     ok, message = run_manuscript_preflight(manuscript_dir)
     if ok:
