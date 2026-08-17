@@ -35,11 +35,11 @@ energy is the Bayesian posterior, and the minimized value is the surprise it
 bounds. Inference falls out of minimization.
 
 [@fig:belief] shows this happening. Take a two-state model with prior
-$p(x) = (0.6, 0.4)$ and a likelihood under which state $x_0$ makes the observed
+$p(x) = ({{PRIOR_X0}}, {{PRIOR_X1}})$ and a likelihood under which state $x_0$ makes the observed
 sensation $s$ far more probable than $x_1$ does. Panel (a) starts from a
 maximally uncommitted uniform belief and runs gradient descent on $F$ over the
 belief simplex; the belief mass migrates toward the exact posterior
-$p(x_0 \mid s) = 0.54/0.62 \approx 0.87$. Panel (b) tracks $F$ across the same
+$p(x_0 \mid s) = {{POSTERIOR_X0_FRAC}} \approx {{POSTERIOR_X0}}$. Panel (b) tracks $F$ across the same
 descent: it falls **monotonically** to the surprise $-\ln p(s)$ (dashed line),
 and the shrinking shaded gap is exactly $\mathrm{KL}\!\left[q_t \Vert p(x \mid
 s)\right]$ — the belief's remaining error. Perception, here, is nothing but
@@ -54,7 +54,7 @@ slogan. Action, treated in the next demonstrations, minimizes the *same* $F$ in
 the other direction: by changing $s$ rather than $q$.
 
 ![**Perception as free-energy minimization.** A two-state generative model
-(prior $p(x)=(0.6,0.4)$; likelihood favouring $x_0$ for the observed $s$). **(a)**
+(prior $p(x)=({{PRIOR_X0}},{{PRIOR_X1}})$; likelihood favouring $x_0$ for the observed $s$). **(a)**
 From a uniform starting belief, gradient descent on variational free energy
 drives the belief over hidden states to the exact Bayesian posterior
 $p(x\mid s)$ (orange), passing through intermediate beliefs (blue) on the way.

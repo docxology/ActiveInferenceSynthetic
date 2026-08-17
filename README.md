@@ -64,8 +64,9 @@ infrastructure while keeping its scientific code self-contained under `src/`.
 ## Build
 
 ```bash
-# Generate all figures (deterministic):
+# Generate figures and hydrate {{TOKEN}} manuscript values:
 uv run python scripts/generate_all_figures.py
+uv run python scripts/z_generate_manuscript_variables.py
 
 # Render PDF from the template checkout:
 uv run python scripts/pipeline/stage_03_render.py --project working/ActiveInferenceSynthetic

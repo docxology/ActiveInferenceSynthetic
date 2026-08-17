@@ -18,7 +18,7 @@ this flow. That the integrator can be trusted is not assumed: at equilibrium
 the flow reduces to the linear system $\dot{x} = -\gamma\,\Pi\,x$ (with $\Pi$
 the precision), and the tests confirm the RK4 path matches the closed form
 $x(t) = x_0\,e^{-\gamma\,\Pi\,t}$ — i.e. $x_0 e^{-\gamma t}$ at unit precision —
-to better than $10^{-6}$.
+to better than ${{RK4_MATCH_ATOL}}$.
 
 [@fig:trajectories] shows the two fates. In panel (a), the **equilibrium**
 trajectory ($Q = 0$) falls straight down the free-energy gradient to the mode
@@ -34,13 +34,13 @@ level sets of $F$ at the same time. The result is a spiral that sweeps many
 full turns before relaxing inward.
 
 How much it winds is worth stating carefully. The *total* net rotation — the
-figure's $\approx -4.58$ turns over the demonstration window $T=12$ — is not an
+figure's $\approx {{TRAJECTORY_TURNS}}$ turns over the demonstration window $T={{TRAJECTORY_HORIZON}}$ — is not an
 intrinsic property of the NESS; it grows with $T$ and would diverge as
 $T \to \infty$. The intrinsic, initial-condition-free quantity is the
 **rotation rate**. For this isotropic-Gaussian flow the angular velocity is
 analytically constant, $\dot\theta = -\omega\,\Pi$ radians per unit time (with
-$\Pi$ the precision), so the rate is $\approx -0.38$ turns per unit time
-($-\omega\,\Pi/(2\pi)$ at $\omega=2.4$, $\Pi=1$) for *any* starting point off
+$\Pi$ the precision), so the rate is $\approx {{TRAJECTORY_RATE}}$ turns per unit time
+($-\omega\,\Pi/(2\pi)$ at $\omega={{NESS_OMEGA}}$, $\Pi={{PRECISION}}$) for *any* starting point off
 the mode — and it is exactly $0$ at equilibrium for every window. That
 zero-versus-nonzero rate is the honest, quantitative witness that detailed
 balance is broken. The tests pin it directly: net rotation equals
@@ -74,8 +74,8 @@ Bayesian-mechanics flow $f=(Q-\Gamma)\nabla F$ from the same starting point
 dot marks the mode). **(a) Equilibrium** ($Q=0$): pure descent falls radially
 to the mode and rests — free energy monotonically decreasing, rotation rate
 $\approx 0$ turns/time. **(b) NESS** ($Q\neq 0$): the same descent plus a
-solenoidal term spirals inward at a constant rate $\approx -0.38$ turns/time
-($\approx -4.58$ turns over the window $T=12$) while free energy still decreases
+solenoidal term spirals inward at a constant rate $\approx {{TRAJECTORY_RATE}}$ turns/time
+($\approx {{TRAJECTORY_TURNS}}$ turns over the window $T={{TRAJECTORY_HORIZON}}$) while free energy still decreases
 monotonically. The nonzero rotation rate witnesses the broken detailed balance
 that generates the steady-state probability current — the marker distinguishing
 far-from-equilibrium life from equilibrium rest. Rendered deterministically by

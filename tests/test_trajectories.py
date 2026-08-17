@@ -155,20 +155,31 @@ def test_demo_rotation_matches_claim_ledger() -> None:
     analytic_turns = analytic_rate * horizon
     assert rate == pytest.approx(analytic_rate, rel=1e-8)
     assert turns == pytest.approx(analytic_turns, rel=1e-8)
-    # These are the ledger values; they are *not* the entropy-production 11.52.
-    assert turns == pytest.approx(-4.583662361046586, rel=1e-8)
-    assert rate == pytest.approx(-0.3819718634205488, rel=1e-8)
-    assert abs(turns) < 6.0  # would fail if sigma were misread as winding
+    from src.manuscript_variables import compute_claims
+
+    claims = compute_claims()
+    assert turns == pytest.approx(claims["trajectory_turns"], rel=1e-8)
+    assert rate == pytest.approx(claims["trajectory_rate"], rel=1e-8)
+    assert abs(turns) < abs(claims["ness_sigma"])  # sigma is not winding
 
 
 def test_manuscript_winding_not_confused_with_entropy_production() -> None:
     """§3 must quote the demo winding (~4.58 turns), not sigma (~11.5 nats/time)."""
     from pathlib import Path
 
-    prose = (
+    from src.manuscript_variables import generate_variables, leftover_tokens
+
+    authored = (
         Path(__file__).resolve().parent.parent / "manuscript" / "03_worked_regimes.md"
     ).read_text()
-    assert "-4.58" in prose
-    assert "-0.38" in prose
-    assert "-11.5" not in prose
-    assert "-0.95" not in prose
+    assert "{{TRAJECTORY_TURNS}}" in authored
+    assert "{{TRAJECTORY_RATE}}" in authored
+    assert "-11.5" not in authored
+    assert "-0.95" not in authored
+    variables = generate_variables()
+    hydrated = authored
+    for key, value in variables.items():
+        hydrated = hydrated.replace("{{" + key + "}}", value)
+    assert leftover_tokens(hydrated) == []
+    assert variables["TRAJECTORY_TURNS"] in hydrated
+    assert variables["NESS_SIGMA_APPROX"] not in hydrated

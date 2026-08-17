@@ -32,13 +32,13 @@ exactly their beliefs given the blanket.
 [@fig:blanket] makes both halves of the claim visible on a Gaussian built so
 that the $\eta$–$\mu$ block of its **precision matrix** (the inverse covariance)
 is exactly zero. Panel (a) is the ordinary correlation matrix: $\eta$ and $\mu$
-are plainly correlated ($\mathrm{corr} = 0.19$): they are statistically coupled
+are plainly correlated ($\mathrm{corr} = {{BLANKET_CORR}}$): they are statistically coupled
 through the blanket. Panel (b) is the precision matrix, and the payoff is
 the highlighted cell: $\Pi_{\eta\mu} = 0$. In a Gaussian a zero precision entry
 is *exactly* a conditional independence given the remaining variables — so the
 zero at $(\eta,\mu)$ says $\eta \perp \mu \mid \{s,a\}$. Conditioning on the
 blanket collapses the partial correlation between internal and external states
-to zero (the tests confirm it vanishes to $10^{-10}$ via the Schur complement),
+to zero (the tests confirm it vanishes to ${{PARTIAL_CORR_ATOL}}$ via the Schur complement),
 even though conditioning on only *part* of the blanket does not — both the
 sensory and active states are needed to close the channel.
 
@@ -55,7 +55,7 @@ a well-posed idea rather than a metaphor.
 ![**Marginal dependence, conditional independence.** A jointly Gaussian world
 over external $\eta$, sensory $s$, active $a$, internal $\mu$, built with a zero
 $\eta$–$\mu$ precision block. **(a) Marginal correlation:** $\eta$ and $\mu$ are
-correlated ($0.19$, highlighted) — they are statistically coupled through the
+correlated (${{BLANKET_CORR}}$, highlighted) — they are statistically coupled through the
 blanket. **(b) Precision (inverse covariance):** the $\eta$–$\mu$ entry is
 exactly $0$, which in a Gaussian *is* conditional independence given the other
 variables — so $\eta \perp \mu \mid \{s,a\}$ and the partial correlation given

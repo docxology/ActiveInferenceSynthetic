@@ -4,6 +4,7 @@ Thin command-line entry points over `src/`.
 
 ```bash
 uv run python scripts/generate_all_figures.py
+uv run python scripts/z_generate_manuscript_variables.py
 uv run python scripts/generate_overview_figure.py
 ```
 

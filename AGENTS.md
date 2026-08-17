@@ -27,12 +27,14 @@ Educational Active Inference overview project (private sidecar, symlinked from
 | `steady_state.py` | NESS current, entropy production |
 | `figures/` | Matplotlib figure builders + `render_all()` |
 | `project_paths.py` | `project_output_dirs()` |
+| `manuscript_variables.py` | Live `{{TOKEN}}` map from demos + cores |
 
 ## Scripts
 
 | Script | Output |
 | --- | --- |
-| `generate_all_figures.py` | All six PNGs under `output/figures/` |
+| `generate_all_figures.py` | All six PNGs + hydrate manuscript tokens |
+| `z_generate_manuscript_variables.py` | `output/data/manuscript_variables.json` + `output/manuscript/` |
 | `generate_overview_figure.py` | `active_inference_overview.png` |
 | `generate_belief_update_figure.py` | `belief_update.png` |
 | `generate_trajectory_figure.py` | `worked_trajectories.png` |
@@ -47,6 +49,7 @@ Educational Active Inference overview project (private sidecar, symlinked from
 # From project root (private sidecar or template symlink):
 uv run pytest tests/ --cov=src --cov-fail-under=90
 uv run python scripts/generate_all_figures.py
+uv run python scripts/z_generate_manuscript_variables.py
 
 # Render PDF from template checkout:
 uv run python scripts/pipeline/stage_03_render.py --project working/ActiveInferenceSynthetic

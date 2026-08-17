@@ -64,7 +64,7 @@ diffusion. **(a) Equilibrium** ($Q=0$): the steady-state probability current is
 zero everywhere and the entropy-production rate is $\sigma=0$ — detailed balance.
 **(b) NESS** ($Q\neq0$): a divergence-free current $j=(QPx)\rho$ circulates
 around the mode (orange arrows), sustained at an entropy-production rate
-$\sigma=2\omega^2\Pi/\gamma>0$ (here $\sigma\approx11.5$ nats/time). The current
+$\sigma=2\omega^2\Pi/\gamma>0$ (here $\sigma\approx{{NESS_SIGMA_APPROX}}$ nats/time). The current
 vanishes at the mode (where $QPx=0$) and in the tails (where $\rho\to0$), peaking
 on an annulus between. Rendered deterministically by
 `scripts/generate_steady_state_figure.py` over the tested core in

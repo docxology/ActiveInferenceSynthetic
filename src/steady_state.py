@@ -87,15 +87,11 @@ def drift_matrix(
 def stationary_covariance(
     precision: float = 1.0, gamma: float = 1.0, omega: float = 0.0
 ) -> NDArray[np.float64]:
-    """Steady-state covariance ``Σ`` solving the Lyapunov equation ``MΣ + ΣMᵀ = 2D``.
+    """Steady-state covariance ``Σ`` of the isotropic matched-noise OU.
 
-    Solved generally (via the Kronecker vectorization
-    ``(I⊗M + M⊗I) vec(Σ) = vec(2D)``) rather than assuming the answer, so the
-    tests can confirm it equals the analytic ``P^{-1}`` independently. When the
-    direct solve is ill-conditioned (large ``|omega| · precision``), the exact
-    closed form ``Σ = P^{-1}`` (which satisfies the equation identically for this
-    isotropic ``D = Γ`` class) is returned instead, so the covariance no longer
-    fails for any well-defined stable parameters.
+    For this class ``D = Γ`` the Lyapunov equation is satisfied identically by
+    the closed form ``Σ = P^{-1}``. The implementation returns that form and
+    checks the residual; tests still verify the equation independently.
 
     Args:
         precision: Belief precision (``> 0``).
@@ -108,29 +104,19 @@ def stationary_covariance(
     model = _model(precision, gamma, omega)
     m = model.drift_M()
     d = model.Gamma
-    eye = np.eye(2)
-    lhs = np.kron(eye, m) + np.kron(m, eye)
-    sigma = np.linalg.solve(lhs, (2.0 * d).reshape(-1)).reshape(2, 2)
+    sigma = np.linalg.inv(model.P)
     sigma = 0.5 * (sigma + sigma.T)
     residual = m @ sigma + sigma @ m.T - 2.0 * d
     scale = max(1.0, float(np.abs(2.0 * d).max()))
-    if not np.all(np.isfinite(sigma)) or float(np.abs(residual).max()) > 1e-6 * scale:
-        # The direct Kronecker solve is ill-conditioned for large |omega|·precision.
-        # For this isotropic class with D = Gamma the stationary covariance is
-        # *exactly* Sigma = P^{-1} — substituting it reduces the Lyapunov equation
-        # MΣ + ΣMᵀ to (Γ−Q) + (Γ+Q) = 2Γ = 2D identically, for any omega. Rather
-        # than raise (the previous behaviour), return that exact closed form when
-        # it satisfies the equation to tolerance.
-        sigma_analytic = np.linalg.inv(model.P)
-        residual_analytic = m @ sigma_analytic + sigma_analytic @ m.T - 2.0 * d
-        analytic_ok = np.all(np.isfinite(sigma_analytic)) and (
-            float(np.abs(residual_analytic).max()) <= 1e-6 * scale
-        )
-        if analytic_ok:
-            return 0.5 * (sigma_analytic + sigma_analytic.T)
+    resid_max = float(np.abs(residual).max())
+    if (
+        not np.all(np.isfinite(sigma))
+        or not np.isfinite(resid_max)
+        or resid_max > 1e-6 * scale
+    ):
         raise ValueError(
-            "Lyapunov solve is unreliable for these parameters "
-            f"(|omega|/gamma too large): max residual {float(np.abs(residual).max())}"
+            "Lyapunov identity failed for these parameters "
+            f"(|omega|/gamma too large): max residual {resid_max}"
         )
     return sigma
 

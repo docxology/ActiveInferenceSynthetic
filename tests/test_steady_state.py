@@ -174,11 +174,9 @@ def test_rejects_non_finite_parameters() -> None:
         stationary_covariance(omega=np.inf)
 
 
-def test_stationary_covariance_falls_back_to_analytic_closed_form() -> None:
-    # Large |omega| * precision makes the direct Kronecker solve lose precision
-    # (residual ~6e-5 > tolerance), but for this isotropic D = Gamma class the
-    # stationary covariance is EXACTLY Sigma = P^{-1}; the function must return
-    # that closed form instead of raising (previous behaviour).
+def test_stationary_covariance_closed_form_at_extreme_omega() -> None:
+    # Large |omega| * precision used to make a Kronecker Lyapunov solve lose
+    # precision. The implementation now returns the exact Sigma = P^{-1}.
     p, g, w = 1e6, 1.0, 1e12
     sigma = stationary_covariance(precision=p, gamma=g, omega=w)
     assert np.allclose(sigma, (1.0 / p) * np.eye(2), rtol=1e-12, atol=1e-18)

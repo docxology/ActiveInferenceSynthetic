@@ -39,6 +39,12 @@ demonstration backed by tested code in `src/`, not more formalism.
 - **[DONE — 2026-08-16]** `CITATION.cff` said `type: dataset` and
   `date-released: 2026-06-28`; aligned to `software` / `2026-07-22` with
   manuscript + CodeMeta.
+- **[DONE — 2026-08-16]** All demo numbers in authored manuscript sections
+  are `{{TOKEN}}` values from `src/manuscript_variables.py` (live cores +
+  `src/demos.py`). Hydrator: `scripts/z_generate_manuscript_variables.py`.
+  Guarded by `tests/test_manuscript_variables.py`.
+- **[DONE — 2026-08-16]** `stationary_covariance` returns the exact
+  `Sigma = P^{-1}` and checks the Lyapunov residual (no Kronecker fallback).
 
 ## Major
 
@@ -73,15 +79,6 @@ _None open from the 2026-08-16 review._ Remaining items are scoped expansions.
   Why: the free-energy bound would become an unconditional theorem about the
   real logarithm.
   Suggested: optional extra package, not a replacement of the no-mathlib core.
-
-- **Lyapunov fallback coverage is environment-sensitive.**
-  `src/steady_state.py:117-130` falls back to $\Sigma=P^{-1}$ when the
-  Kronecker solve residual is large. `test_stationary_covariance_falls_back_to_analytic_closed_form`
-  can pass via the *direct* path on some BLAS stacks (line 130 still uncovered
-  at 99.76%). Not a correctness bug — the analytic form is exact for this
-  isotropic $D=\Gamma$ class.
-  Suggested: prefer the closed form and keep Kronecker as a residual check, or
-  force the fallback with a residual the current NumPy cannot meet.
 
 ## Current state (`v0.5.0`)
 

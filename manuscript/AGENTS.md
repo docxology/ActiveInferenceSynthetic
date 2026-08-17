@@ -17,6 +17,14 @@
 - NESS current: `src/steady_state.py`
 - Formal statements: `formal/ActiveInferenceFormal/`
 
+Numeric claims in numbered sections are `{{TOKEN}}` values from
+`src/manuscript_variables.py::generate_variables()`. Never hard-code a demo
+number in authored prose. Hydrate with:
+
+```bash
+uv run python scripts/z_generate_manuscript_variables.py
+```
+
 Regenerate figures and rerun the relevant tests after changing a numerical
 claim, caption, or demonstration parameter. Render from the template root with:
 
