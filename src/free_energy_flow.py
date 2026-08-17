@@ -8,7 +8,9 @@ flow used in Bayesian mechanics:
 
 where, for a Gaussian (quadratic) free energy ``F``:
 
-* ``Gamma`` is a symmetric positive-definite *dissipative* operator. The
+* ``Gamma`` is a symmetric positive-semidefinite *dissipative* operator
+  (positive-definite when ``gamma > 0``; ``gamma == 0`` is allowed for
+  deterministic flow). The
   ``-Gamma @ grad F`` term is pure gradient descent on free energy — the
   Free Energy Principle's claim that a system *climbs down* its own
   surprise. On its own it drives the system to the mode and stops.

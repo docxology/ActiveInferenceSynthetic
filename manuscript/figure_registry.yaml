@@ -27,7 +27,7 @@ figures:
   - id: fig:trajectories
     file: output/figures/worked_trajectories.png
     section: worked-regimes
-    caption: "Worked equilibrium vs non-equilibrium trajectories — the equilibrium spiral relaxes to the mode; the NESS sustains a persistent probability current."
+    caption: "Worked equilibrium vs non-equilibrium trajectories — the equilibrium path falls radially to the mode; the NESS spirals and sustains a persistent probability current."
     alt_text: "Two-panel figure comparing an equilibrium trajectory that falls straight to the mode with a non-equilibrium trajectory that spirals, annotated with the accumulated rotation angle."
     builder: src/figures/trajectories_figure.py
     script: scripts/generate_trajectory_figure.py

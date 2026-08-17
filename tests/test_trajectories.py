@@ -128,3 +128,47 @@ def test_free_energy_along_rejects_bad_shape() -> None:
 def test_net_rotation_rejects_bad_shape() -> None:
     with pytest.raises(ValueError, match=r"\(N, 2\)"):
         net_rotation(np.zeros((5,)))
+
+
+def test_demo_rotation_matches_claim_ledger() -> None:
+    """Live NESS winding must match data/claim_ledger.yaml, not sigma=11.52."""
+    from src.demos import (
+        FLOW,
+        TRAJECTORY_DT,
+        TRAJECTORY_OMEGA_NESS,
+        TRAJECTORY_START,
+        TRAJECTORY_STEPS,
+    )
+
+    horizon = TRAJECTORY_DT * TRAJECTORY_STEPS
+    path = integrate_trajectory(
+        TRAJECTORY_START,
+        precision=FLOW.precision,
+        gamma=FLOW.gamma,
+        omega=TRAJECTORY_OMEGA_NESS,
+        dt=TRAJECTORY_DT,
+        steps=TRAJECTORY_STEPS,
+    )
+    turns = net_rotation(path) / (2.0 * np.pi)
+    rate = turns / horizon
+    analytic_rate = -TRAJECTORY_OMEGA_NESS * FLOW.precision / (2.0 * np.pi)
+    analytic_turns = analytic_rate * horizon
+    assert rate == pytest.approx(analytic_rate, rel=1e-8)
+    assert turns == pytest.approx(analytic_turns, rel=1e-8)
+    # These are the ledger values; they are *not* the entropy-production 11.52.
+    assert turns == pytest.approx(-4.583662361046586, rel=1e-8)
+    assert rate == pytest.approx(-0.3819718634205488, rel=1e-8)
+    assert abs(turns) < 6.0  # would fail if sigma were misread as winding
+
+
+def test_manuscript_winding_not_confused_with_entropy_production() -> None:
+    """§3 must quote the demo winding (~4.58 turns), not sigma (~11.5 nats/time)."""
+    from pathlib import Path
+
+    prose = (
+        Path(__file__).resolve().parent.parent / "manuscript" / "03_worked_regimes.md"
+    ).read_text()
+    assert "-4.58" in prose
+    assert "-0.38" in prose
+    assert "-11.5" not in prose
+    assert "-0.95" not in prose

@@ -1,100 +1,111 @@
 # Active Inference -- A Synthetic Overview: TODO
 
+Status: active
+Owner: Daniel Ari Friedman
+Last reviewed: 2026-08-16
+
 Forward roadmap for the educational overview. The guiding principle is
 **show, not tell**: each addition is a runnable, minimal, deterministic
 demonstration backed by tested code in `src/`, not more formalism.
 
-## Current state (`v0.5.0`)
+## Completed / Closed
 
-- **Numerical cores** (all deterministic, no RNG):
-  - `src/free_energy_flow.py` — the analytic Bayesian-mechanics flow
-    `f = (Q - Gamma) grad F` on an isotropic Gaussian free-energy landscape.
-  - `src/generative_model.py` — a discrete generative model (prior, likelihood,
-    joint, evidence, exact posterior), variational free energy with its
-    complexity−accuracy decomposition, the surprise bound `F >= -ln p(s)`, and a
-    gradient-descent belief updater (perception).
-  - `src/trajectories.py` — a fixed-step RK4 integrator over the flow, with
-    free-energy-along-path and net-rotation diagnostics, quantifying the
-    equilibrium(≈0) vs NESS(persistent-current) distinction (mechanics).
-  - `src/expected_free_energy.py` — expected free energy over policies, its
-    pragmatic (utility) / epistemic (information-gain) decomposition, and
-    argmin-EFE policy selection, yielding the explore/exploit balance (action).
-  - `src/markov_blanket.py` — Gaussian conditioning (Schur complement), partial
-    correlation, and a precision-zero-block blanket predicate, demonstrating
-    conditional independence of internal/external states (the boundary).
-  - `src/steady_state.py` — NESS current and entropy production (analytic).
-  - `src/_prob.py`, `src/ou_model.py`, `src/demos.py` — shared validators, flow model, demo fixtures.
-  - `src/project_paths.py` — canonical `output/figures/` paths for scripts and tests.
-  - `src/figures/` — shared Matplotlib builders; `render_all()` for atomic figure generation.
-- **Formal proofs:** `formal/` — a self-contained Lean 4 development (no mathlib)
-  machine-checking the load-bearing theorems: solenoidal orthogonality, the
-  free-energy-descent rate, detailed-balance equivalence, entropy-production
-  sign (Geometry.lean); Gibbs' inequality and the free-energy bound tight at the
-  posterior (Information.lean). Every headline theorem's `#print axioms` reports
-  exactly `[propept, Quot.sound]` — no `sorry`, no mathlib, no `Classical.choice`
-  (verified by `lake build`; see below). Verified by
-  `tests/test_formal_lean.py` (grep + real `lake build`).
-- **Figure orchestrators** (thin wrappers over `src/figures/`), one per section plus
-  `generate_all_figures.py` → six PNGs under `output/figures/`.
-- **Manuscript:** `00_abstract.md`, `01_extended_abstract.md` (`[@fig:overview]`),
-  `02_generative_model.md` (`[@fig:belief]`), `03_worked_regimes.md`
-  (`[@fig:trajectories]`), `04_expected_free_energy.md` (`[@fig:efe]`),
-  `05_markov_blanket.md` (`[@fig:blanket]`), `06_steady_state.md`
-  (`[@fig:steady]`), `07_formal_verification.md`, and `99_references.md` + `.bib`.
-- **Tests:** one no-mocks suite per core plus figure smoke tests — every
-  assertion bound to an analytic reference; configured `src/` coverage gate:
-  at least 90%.
+- **[DONE — §2]** Generative model / perception as VFE minimization
+  (`src/generative_model.py`, `[@fig:belief]`).
+- **[DONE — §3]** Worked equilibrium vs NESS trajectories
+  (`src/trajectories.py`, `[@fig:trajectories]`).
+- **[DONE — §4]** Expected free energy / explore–exploit
+  (`src/expected_free_energy.py`, `[@fig:efe]`).
+- **[DONE — §5]** Markov blanket / conditional independence
+  (`src/markov_blanket.py`, `[@fig:blanket]`).
+- **[DONE — §6]** Analytic NESS current and entropy production
+  (`src/steady_state.py`, `[@fig:steady]`).
+- **[DONE — §7]** Lean 4 formalization (`formal/`) with no `sorry`, no mathlib;
+  `#print axioms` is `[propext, Quot.sound]` (verified `lake build` 2026-08-16).
+- **[DONE — 2026-08-16]** Manuscript §3 quoted stale winding
+  ($\approx -11.5$ turns, $\approx -0.95$ turns/time) that matched entropy
+  production $\sigma=11.52$, not the demo
+  (`omega=2.4`, $T=12$ → $\approx -4.58$ turns, $\approx -0.38$ turns/time).
+  Fixed `manuscript/03_worked_regimes.md`; regression in
+  `tests/test_trajectories.py`.
+- **[DONE — 2026-08-16]** `variational_free_energy` / `vfe_components` returned
+  `±inf` (RuntimeWarning) when $q>0$ on a zero joint/likelihood entry; siblings
+  `kl_divergence` and `minimize_free_energy` already raised. Now raise
+  `ValueError` (`src/generative_model.py`).
+- **[DONE — 2026-08-16]** `figure_registry.yaml` caption called the equilibrium
+  path a "spiral"; equilibrium is a radial fall.
+- **[DONE — 2026-08-16]** `free_energy_flow` docstring called $\Gamma$ SPD;
+  `gamma == 0` is allowed and makes $\Gamma$ only SPSD.
+- **[DONE — 2026-08-16]** `CITATION.cff` said `type: dataset` and
+  `date-released: 2026-06-28`; aligned to `software` / `2026-07-22` with
+  manuscript + CodeMeta.
 
-## Validation evidence
+## Major
 
-- Project tests + coverage:
-  `uv run pytest tests/ --cov=src --cov-fail-under=90`
-- Regenerate all figures (deterministic):
-  `uv run python scripts/generate_all_figures.py`
-- Render the manuscript:
-  `uv run python scripts/pipeline/stage_03_render.py --project working/ActiveInferenceSynthetic`
+_None open._ Multi-step policies, a hierarchical model, and Lean-over-ℝ remain
+candidate expansions (below), not defects in the current contract.
 
-## Roadmap — one demonstration per section
+## Medium
 
-1. **[DONE — §2, `02_generative_model.md`]** **Generative model.** Minimal tested
-   generative model (states, observations, likelihood `p(s|x)`, prior `p(x)`) in
-   `src/generative_model.py`, with `[@fig:belief]` showing beliefs updating under
-   evidence and free energy falling to the surprise bound. Perception as
-   free-energy minimization.
-2. **[DONE — §4, `04_expected_free_energy.md`]** **Variational vs expected free
-   energy.** `src/expected_free_energy.py` contrasts VFE (perception) with EFE
-   (action selection over expected future outcomes), decomposing EFE into
-   pragmatic (utility) and epistemic (information-gain) value. `[@fig:efe]`
-   shows the explore/exploit flip: flat preferences → explore, sharp
-   preferences → exploit, from one `argmin G` rule.
-3. **[DONE — §5, `05_markov_blanket.md`]** **Markov blanket.**
-   `src/markov_blanket.py` demonstrates the statistical boundary — external
-   `eta`, sensory `s`, active `a`, internal `mu` — on a Gaussian with a zero
-   `eta`–`mu` precision block: internal and external states are marginally
-   dependent but conditionally independent given the blanket (`[@fig:blanket]`),
-   via the Schur complement and partial correlation.
-4. **[DONE — §3, `03_worked_regimes.md`]** **Worked equilibrium /
-   non-equilibrium examples.** `src/trajectories.py` integrates the flow into
-   concrete trajectories: an equilibrium system relaxing to the mode vs a NESS
-   system sustaining a persistent current, quantifying the difference as the
-   intrinsic rotation rate in `[@fig:trajectories]`.
+_None open from the 2026-08-16 review._ Remaining items are scoped expansions.
 
-## Candidate future directions (beyond the original roadmap)
+## Minor
 
-- **[DONE — §6, `06_steady_state.md`]** **Stochastic steady state.** Rather than
-  an RNG SDE integrator (which would break the no-RNG principle), `src/steady_state.py`
-  gives the NESS *analytically*: the Lyapunov stationary density, the closed-form
-  probability current `j=(QPx)ρ`, and the entropy-production rate — a genuine,
-  measurable current, closing the §3 gap without randomness.
 - **Multi-step policies.** Extend the EFE demo from one-step actions to short
   policies (sequences), showing planning as expected-free-energy minimization
   over trajectories of beliefs.
+  Files: `src/expected_free_energy.py`, new section / figure.
+  Why: the current demo isolates explore/exploit at one step; planning is the
+  next applicable claim.
+  Suggested: keep deterministic, no RNG; add no-mocks tests and a figure.
+
 - **Hierarchical / deep model.** A two-level generative model where the top
-  level's predictions are the lower level's priors — deep active inference.
+  level's predictions are the lower level's priors.
+  Files: new `src/` module + manuscript section.
+  Why: "deep active inference" is the natural next demonstration after one
+  discrete level.
+  Suggested: smallest two-level discrete model; bind claims to tests.
+
 - **Formal proofs over ℝ.** The Lean development works over ℤ (dependency-free).
   A mathlib-based extension could discharge the `LogAdd`/`Tangent` hypotheses
-  from `Real.log`'s actual properties, turning the free-energy bound into an
-  unconditional theorem about the real logarithm.
+  from `Real.log`'s actual properties.
+  Files: `formal/`.
+  Why: the free-energy bound would become an unconditional theorem about the
+  real logarithm.
+  Suggested: optional extra package, not a replacement of the no-mathlib core.
+
+- **Lyapunov fallback coverage is environment-sensitive.**
+  `src/steady_state.py:117-130` falls back to $\Sigma=P^{-1}$ when the
+  Kronecker solve residual is large. `test_stationary_covariance_falls_back_to_analytic_closed_form`
+  can pass via the *direct* path on some BLAS stacks (line 130 still uncovered
+  at 99.76%). Not a correctness bug — the analytic form is exact for this
+  isotropic $D=\Gamma$ class.
+  Suggested: prefer the closed form and keep Kronecker as a residual check, or
+  force the fallback with a residual the current NumPy cannot meet.
+
+## Current state (`v0.5.0`)
+
+- **Numerical cores** (all deterministic, no RNG): `src/free_energy_flow.py`,
+  `src/generative_model.py`, `src/trajectories.py`,
+  `src/expected_free_energy.py`, `src/markov_blanket.py`,
+  `src/steady_state.py`, plus `_prob.py`, `ou_model.py`, `demos.py`,
+  `project_paths.py`, `src/figures/`.
+- **Formal proofs:** `formal/` — Geometry.lean + Information.lean, audited by
+  `tests/test_formal_lean.py` and a real `lake build`.
+- **Figure orchestrators:** thin wrappers over `src/figures/` plus
+  `generate_all_figures.py` → six PNGs under `output/figures/`.
+- **Manuscript:** `00`–`07` + `99_references.md` / `.bib`.
+- **Tests:** no-mocks suite; configured `src/` coverage gate ≥90%.
+
+## Validation evidence
+
+- `uv run pytest tests/ --cov=src --cov-fail-under=90`
+- `uv run ruff check src scripts tests`
+- `uv run mypy src`
+- `uv run python scripts/generate_all_figures.py`
+- `(cd formal && lake build)`
+- Render: from the template checkout,
+  `uv run python scripts/pipeline/stage_03_render.py --project working/ActiveInferenceSynthetic`
 
 ## Working agreements
 
@@ -104,3 +115,5 @@ demonstration backed by tested code in `src/`, not more formalism.
 - Keep figures deterministic (fixed parameters, no RNG) so renders are reproducible.
 - Keep `data/claim_ledger.yaml` and `experiment_plan.yaml` describing only what the
   project's real code produces — no carryover from the upstream template.
+- Numeric claims in manuscript prose must match `src/demos.py` and the claim
+  ledger. Do not reuse $\sigma$ (nats/time) as a winding (turns).

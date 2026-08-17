@@ -263,3 +263,18 @@ def test_minimize_rejects_zero_prior_state() -> None:
     # A state with zero prior mass also gives a zero joint entry.
     with pytest.raises(ValueError, match="strictly positive joint"):
         minimize_free_energy(_LIKELIHOOD, np.array([1.0, 0.0]), 0)
+
+
+def test_vfe_rejects_zero_joint_where_q_positive() -> None:
+    # A state that makes s impossible yields p(s, x)=0. Returning +inf would
+    # match the math but break parity with kl_divergence / minimize_free_energy,
+    # which raise rather than emit a silent inf.
+    zero_support = np.array([[0.9, 0.0], [0.1, 1.0]])
+    with pytest.raises(ValueError, match="strictly positive"):
+        variational_free_energy(np.array([0.5, 0.5]), zero_support, _PRIOR, 0)
+
+
+def test_vfe_components_rejects_zero_likelihood_where_q_positive() -> None:
+    zero_support = np.array([[0.9, 0.0], [0.1, 1.0]])
+    with pytest.raises(ValueError, match="strictly positive"):
+        vfe_components(np.array([0.5, 0.5]), zero_support, _PRIOR, 0)

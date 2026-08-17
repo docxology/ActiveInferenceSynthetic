@@ -52,7 +52,7 @@ from dataclasses import dataclass
 import numpy as np
 from numpy.typing import NDArray
 
-from ._prob import as_column_stochastic, as_distribution, as_prob_vector
+from ._prob import as_column_stochastic, as_distribution, as_prob_vector, kl_divergence
 
 __all__ = [
     "BeliefDescent",
@@ -161,6 +161,11 @@ def variational_free_energy(
         raise ValueError(f"q length {qv.shape[0]} != state count {p.shape[0]}")
     joint_x = a_row * p
     mask = qv > 0.0
+    if np.any(joint_x[mask] <= 0.0):
+        raise ValueError(
+            "variational_free_energy: joint p(s, x) must be strictly positive "
+            "where q > 0 (finite log)"
+        )
     return float(np.sum(qv[mask] * (np.log(qv[mask]) - np.log(joint_x[mask]))))
 
 
@@ -183,7 +188,12 @@ def vfe_components(
     if qv.shape[0] != p.shape[0]:
         raise ValueError(f"q length {qv.shape[0]} != state count {p.shape[0]}")
     mask = qv > 0.0
-    complexity = float(np.sum(qv[mask] * (np.log(qv[mask]) - np.log(p[mask]))))
+    if np.any(a_row[mask] <= 0.0):
+        raise ValueError(
+            "vfe_components: likelihood p(s | x) must be strictly positive "
+            "where q > 0 (finite log)"
+        )
+    complexity = kl_divergence(qv, p)
     accuracy = float(np.sum(qv[mask] * np.log(a_row[mask])))
     return complexity, accuracy
 

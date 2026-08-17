@@ -7,7 +7,7 @@ authors:
   family-names: Mikhailova
   given-names: Alexandra
 cff-version: 1.2.0
-date-released: "2026-06-28"
+date-released: "2026-07-22"
 keywords:
 - active inference
 - free energy principle
@@ -18,5 +18,5 @@ keywords:
 license: CC-BY-4.0
 message: If you use this work, please cite it using the metadata from this file.
 title: "Active Inference -- A Synthetic Overview"
-type: dataset
+type: software
 version: "0.5.0"
