@@ -10,6 +10,14 @@ demonstration backed by tested code in `src/`, not more formalism.
 
 ## Completed / Closed
 
+- **[DONE — §8 — 2026-08-19]** Multi-step policies: planning as EFE
+  minimization over action sequences (`src/policy_planning.py`,
+  `[@fig:planning]`, manuscript `08_planning.md`). Two-step demo: with sharp
+  terminal preferences the argmin plan is cue-then-bet ("look, then leap";
+  G=0.07) over bet-first (G=0.43) — exploration is deferred exploitation.
+  Epistemic term equals I(s; o_{1:T}) by the KL chain rule, cross-checked
+  against an independent brute-force mutual information in tests.
+  19 new no-mocks tests; figure + tokens + claim ledger entries added.
 - **[DONE — §2]** Generative model / perception as VFE minimization
   (`src/generative_model.py`, `[@fig:belief]`).
 - **[DONE — §3]** Worked equilibrium vs NESS trajectories
@@ -56,14 +64,6 @@ candidate expansions (below), not defects in the current contract.
 _None open from the 2026-08-16 review._ Remaining items are scoped expansions.
 
 ## Minor
-
-- **Multi-step policies.** Extend the EFE demo from one-step actions to short
-  policies (sequences), showing planning as expected-free-energy minimization
-  over trajectories of beliefs.
-  Files: `src/expected_free_energy.py`, new section / figure.
-  Why: the current demo isolates explore/exploit at one step; planning is the
-  next applicable claim.
-  Suggested: keep deterministic, no RNG; add no-mocks tests and a figure.
 
 - **Hierarchical / deep model.** A two-level generative model where the top
   level's predictions are the lower level's priors.

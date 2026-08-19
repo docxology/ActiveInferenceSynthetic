@@ -25,6 +25,8 @@ from .demos import (
     FLAT_PREFERENCES,
     LIKELIHOOD,
     OMEGA_NESS,
+    PLANNING_HORIZON,
+    PLANNING_PREFERENCES,
     PRIOR,
     SHARP_PREFERENCES,
     TRAJECTORY_DT,
@@ -33,6 +35,7 @@ from .demos import (
     TRAJECTORY_STEPS,
 )
 from .expected_free_energy import epistemic_value, expected_free_energy
+from .policy_planning import select_multistep_policy
 from .generative_model import evidence, joint, posterior
 from .markov_blanket import correlation_matrix, covariance_from_precision
 from .project_paths import project_output_dirs
@@ -73,6 +76,11 @@ def compute_claims() -> dict[str, float]:
     cov = covariance_from_precision(BLANKET_PRECISION)
     corr = float(correlation_matrix(cov)[BLANKET_ETA_IDX, BLANKET_MU_IDX])
     cue, bet = ACTIONS
+    plan = select_multistep_policy(
+        ACTIONS, BELIEF, PLANNING_PREFERENCES, PLANNING_HORIZON
+    )
+    look_then_leap = plan.policies.index((0, 1))
+    exploit_first = plan.policies.index((1, 1))
     return {
         "prior_x0": float(PRIOR[0]),
         "prior_x1": float(PRIOR[1]),
@@ -94,6 +102,11 @@ def compute_claims() -> dict[str, float]:
         "efe_flat_bet": float(expected_free_energy(bet, BELIEF, FLAT_PREFERENCES)),
         "efe_sharp_cue": float(expected_free_energy(cue, BELIEF, SHARP_PREFERENCES)),
         "efe_sharp_bet": float(expected_free_energy(bet, BELIEF, SHARP_PREFERENCES)),
+        "planning_horizon": float(PLANNING_HORIZON),
+        "planning_efe_look_then_leap": float(plan.efe[look_then_leap]),
+        "planning_efe_exploit_first": float(plan.efe[exploit_first]),
+        "planning_epistemic_look_then_leap": float(plan.epistemic[look_then_leap]),
+        "planning_pragmatic_look_then_leap": float(plan.pragmatic[look_then_leap]),
         "blanket_corr": corr,
         "ness_sigma": float(
             entropy_production_rate(
@@ -140,6 +153,15 @@ def generate_variables(project_root: Path | None = None) -> dict[str, str]:
         "EFE_FLAT_BET": _approx(claims["efe_flat_bet"]),
         "EFE_SHARP_CUE": _approx(claims["efe_sharp_cue"]),
         "EFE_SHARP_BET": _approx(claims["efe_sharp_bet"]),
+        "PLANNING_HORIZON": str(int(claims["planning_horizon"])),
+        "PLANNING_EFE_LOOK_THEN_LEAP": _approx(claims["planning_efe_look_then_leap"]),
+        "PLANNING_EFE_EXPLOIT_FIRST": _approx(claims["planning_efe_exploit_first"]),
+        "PLANNING_EPISTEMIC_LOOK_THEN_LEAP": _approx(
+            claims["planning_epistemic_look_then_leap"]
+        ),
+        "PLANNING_PRAGMATIC_LOOK_THEN_LEAP": _approx(
+            claims["planning_pragmatic_look_then_leap"]
+        ),
         "BLANKET_CORR": _approx(claims["blanket_corr"]),
         "NESS_SIGMA": _approx(claims["ness_sigma"]),
         "NESS_SIGMA_APPROX": _approx(claims["ness_sigma"], 1),

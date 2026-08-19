@@ -23,6 +23,9 @@ Fifth iteration (`v0.5.0`). The manuscript currently contains:
 - **`manuscript/04_expected_free_energy.md`** — *action*: variational vs
   **expected** free energy, whose pragmatic and epistemic terms produce the
   explore/exploit balance from one rule ([@fig:efe]).
+- **`manuscript/08_planning.md`** — *planning*: policies as action
+  sequences; EFE minimization over sequences makes "look, then leap"
+  emerge (`src/policy_planning.py`, `[@fig:planning]`).
 - **`manuscript/05_markov_blanket.md`** — *the boundary*: internal and external
   states are marginally dependent but conditionally independent given the
   sensory/active blanket ([@fig:blanket]).

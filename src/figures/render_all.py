@@ -4,13 +4,22 @@ from __future__ import annotations
 
 from pathlib import Path
 
-from . import belief, blanket, efe, overview, steady_state, trajectories_figure
+from . import (
+    belief,
+    blanket,
+    efe,
+    overview,
+    policy_planning,
+    steady_state,
+    trajectories_figure,
+)
 
 FIGURE_RENDERERS = {
     "active_inference_overview.png": overview.render,
     "belief_update.png": belief.render,
     "worked_trajectories.png": trajectories_figure.render,
     "expected_free_energy.png": efe.render,
+    "policy_planning.png": policy_planning.render,
     "markov_blanket.png": blanket.render,
     "steady_state_current.png": steady_state.render,
 }

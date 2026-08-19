@@ -40,6 +40,14 @@ figures:
     builder: src/figures/efe.py
     script: scripts/generate_efe_figure.py
 
+  - id: fig:planning
+    file: output/figures/policy_planning.png
+    section: planning
+    caption: "Planning as EFE minimization — over two-step policies the argmin plan is cue-then-bet (look, then leap), beating the one-step exploit optimum because the terminal bet is placed under the sharpened post-cue belief."
+    alt_text: "Bar chart of expected free energy over the four two-step policies (cue-cue, cue-bet, bet-cue, bet-bet) with pragmatic and epistemic annotations; cue-then-bet has the lowest G and is highlighted."
+    builder: src/figures/policy_planning.py
+    script: scripts/generate_policy_planning_figure.py
+
   - id: fig:blanket
     file: output/figures/markov_blanket.png
     section: markov-blanket

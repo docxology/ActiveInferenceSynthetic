@@ -173,3 +173,35 @@ claims:
     source_tier: derived
     freshness: active
     artifact_path: output/figures/steady_state_current.png
+
+  - claim_id: planning-horizon-two
+    kind: number
+    value: 2
+    source: src/demos.py PLANNING_HORIZON
+    source_tier: project_source
+    freshness: active
+    artifact_path: output/figures/policy_planning.png
+
+  - claim_id: planning-look-then-leap-efe
+    kind: number
+    value: 0.07
+    source: src/policy_planning.py select_multistep_policy(demos constants, horizon 2) efe of policy (cue, bet)
+    source_tier: derived
+    freshness: active
+    artifact_path: output/figures/policy_planning.png
+
+  - claim_id: planning-exploit-first-efe
+    kind: number
+    value: 0.43
+    source: src/policy_planning.py select_multistep_policy(demos constants, horizon 2) efe of policy (bet, bet)
+    source_tier: derived
+    freshness: active
+    artifact_path: output/figures/policy_planning.png
+
+  - claim_id: planning-look-then-leap-epistemic
+    kind: number
+    value: 0.37
+    source: src/policy_planning.py evaluate_policy epistemic term of policy (cue, bet)
+    source_tier: derived
+    freshness: active
+    artifact_path: output/figures/policy_planning.png

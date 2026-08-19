@@ -28,7 +28,7 @@ def tmp_project_root(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> Path:
 
 def test_render_all_writes_manifest(tmp_project_root: Path) -> None:
     manifest = render_all(tmp_project_root)
-    assert len(manifest) == 6
+    assert len(manifest) == 7
     for path in manifest.values():
         assert path.is_file()
         assert path.stat().st_size > 0

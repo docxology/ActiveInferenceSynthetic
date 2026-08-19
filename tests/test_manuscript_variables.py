@@ -109,6 +109,16 @@ def test_claim_ledger_matches_live_claims() -> None:
     assert by_id["efe-cue-epistemic-value"] == pytest.approx(
         claims["efe_cue_epistemic"], rel=1e-8
     )
+    assert by_id["planning-horizon-two"] == pytest.approx(claims["planning_horizon"])
+    assert by_id["planning-look-then-leap-efe"] == pytest.approx(
+        claims["planning_efe_look_then_leap"], abs=0.005
+    )
+    assert by_id["planning-exploit-first-efe"] == pytest.approx(
+        claims["planning_efe_exploit_first"], abs=0.005
+    )
+    assert by_id["planning-look-then-leap-epistemic"] == pytest.approx(
+        claims["planning_epistemic_look_then_leap"], abs=0.005
+    )
     assert by_id["steady-state-entropy-production-ness"] == pytest.approx(
         claims["ness_sigma"]
     )

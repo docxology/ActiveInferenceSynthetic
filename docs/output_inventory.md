@@ -9,6 +9,7 @@ Registered figures:
 - `belief_update.png`
 - `worked_trajectories.png`
 - `expected_free_energy.png`
+- `policy_planning.png`
 - `markov_blanket.png`
 - `steady_state_current.png`
 

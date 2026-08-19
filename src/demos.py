@@ -30,6 +30,13 @@ ACTIONS = [CUE, BET]
 FLAT_PREFERENCES: NDArray[np.float64] = np.array([0.5, 0.5])
 SHARP_PREFERENCES: NDArray[np.float64] = np.array([0.9, 0.1])
 
+# Multi-step planning (policy-sequence EFE figure).
+#: Planning horizon: two steps — look, then leap.
+PLANNING_HORIZON = 2
+#: Terminal preferences for the planning demo (same sharp preferences under
+#: which the *one-step* rule exploits — the sequencing is what flips it).
+PLANNING_PREFERENCES: NDArray[np.float64] = SHARP_PREFERENCES
+
 # Markov blanket (4-variable Gaussian).
 BLANKET_PRECISION: NDArray[np.float64] = np.array(
     [
