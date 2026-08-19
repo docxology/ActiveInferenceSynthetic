@@ -14,3 +14,6 @@ __pycache__/
 # Generated token map + hydrated manuscript (recreate via z_generate)
 output/data/
 output/manuscript/
+
+# Local credentials (never commit)
+.env
