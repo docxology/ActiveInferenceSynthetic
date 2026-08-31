@@ -12,6 +12,7 @@ Ordered source for **Active Inference — A Synthetic Overview**.
 | `05_markov_blanket.md` | conditional independence |
 | `06_steady_state.md` | current and entropy production |
 | `07_formal_verification.md` | Lean-checked claims |
+| `08_planning.md` | planning as EFE minimization over action sequences |
 | `99_references.md` | bibliography section |
 
 Metadata lives in `config.yaml`; citations in `references.bib`; figure metadata

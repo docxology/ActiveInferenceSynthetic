@@ -15,8 +15,10 @@ No mock frameworks. Every assertion uses real numerics or subprocess/tool execut
 | `test_markov_blanket.py` | `src/markov_blanket.py` |
 | `test_steady_state.py` | `src/steady_state.py` |
 | `test_figures.py` | `src/figures/` |
-| `test_generate_*.py` | Script smoke tests |
-| `test_formal_lean.py` | `formal/` Lean build |
+| `test_generate_*.py` / `test_preflight_standalone.py` | Script smoke tests |
+| `test_manuscript_variables.py` | `src/manuscript_variables.py` |
+| `test_policy_planning.py` | `src/policy_planning.py` |
+| `test_formal_lean.py` | `formal/` Lean sources + real `lake build` |
 | `test_project_paths.py` | `src/project_paths.py` |
 
 ## Running

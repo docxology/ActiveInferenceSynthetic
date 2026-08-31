@@ -2,7 +2,7 @@
 
 Status: active
 Owner: Daniel Ari Friedman
-Last reviewed: 2026-08-16
+Last reviewed: 2026-08-30
 
 Forward roadmap for the educational overview. The guiding principle is
 **show, not tell**: each addition is a runnable, minimal, deterministic
@@ -28,13 +28,15 @@ demonstration backed by tested code in `src/`, not more formalism.
   (`src/markov_blanket.py`, `[@fig:blanket]`).
 - **[DONE — §6]** Analytic NESS current and entropy production
   (`src/steady_state.py`, `[@fig:steady]`).
-- **[DONE — §7]** Lean 4 formalization (`formal/`) with no `sorry`, no mathlib;
-  `#print axioms` is `[propext, Quot.sound]` (verified `lake build` 2026-08-16).
+- **[DONE — §7]** Lean 4 formalization (`formal/`) with no `sorry`; the original
+  ℤ-only surface reports `#print axioms` `[propext, Quot.sound]` (verified
+  `lake build` 2026-08-16). Since extended: ℝ theorems are now re-exported from
+  the companion fep_lean library (see Current state below).
 - **[DONE — 2026-08-16]** Manuscript §3 quoted stale winding
   ($\approx -11.5$ turns, $\approx -0.95$ turns/time) that matched entropy
   production $\sigma=11.52$, not the demo
   (`omega=2.4`, $T=12$ → $\approx -4.58$ turns, $\approx -0.38$ turns/time).
-  Fixed `manuscript/03_worked_regimes.md`; regression in
+  Fixed `docs/manuscript/03_worked_regimes.md`; regression in
   `tests/test_trajectories.py`.
 - **[DONE — 2026-08-16]** `variational_free_energy` / `vfe_components` returned
   `±inf` (RuntimeWarning) when $q>0$ on a zero joint/likelihood entry; siblings
@@ -72,13 +74,12 @@ _None open from the 2026-08-16 review._ Remaining items are scoped expansions.
   discrete level.
   Suggested: smallest two-level discrete model; bind claims to tests.
 
-- **Formal proofs over ℝ.** The Lean development works over ℤ (dependency-free).
-  A mathlib-based extension could discharge the `LogAdd`/`Tangent` hypotheses
-  from `Real.log`'s actual properties.
-  Files: `formal/`.
-  Why: the free-energy bound would become an unconditional theorem about the
-  real logarithm.
-  Suggested: optional extra package, not a replacement of the no-mathlib core.
+- **Formal proofs over ℝ (in progress).** The ℝ surface is now provided by the
+  companion fep_lean library (`Geometry.lean`/`Information.lean` re-export
+  mathlib-backed ℝ theorems). Remaining: tighten the coupling so the ℤ
+  hypotheses in `Sanity.lean` are discharged from `Real.log` where the two
+  surfaces overlap, and keep the ℤ core as a dependency-free regression surface.
+  Files: `formal/`, fep_lean.
 
 ## Current state (`v0.5.0`)
 
@@ -87,10 +88,11 @@ _None open from the 2026-08-16 review._ Remaining items are scoped expansions.
   `src/expected_free_energy.py`, `src/markov_blanket.py`,
   `src/steady_state.py`, plus `_prob.py`, `ou_model.py`, `demos.py`,
   `project_paths.py`, `src/figures/`.
-- **Formal proofs:** `formal/` — Geometry.lean + Information.lean, audited by
-  `tests/test_formal_lean.py` and a real `lake build`.
+- **Formal proofs:** `formal/` — two surfaces: ℝ (imported from the companion
+  fep_lean library; manuscript-canonical) and a legacy ℤ surface (Lean core
+  only), audited by `tests/test_formal_lean.py` and a real `lake build`.
 - **Figure orchestrators:** thin wrappers over `src/figures/` plus
-  `generate_all_figures.py` → six PNGs under `output/figures/`.
+  `generate_all_figures.py` → seven PNGs under `output/figures/`.
 - **Manuscript:** `00`–`07` + `99_references.md` / `.bib`.
 - **Tests:** no-mocks suite; configured `src/` coverage gate ≥90%.
 

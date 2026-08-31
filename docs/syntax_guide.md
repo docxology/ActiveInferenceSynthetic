@@ -5,7 +5,7 @@
 - Inline mathematics uses `$...$`; display equations use `$$...$$`.
 - Code paths and symbols use backticks.
 - Every registered figure needs a PNG path, caption, and alt text in
-  `manuscript/figure_registry.yaml`.
+  `docs/manuscript/figure_registry.yaml`.
 
 Current labels:
 
@@ -15,5 +15,6 @@ Current labels:
 | `fig:belief` | belief and VFE descent |
 | `fig:trajectories` | integrated trajectories |
 | `fig:efe` | policy EFE decomposition |
+| `fig:planning` | multi-step policy planning (look, then leap) |
 | `fig:blanket` | Gaussian Markov blanket |
 | `fig:steady` | stationary probability current |

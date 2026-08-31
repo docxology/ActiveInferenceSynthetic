@@ -33,12 +33,13 @@ Educational Active Inference overview project (private sidecar, symlinked from
 
 | Script | Output |
 | --- | --- |
-| `generate_all_figures.py` | All six PNGs + hydrate manuscript tokens |
+| `generate_all_figures.py` | All seven PNGs + hydrate manuscript tokens |
 | `z_generate_manuscript_variables.py` | `output/data/manuscript_variables.json` + `output/manuscript/` |
 | `generate_overview_figure.py` | `active_inference_overview.png` |
 | `generate_belief_update_figure.py` | `belief_update.png` |
 | `generate_trajectory_figure.py` | `worked_trajectories.png` |
 | `generate_efe_figure.py` | `expected_free_energy.png` |
+| `generate_policy_planning_figure.py` | `policy_planning.png` |
 | `generate_markov_blanket_figure.py` | `markov_blanket.png` |
 | `generate_steady_state_figure.py` | `steady_state_current.png` |
 | `00_preflight.py` | Manuscript preflight via infrastructure |
@@ -60,4 +61,4 @@ cd formal && lake build
 
 ## Version
 
-Manuscript and package version: **0.5.0** (`manuscript/config.yaml`, `pyproject.toml`).
+Manuscript and package version: **0.5.0** (`docs/manuscript/config.yaml`, `pyproject.toml`).
