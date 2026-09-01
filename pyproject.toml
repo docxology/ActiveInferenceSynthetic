@@ -72,4 +72,4 @@ line-length = 88
 [tool.ruff.lint.per-file-ignores]
 # The thin figure scripts insert the project root on sys.path before importing
 # `src.*`; that legitimate bootstrap must precede the imports (E402).
-"scripts/*.py" = ["E402"]
+"scripts/*.py" = ["E402", "N999"]

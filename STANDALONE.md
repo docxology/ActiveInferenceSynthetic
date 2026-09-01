@@ -9,7 +9,7 @@ template checkout as `projects/working/ActiveInferenceSynthetic`.
 - Project tests under `tests/`
 - Figure generation under `src/figures/` and `scripts/`
 - Lean 4 development under `formal/`
-- Manuscript sources and metadata under `manuscript/`
+- Manuscript sources and metadata under `docs/manuscript/`
 
 ## Template-dependent surfaces
 

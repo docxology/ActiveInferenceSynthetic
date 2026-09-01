@@ -9,5 +9,5 @@
 | `output/web/*` | template render stage |
 | `output/reports/*` | validation and publication stages |
 
-Stable source inputs live in `src/`, `formal/`, `data/`, and `manuscript/`.
+Stable source inputs live in `src/`, `formal/`, `data/`, and `docs/manuscript/`.
 Never repair a source defect by editing a generated artifact.

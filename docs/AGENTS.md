@@ -7,9 +7,9 @@ valid from the project root unless a guide explicitly says “template root.”
 
 - Public Python API: [`../src/__init__.py`](../src/__init__.py)
 - Figure registry: [`../src/figures/render_all.py`](../src/figures/render_all.py)
-- Manuscript order: [`../manuscript/`](../manuscript/)
+- Manuscript order: [`../docs/manuscript/`](../docs/manuscript/)
 - Package version: [`../pyproject.toml`](../pyproject.toml)
-- Render metadata: [`../manuscript/config.yaml`](../manuscript/config.yaml)
+- Render metadata: [`../docs/manuscript/config.yaml`](../docs/manuscript/config.yaml)
 - Formal modules: [`../formal/ActiveInferenceFormal/`](../formal/ActiveInferenceFormal/)
 
 Do not copy measured test counts into long-lived prose. State the configured

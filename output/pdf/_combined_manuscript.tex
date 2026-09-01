@@ -826,16 +826,22 @@ demonstration --- \emph{show, not tell} at the level of numerics. This
 section takes the discipline one level deeper: the load-bearing
 \emph{mathematical} claims are not only computed and tested, they are
 \textbf{machine-checked}. A small self-contained Lean 4 development in
-\texttt{formal/} proves them from the proof assistant's core axioms,
-with no \texttt{sorry} and no external library. Where \texttt{src/}
-guarantees the numbers are right, \texttt{formal/} guarantees the
-theorems are.
+\texttt{formal/} proves them with no \texttt{sorry}. The development has
+two surfaces: the manuscript-canonical \texorpdfstring{\ensuremath{\mathbb{R}}}{R} theorems are re-exported, with
+exposition, from the companion \textbf{fep\_lean} library
+(mathlib-backed), while a legacy \texorpdfstring{\ensuremath{\mathbb{Z}}}{Z} surface proves the same structural
+statements from Lean's core axioms alone. Where \texttt{src/} guarantees
+the numbers are right, \texttt{formal/} guarantees the theorems are.
 
-The formalization is organized into two modules that mirror the two
-halves of the overview. \breaktt{ActiveInferenceFormal.Geometry} proves
-the facts behind the flow and the steady state;
-\breaktt{ActiveInferenceFormal.Information} proves the facts behind
-perception. The headline results:
+The formalization mirrors the two halves of the overview.
+\breaktt{ActiveInferenceFormal.Geometry} and
+\breaktt{ActiveInferenceFormal.GeometryZ} carry the facts behind the flow
+and the steady state (\texorpdfstring{\ensuremath{\mathbb{R}}}{R} and \texorpdfstring{\ensuremath{\mathbb{Z}}}{Z} respectively);
+\breaktt{ActiveInferenceFormal.Information} and
+\breaktt{ActiveInferenceFormal.InformationZ} carry the facts behind
+perception, and \texttt{Bridge.lean} maps the three evidence surfaces
+--- Python, formal \texorpdfstring{\ensuremath{\mathbb{R}}}{R}, formal \texorpdfstring{\ensuremath{\mathbb{Z}}}{Z} --- onto one another. The headline
+results:
 
 {\def\LTcaptype{none} % do not increment counter
 \begin{longtable}[]{@{}
@@ -922,10 +928,11 @@ certify the theorems are faithful, not vacuous.
 
 The guarantee is auditable. The \texttt{Audit} module runs
 \texttt{\#print\ axioms} on each headline theorem \emph{and each
-witness}, and a build reports for every one that it
+witness}. Every \texorpdfstring{\ensuremath{\mathbb{Z}}}{Z} theorem reports
 \texttt{depends\ on\ axioms:\ {[}propext,\ Quot.sound{]}} --- Lean's
-standard trusted core --- and never \texttt{sorryAx}. The project's test
-suite runs the real \texttt{lake\ build}, inspects that output, and
+standard trusted core --- and the \texorpdfstring{\ensuremath{\mathbb{R}}}{R} theorems report the standard mathlib
+footprint; no theorem ever depends on \texttt{sorryAx}. The project's
+test suite runs the real \texttt{lake\ build}, inspects that output, and
 checks the non-vacuity witnesses are present, so the ``it is proved, and
 it is not vacuous'' claim is itself tested rather than asserted. In the
 spirit of the whole overview: the strongest thing you can say about a
@@ -981,6 +988,25 @@ Averaging \emph{first} (the posterior-mixture shortcut) would collapse
 every branch's posterior back to the prior and erase the value of
 looking before leaping.
 
+\begin{figure}
+\centering
+\includegraphics[width=0.94\linewidth,height=0.5\textheight,keepaspectratio,alt={Planning as expected-free-energy minimization. The same agent and preferences as sec.~ now plan over two-step policies. All four plans are scored exactly (branch enumeration, no sampling): bars are G(\textbackslash pi), annotated with pragmatic/epistemic splits. Cue-then-bet wins (G = 0.07): the first action collects epistemic value (+0.37 nats), and the terminal bet is then placed under the sharpened belief. Betting first (G = 0.43) pays the same either way and forgoes the information --- under these sharp preferences the one-step optimum is not the plan optimum. Exploration is deferred exploitation. Rendered deterministically by scripts/generate\_policy\_planning\_figure.py over the tested core in src/policy\_planning.py.}]{../figures/policy_planning.png}
+\caption{\textbf{Planning as expected-free-energy minimization.} The
+same agent and preferences as sec.~\ref{sec:expected-free-energy} now
+plan over two-step policies. All four plans are scored exactly (branch
+enumeration, no sampling): bars are \(G(\pi)\), annotated with
+pragmatic/epistemic splits. \textbf{Cue-then-bet wins} (\(G = 0.07\)):
+the first action collects epistemic value (\(+0.37\) nats), and the
+terminal bet is then placed under the sharpened belief. Betting first
+(\(G = 0.43\)) pays the same either way and forgoes the information ---
+under these sharp preferences the \emph{one-step} optimum is not the
+\emph{plan} optimum. Exploration is deferred exploitation. Rendered
+deterministically by
+\protect\breaktt{scripts/generate\_policy\_planning\_figure.py} over the
+tested core in
+\protect\breaktt{src/policy\_planning.py}.}\label{fig:planning}
+\end{figure}
+
 fig.~\ref{fig:planning} evaluates all four two-step policies. The winner
 is \textbf{cue then bet}: look, resolve the uncertainty (epistemic value
 \(+0.37\) nats), and \emph{then} place the wager the sharpened belief
@@ -1005,8 +1031,8 @@ natural next expansions, and are recorded as such in the roadmap.
 \section{References}\label{sec:references}
 
 Bibliography lives in
-\href{references.bib}{\breaktt{manuscript/references.bib}} and is read by
-Pandoc during PDF render. The build pipeline invokes Pandoc with
+\href{references.bib}{\breaktt{docs/manuscript/references.bib}} and is
+read by Pandoc during PDF render. The build pipeline invokes Pandoc with
 \texttt{-\/-natbib}, so every \texttt{{[}@key{]}} citation in the
 manuscript is rewritten to the appropriate
 \texttt{\textbackslash{}cite\{\}}/\texttt{\textbackslash{}citep\{\}}/\texttt{\textbackslash{}citet\{\}}
@@ -1018,7 +1044,7 @@ contains the required fields per entry type:
 \begin{Shaded}
 \begin{Highlighting}[]
 \ExtensionTok{uv}\NormalTok{ run python }\AttributeTok{{-}m}\NormalTok{ infrastructure.reference.citation.cli validate }\DataTypeTok{\textbackslash{}}
-\NormalTok{    projects/working/ActiveInferenceSynthetic/manuscript/references.bib }\AttributeTok{{-}{-}strict}
+\NormalTok{    projects/working/ActiveInferenceSynthetic/docs/manuscript/references.bib }\AttributeTok{{-}{-}strict}
 \end{Highlighting}
 \end{Shaded}
 

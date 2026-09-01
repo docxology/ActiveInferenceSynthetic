@@ -480,14 +480,18 @@ Every preceding section pairs a claim with a runnable, tested demonstration —
 *show, not tell* at the level of numerics. This section takes the discipline one
 level deeper: the load-bearing *mathematical* claims are not only computed and
 tested, they are **machine-checked**. A small self-contained Lean 4 development
-in `formal/` proves them from the proof assistant's core axioms, with no `sorry`
-and no external library. Where `src/` guarantees the numbers are right, `formal/`
-guarantees the theorems are.
+in `formal/` proves them with no `sorry`. The development has two surfaces: the
+manuscript-canonical ℝ theorems are re-exported, with exposition, from the
+companion **fep_lean** library (mathlib-backed), while a legacy ℤ surface proves
+the same structural statements from Lean's core axioms alone. Where `src/`
+guarantees the numbers are right, `formal/` guarantees the theorems are.
 
-The formalization is organized into two modules that mirror the two halves of
-the overview. `ActiveInferenceFormal.Geometry` proves the facts behind the flow
-and the steady state; `ActiveInferenceFormal.Information` proves the facts behind
-perception. The headline results:
+The formalization mirrors the two halves of the overview.
+`ActiveInferenceFormal.Geometry` and `ActiveInferenceFormal.GeometryZ` carry the
+facts behind the flow and the steady state (ℝ and ℤ respectively);
+`ActiveInferenceFormal.Information` and `ActiveInferenceFormal.InformationZ`
+carry the facts behind perception, and `Bridge.lean` maps the three evidence
+surfaces — Python, formal ℝ, formal ℤ — onto one another. The headline results:
 
 | Lean theorem | What it establishes | Section |
 |---|---|---|
@@ -538,9 +542,10 @@ gap, $-6 \le -4$, equal to the relative entropy $2$. Necessity and satisfiabilit
 together certify the theorems are faithful, not vacuous.
 
 The guarantee is auditable. The `Audit` module runs `#print axioms` on each
-headline theorem *and each witness*, and a build reports for every one that it
+headline theorem *and each witness*. Every ℤ theorem reports
 `depends on axioms: [propext, Quot.sound]` — Lean's standard trusted core — and
-never `sorryAx`. The project's test suite runs the real `lake build`, inspects
+the ℝ theorems report the standard mathlib footprint; no theorem ever depends on
+`sorryAx`. The project's test suite runs the real `lake build`, inspects
 that output, and checks the non-vacuity witnesses are present, so the "it is
 proved, and it is not vacuous" claim is itself tested rather than asserted. In the
 spirit of the whole overview: the strongest thing you can say about a
@@ -597,6 +602,19 @@ expectation — which is exactly why information has value. Averaging *first*
 (the posterior-mixture shortcut) would collapse every branch's posterior back
 to the prior and erase the value of looking before leaping.
 
+![**Planning as expected-free-energy minimization.** The same agent and
+preferences as [@sec:expected-free-energy] now plan over two-step policies. All
+four plans are scored exactly (branch enumeration, no sampling): bars are
+$G(\pi)$, annotated with pragmatic/epistemic splits. **Cue-then-bet wins**
+($G = 0.07$): the first action collects epistemic
+value ($+0.37$ nats), and the terminal bet is
+then placed under the sharpened belief. Betting first
+($G = 0.43$) pays the same either way and forgoes the
+information — under these sharp preferences the *one-step* optimum is not the
+*plan* optimum. Exploration is deferred exploitation. Rendered
+deterministically by `scripts/generate_policy_planning_figure.py` over the
+tested core in `src/policy_planning.py`.](../figures/policy_planning.png){#fig:planning width=94%}
+
 [@fig:planning] evaluates all four two-step policies. The winner is **cue
 then bet**: look, resolve the uncertainty (epistemic value
 $+0.37$ nats), and *then* place the wager the
@@ -624,11 +642,11 @@ are recorded as such in the roadmap.
 
 # References {#sec:references}
 
-Bibliography lives in [`manuscript/references.bib`](references.bib) and is read by Pandoc during PDF render. The build pipeline invokes Pandoc with `--natbib`, so every `[@key]` citation in the manuscript is rewritten to the appropriate `\cite{}`/`\citep{}`/`\citet{}` LaTeX command and resolved against the bib file.
+Bibliography lives in [`docs/manuscript/references.bib`](references.bib) and is read by Pandoc during PDF render. The build pipeline invokes Pandoc with `--natbib`, so every `[@key]` citation in the manuscript is rewritten to the appropriate `\cite{}`/`\citep{}`/`\citet{}` LaTeX command and resolved against the bib file.
 
 To validate that `references.bib` is syntactically clean and contains the required fields per entry type:
 
 ```bash
 uv run python -m infrastructure.reference.citation.cli validate \
-    projects/working/ActiveInferenceSynthetic/manuscript/references.bib --strict
+    projects/working/ActiveInferenceSynthetic/docs/manuscript/references.bib --strict
 ```

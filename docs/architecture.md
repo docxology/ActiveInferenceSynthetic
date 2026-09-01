@@ -8,7 +8,7 @@ flowchart LR
     Cores --> Figures[src/figures]
     Figures --> Scripts[scripts/generate_*]
     Scripts --> Output[output/figures]
-    Manuscript[manuscript/*.md] --> Renderer[Template renderer]
+    Manuscript[docs/manuscript/*.md] --> Renderer[Template renderer]
     Output --> Renderer
     Lean[formal/ActiveInferenceFormal] --> Proofs[Machine-checked claims]
 ```

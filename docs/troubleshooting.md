@@ -16,7 +16,7 @@ uv run python scripts/generate_all_figures.py
 ## Rendering cannot resolve figures
 
 Regenerate figures, then confirm all paths declared in
-`manuscript/figure_registry.yaml` exist under `output/figures/`.
+`docs/manuscript/figure_registry.yaml` exist under `output/figures/`.
 
 ## Lean checks are unavailable
 
