@@ -4,25 +4,35 @@ Released under the CC-BY-4.0 license (matching the manuscript).
 -/
 import ActiveInferenceFormal.Geometry
 import ActiveInferenceFormal.Information
-import ActiveInferenceFormal.Sanity
+import ActiveInferenceFormal.Bridge
+import ActiveInferenceFormalℤ.GeometryZ
+import ActiveInferenceFormalℤ.InformationZ
+import ActiveInferenceFormalℤ.Sanity
 import ActiveInferenceFormal.Audit
 
 /-!
 # Active Inference — Formal Core
 
-A self-contained (mathlib-free) Lean 4 formalization of the mathematical claims
-that the manuscript demonstrates numerically in `src/`. See the two modules:
+This package exposes formal proofs for the mathematical claims of
+``Active Inference — A Synthetic Overview``.  The theorems live in two
+canonical surfaces:
 
-* `ActiveInferenceFormal.Geometry` — the Bayesian-mechanics flow: the solenoidal
-  (antisymmetric) operator does no work against the free-energy gradient, so it
-  is conservative; detailed balance holds iff the solenoidal strength is zero;
-  and the steady-state entropy production is nonnegative, vanishing exactly at
-  detailed balance.
-* `ActiveInferenceFormal.Information` — perception as inference: the variational
-  free energy decomposes as surprise plus a relative entropy, and that relative
-  entropy is nonnegative (Gibbs' inequality), so free energy is an upper bound
-  on surprise that is tight exactly at the Bayesian posterior.
+## ℝ-valued surface (manuscript-canonical, fep_lean-backed)
 
-Every theorem is proved from Lean core; run `#print axioms` on any result to see
-that it rests only on Lean's own axioms (no `sorry`, no mathlib).
+``Geometry`` — the Bayesian-mechanics NESS flow, imported from
+  ``FepSketches.ness_flow``.
+``Information`` — the variational free-energy bound, expected free energy,
+  and policy selection, imported from ``FepSketches.finite_information`` and
+  ``FepSketches.active_inference``.
+``Bridge`` — documentation connecting the ℝ and ℤ surfaces to the
+  Python demos.
+
+## ℤ-valued legacy surface (no mathlib, Lean core only)
+
+``GeometryZ`` — the same flow identities over ℤ (algebraic only).
+``InformationZ`` — the same VFE bound over ℤ (combinatorial only).
+``Sanity`` — concrete witnesses proving every ℤ theorem is non-vacuous.
+
+Every ℤ theorem depends only on Lean'''s built-in axioms (\`[propext, Quot.sound]\`)
+and never \`sorryAx\`.  See ``Audit`` for the full axiom footprint on every result.
 -/

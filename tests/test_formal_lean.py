@@ -28,7 +28,10 @@ def _strip_lean_comments(text: str) -> str:
 
 
 _FORMAL = Path(__file__).absolute().parent.parent / "formal"
-_LEAN_SOURCES = sorted((_FORMAL / "ActiveInferenceFormal").glob("*.lean"))
+_LEAN_SOURCES = sorted(
+    list((_FORMAL / "ActiveInferenceFormal").glob("*.lean"))
+    + list((_FORMAL / "ActiveInferenceFormalℤ").glob("*.lean"))
+)
 
 # Z-valued sources (must build from Lean core, no mathlib)
 _Z_SOURCES = [s for s in _LEAN_SOURCES if s.stem.endswith("Z") or s.stem == "Sanity"]
