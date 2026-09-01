@@ -20,7 +20,6 @@ from src.policy_planning import (
     select_multistep_policy,
 )
 
-
 # ---------------------------------------------------------------------------
 # enumerate_policies
 # ---------------------------------------------------------------------------
@@ -66,8 +65,7 @@ def test_epistemic_equals_mutual_information_identity():
     # brute-force mutual information between state and outcome sequence
     joint = np.zeros((n_outcomes**horizon, len(q0)))
     branch_probs = np.zeros(n_outcomes**horizon)
-    k = 0
-    for branch in product(range(n_outcomes), repeat=horizon):
+    for k, branch in enumerate(product(range(n_outcomes), repeat=horizon)):
         q = q0.copy()
         p_branch = 1.0
         for t, o in enumerate(branch):
@@ -80,7 +78,6 @@ def test_epistemic_equals_mutual_information_identity():
             q = (a[o] * q) / q_o
         branch_probs[k] = p_branch
         joint[k] = q * p_branch
-        k += 1
     # I = sum over branches, states of q(branch, s) ln( q(branch,s) / (q(branch) q(s)) )
     total = 0.0
     for i, p_b in enumerate(branch_probs):
@@ -198,6 +195,65 @@ def test_horizon_two_equal_policies_to_one_step_when_actions_uninformative():
 
 
 def test_evaluation_dataclass_is_frozen():
+    from dataclasses import FrozenInstanceError
+
     ev = evaluate_policy(ACTIONS, BELIEF, PLANNING_PREFERENCES, (0,))
-    with pytest.raises(Exception):
+    with pytest.raises(FrozenInstanceError):
         ev.efe = 1.0  # type: ignore[misc]
+
+
+# ---------------------------------------------------------------------------
+# Edge-case coverage for uncovered lines in policy_planning.py
+# ---------------------------------------------------------------------------
+
+
+def test_model_shape_mismatch_after_column_stochastic() -> None:
+    """Models that individually pass column-stochastic check but have
+    different dimensions raise ValueError at the shape-comparison gate
+    (src/policy_planning.py line 116)."""
+    # Model A: (2,2) column-stochastic — ACTIONS[0] (cue).
+    # Model B: (2,3) where each column sums to 1 — passes column-stochastic
+    #            but shape (2,3) != (2,2).
+    models_mismatch = [
+        ACTIONS[0],
+        np.array([[0.5, 0.5, 0.5], [0.5, 0.5, 0.5]]),
+    ]
+    with pytest.raises(ValueError, match="must share the same"):
+        evaluate_policy(models_mismatch, BELIEF, PLANNING_PREFERENCES, (0,))
+
+
+def test_preferences_length_mismatch_rejected() -> None:
+    """Preferences length that does not match the number of outcomes in
+    the model raises ValueError (src/policy_planning.py line 148)."""
+    # 3-element preference vector but models have 2 outcomes.
+    long_prefs = np.array([0.3, 0.3, 0.4])
+    with pytest.raises(ValueError, match="preferences length"):
+        evaluate_policy(ACTIONS, BELIEF, long_prefs, (0,))
+
+
+def test_impossible_branch_skipped() -> None:
+    """A branch with an outcome that has zero probability under the
+    current belief is skipped (q_o <= 0.0) rather than producing
+    -inf/NaN (src/policy_planning.py lines 172-173, 177)."""
+    # A model where outcome 1 has zero probability from every state.
+    outcome_one_impossible = np.array([[1.0, 1.0], [0.0, 0.0]])
+    models = [outcome_one_impossible]
+    ev = evaluate_policy(models, np.array([0.5, 0.5]), np.array([0.5, 0.5]), (0,))
+    # Only branch (0,) is possible — branch_probabilities should sum to 1
+    # and the skipped impossible branch must not leak into the EFE.
+    assert ev.branch_probabilities.sum() == pytest.approx(1.0, abs=1e-12)
+    assert np.isfinite(ev.efe)
+    assert ev.efe >= 0.0
+
+
+def test_strictly_positive_epistemic_from_clamping() -> None:
+    """When epistemic value is exactly zero (uninformative action),
+    the epistemic term is 0.0, not a tiny negative that would violate
+    the non-negativity of KL divergence (src/policy_planning.py line 184)."""
+    # Bet action has identical columns — posterior always equals prior.
+    bet_idx = 1
+    ev = evaluate_policy(
+        ACTIONS, BELIEF, PLANNING_PREFERENCES, (bet_idx,) * PLANNING_HORIZON
+    )
+    assert ev.epistemic == 0.0
+    assert ev.efe == pytest.approx(-ev.pragmatic)

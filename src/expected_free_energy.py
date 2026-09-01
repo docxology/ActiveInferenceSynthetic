@@ -60,11 +60,11 @@ from ._prob import as_column_stochastic, as_distribution, as_prob_vector, kl_div
 
 __all__ = [
     "PolicySelection",
-    "predicted_outcomes",
-    "predicted_posteriors",
-    "pragmatic_value",
     "epistemic_value",
     "expected_free_energy",
+    "pragmatic_value",
+    "predicted_outcomes",
+    "predicted_posteriors",
     "select_policy",
 ]
 

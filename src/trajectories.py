@@ -50,9 +50,9 @@ from .free_energy_flow import free_energy
 from .ou_model import IsotropicOU
 
 __all__ = [
+    "free_energy_along",
     "integrate_trajectory",
     "net_rotation",
-    "free_energy_along",
 ]
 
 

@@ -101,7 +101,7 @@ def test_blanket_marginal_dependent_but_conditionally_independent() -> None:
 
 def test_marginal_correlation_matches_pinned_ledger_value() -> None:
     # Regression-guards the derived pin `blanket-eta-mu-marginal-correlation =
-    # 0.19` in data/claim_ledger.yaml and the manuscript/figure caption. If the
+    # 0.19` in data/claim_ledger.yaml and the docs/manuscript/figure caption. If the
     # demonstration joint changes, this exact assertion forces a deliberate,
     # auditable update of the ledger + figure text together.
     corr = correlation_matrix(_COV)[_ETA, _MU]

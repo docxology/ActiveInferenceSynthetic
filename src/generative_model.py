@@ -56,13 +56,13 @@ from ._prob import as_column_stochastic, as_distribution, as_prob_vector, kl_div
 
 __all__ = [
     "BeliefDescent",
-    "joint",
     "evidence",
-    "surprise",
+    "joint",
+    "minimize_free_energy",
     "posterior",
+    "surprise",
     "variational_free_energy",
     "vfe_components",
-    "minimize_free_energy",
 ]
 
 

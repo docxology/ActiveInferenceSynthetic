@@ -170,7 +170,10 @@ def test_manuscript_winding_not_confused_with_entropy_production() -> None:
     from src.manuscript_variables import generate_variables, leftover_tokens
 
     authored = (
-        Path(__file__).resolve().parent.parent / "manuscript" / "03_worked_regimes.md"
+        Path(__file__).resolve().parent.parent
+        / "docs"
+        / "manuscript"
+        / "03_worked_regimes.md"
     ).read_text()
     assert "{{TRAJECTORY_TURNS}}" in authored
     assert "{{TRAJECTORY_RATE}}" in authored

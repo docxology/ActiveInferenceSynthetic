@@ -64,8 +64,8 @@ from numpy.typing import NDArray
 from ._prob import as_column_stochastic, as_distribution, as_prob_vector, kl_divergence
 
 __all__ = [
-    "PolicyEvaluation",
     "MultiStepSelection",
+    "PolicyEvaluation",
     "enumerate_policies",
     "evaluate_policy",
     "select_multistep_policy",
@@ -80,7 +80,9 @@ class PolicyEvaluation:
     efe: float
     pragmatic: float
     epistemic: float
-    #: Probability of each non-impossible outcome branch, in enumeration order.
+    #: Probability of each non-impossible outcome branch, in the order those
+    #: branches are enumerated (impossible branches are omitted, so the array
+    #: can be shorter than ``n_outcomes ** horizon``).
     branch_probabilities: NDArray[np.float64]
 
 
@@ -180,6 +182,8 @@ def evaluate_policy(
         pragmatic += p_branch * float(np.log(c[branch[-1]]))
         epistemic += p_branch * kl_divergence(q, q0)
 
+    # Mutual information is mathematically >= 0; snap away float round-off
+    # noise so exact-zero-epistemic policies compare cleanly at machine precision.
     if -1e-9 < epistemic < 0.0:
         epistemic = 0.0
     return PolicyEvaluation(

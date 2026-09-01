@@ -6,8 +6,8 @@ from pathlib import Path
 
 import pytest
 
-import src.project_paths as project_paths
 from scripts import generate_overview_figure
+from src import project_paths
 
 _PNG_SIGNATURE = b"\x89PNG\r\n\x1a\n"
 

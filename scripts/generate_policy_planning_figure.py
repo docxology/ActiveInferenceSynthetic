@@ -11,7 +11,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from src.figures.policy_planning import render
 
 
-def main():  # noqa: D103
+def main():
     path = render()
     print(path)
     return path

@@ -21,7 +21,12 @@ from ..markov_blanket import (
 from . import palette
 from .save import save_figure
 
-LABELS = [r"$\eta$" "\nexternal", "$s$\nsensory", "$a$\nactive", r"$\mu$" "\ninternal"]
+LABELS = [
+    (r"$\eta$" "\nexternal"),
+    ("$s$\nsensory"),
+    ("$a$\nactive"),
+    (r"$\mu$" "\ninternal"),
+]
 
 
 def _draw_matrix(ax: plt.Axes, mat: np.ndarray, title: str, cmap: str) -> None:

@@ -61,11 +61,11 @@ from numpy.typing import NDArray
 from .ou_model import IsotropicOU
 
 __all__ = [
-    "drift_matrix",
-    "stationary_covariance",
-    "probability_current",
-    "entropy_production_rate",
     "current_circulation",
+    "drift_matrix",
+    "entropy_production_rate",
+    "probability_current",
+    "stationary_covariance",
 ]
 
 

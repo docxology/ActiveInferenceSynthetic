@@ -22,7 +22,7 @@ from src.manuscript_variables import (
 )
 
 _ROOT = Path(__file__).resolve().parent.parent
-_MANUSCRIPT = _ROOT / "manuscript"
+_MANUSCRIPT = _ROOT / "docs" / "manuscript"
 _Z_SCRIPT = _ROOT / "scripts" / "z_generate_manuscript_variables.py"
 
 # Drift-prone demonstration literals that must live in tokens, not prose.
@@ -60,7 +60,7 @@ def test_authored_sections_do_not_hardcode_demo_values() -> None:
 
 
 def test_hydrate_resolves_every_token(tmp_path: Path) -> None:
-    src = tmp_path / "manuscript"
+    src = tmp_path / "docs" / "manuscript"
     src.mkdir(parents=True)
     for path in _MANUSCRIPT.iterdir():
         if path.is_file():
@@ -162,8 +162,8 @@ def test_intish_formats_non_integers() -> None:
 
 
 def test_hydrate_skips_nested_directories(tmp_path: Path) -> None:
-    src = tmp_path / "manuscript"
-    src.mkdir()
+    src = tmp_path / "docs" / "manuscript"
+    src.mkdir(parents=True)
     (src / "nested").mkdir()
     (src / "02_generative_model.md").write_text("p={{PRIOR_X0}}")
     written = hydrate_manuscript(tmp_path, generate_variables(_ROOT))

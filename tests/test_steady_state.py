@@ -190,6 +190,8 @@ def test_stationary_covariance_raises_on_overflow_parameters() -> None:
     # With parameters so extreme that BOTH the direct solve and the analytic
     # P^{-1} overflow to infinity, the guard still rejects rather than return a
     # silently-wrong matrix.
-    with np.errstate(over="ignore", invalid="ignore", divide="ignore"):
-        with pytest.raises(ValueError, match="unreliable|residual"):
-            stationary_covariance(precision=1e200, gamma=1.0, omega=1e200)
+    with (
+        np.errstate(over="ignore", invalid="ignore", divide="ignore"),
+        pytest.raises(ValueError, match="unreliable|residual"),
+    ):
+        stationary_covariance(precision=1e200, gamma=1.0, omega=1e200)

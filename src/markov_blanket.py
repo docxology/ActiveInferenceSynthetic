@@ -42,11 +42,11 @@ import numpy as np
 from numpy.typing import NDArray
 
 __all__ = [
-    "covariance_from_precision",
     "conditional_covariance",
-    "partial_correlation",
     "correlation_matrix",
+    "covariance_from_precision",
     "is_markov_blanket",
+    "partial_correlation",
 ]
 
 _TOL = 1e-9

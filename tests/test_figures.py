@@ -6,16 +6,16 @@ from pathlib import Path
 
 import pytest
 
-from src.figures import render_all
+from src import project_paths
 from src.figures import (
     belief,
     blanket,
     efe,
     overview,
+    render_all,
     steady_state,
     trajectories_figure,
 )
-import src.project_paths as project_paths
 
 _PNG_SIGNATURE = b"\x89PNG\r\n\x1a\n"
 

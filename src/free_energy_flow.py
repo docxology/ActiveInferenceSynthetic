@@ -39,9 +39,9 @@ from numpy.typing import NDArray
 from .ou_model import IsotropicOU
 
 __all__ = [
+    "flow_field",
     "free_energy",
     "grad_free_energy",
-    "flow_field",
     "solenoidal_is_conservative",
 ]
 

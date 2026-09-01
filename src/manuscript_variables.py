@@ -1,6 +1,6 @@
 """Live manuscript tokens computed from the demonstration cores.
 
-Every numeric claim in ``manuscript/*.md`` is a ``{{TOKEN}}``. Values come from
+Every numeric claim in ``docs/manuscript/*.md`` is a ``{{TOKEN}}``. Values come from
 ``src.demos`` and the same functions the figures and tests call — never from
 hand-copied literals. The thin orchestrator
 ``scripts/z_generate_manuscript_variables.py`` writes
@@ -21,8 +21,8 @@ from .demos import (
     BLANKET_ETA_IDX,
     BLANKET_MU_IDX,
     BLANKET_PRECISION,
-    FLOW,
     FLAT_PREFERENCES,
+    FLOW,
     LIKELIHOOD,
     OMEGA_NESS,
     PLANNING_HORIZON,
@@ -35,9 +35,9 @@ from .demos import (
     TRAJECTORY_STEPS,
 )
 from .expected_free_energy import epistemic_value, expected_free_energy
-from .policy_planning import select_multistep_policy
 from .generative_model import evidence, joint, posterior
 from .markov_blanket import correlation_matrix, covariance_from_precision
+from .policy_planning import select_multistep_policy
 from .project_paths import project_output_dirs
 from .steady_state import entropy_production_rate
 from .trajectories import integrate_trajectory, net_rotation
@@ -123,7 +123,7 @@ def generate_variables(project_root: Path | None = None) -> dict[str, str]:
     """Return the ``{{TOKEN}}`` substitution map (uppercase keys, string values)."""
     claims = compute_claims()
     root = project_root or Path(__file__).resolve().parent.parent
-    config_path = root / "manuscript" / "config.yaml"
+    config_path = root / "docs" / "manuscript" / "config.yaml"
     paper_text = config_path.read_text() if config_path.is_file() else ""
 
     def _quoted(key: str) -> str:
@@ -195,7 +195,7 @@ def hydrate_manuscript(
     project_root: Path, variables: dict[str, str]
 ) -> dict[str, Path]:
     """Substitute tokens into ``output/manuscript/`` (standalone, no Layer 1)."""
-    src = project_root / "manuscript"
+    src = project_root / "docs" / "manuscript"
     dest = project_output_dirs(project_root)["output"] / "manuscript"
     dest.mkdir(parents=True, exist_ok=True)
     written: dict[str, Path] = {}

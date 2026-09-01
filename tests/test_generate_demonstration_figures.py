@@ -6,14 +6,15 @@ from pathlib import Path
 
 import pytest
 
-import src.project_paths as project_paths
 from scripts import (
     generate_belief_update_figure,
     generate_efe_figure,
     generate_markov_blanket_figure,
+    generate_policy_planning_figure,
     generate_steady_state_figure,
     generate_trajectory_figure,
 )
+from src import project_paths
 
 _PNG_SIGNATURE = b"\x89PNG\r\n\x1a\n"
 
@@ -25,6 +26,7 @@ _PNG_SIGNATURE = b"\x89PNG\r\n\x1a\n"
         (generate_trajectory_figure, "worked_trajectories.png"),
         (generate_efe_figure, "expected_free_energy.png"),
         (generate_markov_blanket_figure, "markov_blanket.png"),
+        (generate_policy_planning_figure, "policy_planning.png"),
         (generate_steady_state_figure, "steady_state_current.png"),
     ],
 )
