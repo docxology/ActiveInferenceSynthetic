@@ -14,5 +14,15 @@ Operational guides for **Active Inference — A Synthetic Overview**.
 | [Troubleshooting](troubleshooting.md) | Common failures and checks |
 | [Forking](forking_guide.md) | Adapting the project |
 | [FAQ](faq.md) | Short answers |
+| [Agent instructions](agent_instructions.md) | Working rules for agents editing this tree |
+| [Output inventory](output_inventory.md) | The registered figure and artifact names |
+| [Lecture](lecture.md) | Outline of the video walkthrough built from the codebase |
+
+## Manuscript
+
+The manuscript sources are a subdirectory here, not a guide:
+[`manuscript/`](manuscript/README.md) holds the numbered Markdown sections,
+`config.yaml`, `figure_registry.yaml`, `references.bib`, and the render
+preamble.
 
 Technical inventory: [AGENTS.md](AGENTS.md).

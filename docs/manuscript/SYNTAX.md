@@ -1,6 +1,9 @@
 # Manuscript syntax
 
-- Cite sources with Pandoc citation keys: `[@friston2010]`.
+- Cite sources with Pandoc citation keys: `[@friston2010fep]`. Every key must
+  exist in `references.bib`, which currently holds `friston2010fep`,
+  `parr2022active`, `friston2023bayesian`, `ramstead2023bayesian`, and
+  `dacosta2021bayesian`.
 - Refer to figures by registry label: `[@fig:overview]`.
 - Use `$...$` for inline mathematics and `$$...$$` for display equations.
 - Use backticks for code symbols and paths.
@@ -10,4 +13,4 @@
 - Demo numbers are `{{TOKEN}}` substitutions. Author tokens; generate values
   with `src/manuscript_variables.py`. Do not paste live floats into `.md`.
 
-Figure labels are listed in [`../docs/syntax_guide.md`](../docs/syntax_guide.md).
+Figure labels are listed in [`../syntax_guide.md`](../syntax_guide.md).

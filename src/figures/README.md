@@ -1,0 +1,43 @@
+# `src/figures/`
+
+Matplotlib builders for the seven manuscript figures.
+
+## Quick start
+
+```python
+from src.figures import FIGURE_RENDERERS, render_all
+
+manifest = render_all()                       # {filename: Path}, all seven
+path = FIGURE_RENDERERS["belief_update.png"]()  # just one
+```
+
+```bash
+uv run python scripts/generate_all_figures.py   # from the project root
+```
+
+## Key features
+
+- Every module exposes `build_figure() -> plt.Figure` and `render() -> Path`.
+- `render_all.py` holds `FIGURE_RENDERERS`, the single registry of figures.
+- Okabe–Ito colourblind-safe palette in `palette.py`.
+- Deterministic — no RNG, all numbers from `src.demos` and the tested cores.
+
+## Modules
+
+| Module | Role |
+| --- | --- |
+| `overview.py` | `active_inference_overview.png` — equilibrium vs NESS flow |
+| `belief.py` | `belief_update.png` — perception as VFE descent |
+| `trajectories_figure.py` | `worked_trajectories.png` |
+| `efe.py` | `expected_free_energy.png` — explore/exploit |
+| `policy_planning.py` | `policy_planning.png` — multi-step planning |
+| `blanket.py` | `markov_blanket.png` |
+| `steady_state.py` | `steady_state_current.png` |
+| `render_all.py` | `FIGURE_RENDERERS`, `render_all()` |
+| `palette.py` | Shared colour constants |
+| `landscape.py` | Shared free-energy contour backdrop |
+| `save.py` | `save_figure()` into `output/figures/` |
+
+## More information
+
+See [AGENTS.md](AGENTS.md) for the builder contract and how to add a figure.

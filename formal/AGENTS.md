@@ -7,21 +7,30 @@ alone — no `sorry` anywhere.
 
 ## Layout
 
+Two `lean_lib` targets are declared in `lakefile.lean`, one per surface, each
+with its own directory.
+
 | File | Content |
 | --- | --- |
-| `ActiveInferenceFormal.lean` | Root module |
+| `lakefile.lean` | Both targets; `require FepSketches` for the ℝ surface |
+| `lean-toolchain` | `leanprover/lean4:v4.33.1` (matches fep_lean) |
+| `lake-manifest.json` | Resolved dependency manifest written by `lake update` |
+| `ActiveInferenceFormal.lean` | Root module — imports every module of both surfaces |
+| [`ActiveInferenceFormal/`](ActiveInferenceFormal/AGENTS.md) | **ℝ surface** target (below) |
 | `ActiveInferenceFormal/Geometry.lean` | ℝ solenoidal orthogonality, dissipation (fep_lean) |
 | `ActiveInferenceFormal/Information.lean` | ℝ Gibbs inequality, free-energy bound, EFE (fep_lean) |
 | `ActiveInferenceFormal/Bridge.lean` | Python ℝ ↔ formal ℝ ↔ formal ℤ correspondence |
-| `ActiveInferenceFormal/GeometryZ.lean` | ℤ flow identities (Lean core only) |
-| `ActiveInferenceFormal/InformationZ.lean` | ℤ VFE bound (Lean core only) |
-| `ActiveInferenceFormal/Sanity.lean` | ℤ non-vacuity witnesses (controls) |
-| `ActiveInferenceFormal/Audit.lean` | Axiom audit (`#print axioms`) |
+| `ActiveInferenceFormal/Audit.lean` | Axiom audit (`#print axioms`) over both surfaces |
+| [`ActiveInferenceFormalℤ/`](ActiveInferenceFormalℤ/AGENTS.md) | **ℤ surface** target (below) |
+| `ActiveInferenceFormalℤ/GeometryZ.lean` | ℤ flow identities (Lean core only) |
+| `ActiveInferenceFormalℤ/InformationZ.lean` | ℤ VFE bound (Lean core only) |
+| `ActiveInferenceFormalℤ/Sanity.lean` | ℤ non-vacuity witnesses (controls) |
 
 ## Build
 
 ```bash
-cd formal && lake update && lake build
+cd formal && lake update && lake build          # both surfaces
+cd formal && lake build ActiveInferenceFormalℤ  # ℤ surface alone, no dependencies
 ```
 
 The ℝ surface requires the fep_lean checkout at the relative path declared in
@@ -36,3 +45,11 @@ Python cores in `src/` are the runnable demonstrations; the ℝ surface
 (fep_lean) is the manuscript-canonical machine-checked spec; the ℤ surface
 proves the same structural statements are algebraic. Keep all three aligned
 when changing theorem statements.
+
+## See Also
+
+- [`ActiveInferenceFormal/AGENTS.md`](ActiveInferenceFormal/AGENTS.md) — ℝ theorem inventory
+- [`ActiveInferenceFormalℤ/AGENTS.md`](ActiveInferenceFormalℤ/AGENTS.md) — ℤ theorem inventory and the non-vacuity controls
+- [`README.md`](README.md) — the two-surface design and what is proved
+- [`../docs/manuscript/07_formal_verification.md`](../docs/manuscript/07_formal_verification.md) — the manuscript section this backs
+- [`../tests/AGENTS.md`](../tests/AGENTS.md) — `test_formal_lean.py`

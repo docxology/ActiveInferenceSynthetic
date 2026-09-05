@@ -10,17 +10,21 @@ flowchart LR
     Scripts --> Output[output/figures]
     Manuscript[docs/manuscript/*.md] --> Renderer[Template renderer]
     Output --> Renderer
-    Lean[formal/ActiveInferenceFormal] --> Proofs[Machine-checked claims]
+    LeanR[formal/ActiveInferenceFormal] --> Proofs[Machine-checked claims]
+    LeanZ["formal/ActiveInferenceFormalℤ"] --> Proofs
 ```
 
 ## Boundaries
 
 - `src/_prob.py`: probability validation and KL only.
 - `src/ou_model.py`: canonical isotropic OU/Bayesian-mechanics parameter model.
-- Scientific cores: generative model, EFE, flow, trajectories, blanket, NESS.
+- Scientific cores: generative model, one-step EFE, multi-step policy planning,
+  flow, trajectories, blanket, NESS.
 - `src/figures/`: importable presentation logic and output manifest.
 - `scripts/`: thin CLI-compatible wrappers.
-- `formal/`: independent Lean 4 side-spec for load-bearing theorems.
+- `formal/`: independent Lean 4 side-spec for load-bearing theorems, on two
+  surfaces — `ActiveInferenceFormal/` (ℝ, via fep_lean) and
+  `ActiveInferenceFormalℤ/` (ℤ, Lean core only).
 - `tests/`: real numerical references, rendering smoke tests, Lean build checks.
 
 `gamma == 0` is valid for deterministic Hamiltonian flow. Stationary diffusion

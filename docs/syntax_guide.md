@@ -1,6 +1,7 @@
 # Manuscript syntax
 
-- Citations use Pandoc keys: `[@friston2010]`.
+- Citations use Pandoc keys: `[@friston2010fep]` — the key must exist in
+  `docs/manuscript/references.bib`.
 - Figure references use registry labels: `[@fig:overview]`.
 - Inline mathematics uses `$...$`; display equations use `$$...$$`.
 - Code paths and symbols use backticks.

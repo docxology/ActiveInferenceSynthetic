@@ -54,13 +54,20 @@ non-equilibrium trajectories), §4 action (expected free energy / explore-exploi
 ## Layout
 
 ```
+docs/              operational guides (quickstart, architecture, rendering, style…)
 docs/manuscript/   abstract through formal verification + references
-src/          tested numerical cores + figures/ builders
-scripts/      thin orchestrators (generate_all_figures.py + per-figure aliases)
-tests/        no-mocks tests; ≥90% coverage of src/ (+ Lean build verification)
-formal/       Lean 4 formalization — ℝ (fep_lean) + legacy ℤ (Lean core only)
-output/       disposable rendered artifacts (PDF/HTML/figures)
+src/               tested numerical cores + figures/ builders
+scripts/           thin orchestrators (generate_all_figures.py + per-figure aliases)
+tests/             no-mocks tests; ≥90% coverage of src/ (+ Lean build verification)
+formal/            Lean 4 formalization — ℝ (fep_lean) + legacy ℤ (Lean core only)
+data/              versioned inputs only (claim_ledger.yaml)
+output/            disposable rendered artifacts (PDF/HTML/figures)
 ```
+
+Each directory carries its own `README.md` (quick reference) and `AGENTS.md`
+(detailed guide). Start at [`docs/README.md`](docs/README.md) for the guides,
+[`AGENTS.md`](AGENTS.md) for the layer contract, and
+[`STANDALONE.md`](STANDALONE.md) for what runs without the template checkout.
 
 The project uses the template repository's build, validation, and rendering
 infrastructure while keeping its scientific code self-contained under `src/`.

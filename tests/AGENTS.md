@@ -15,7 +15,9 @@ No mock frameworks. Every assertion uses real numerics or subprocess/tool execut
 | `test_markov_blanket.py` | `src/markov_blanket.py` |
 | `test_steady_state.py` | `src/steady_state.py` |
 | `test_figures.py` | `src/figures/` |
-| `test_generate_*.py` / `test_preflight_standalone.py` | Script smoke tests |
+| `test_generate_overview_figure.py` | `scripts/generate_overview_figure.py` |
+| `test_generate_demonstration_figures.py` | The six other `scripts/generate_*_figure.py` wrappers |
+| `test_preflight_standalone.py` | `scripts/00_preflight.py` outside a template checkout |
 | `test_manuscript_variables.py` | `src/manuscript_variables.py` |
 | `test_policy_planning.py` | `src/policy_planning.py` |
 | `test_formal_lean.py` | `formal/` Lean sources + real `lake build` |
@@ -27,5 +29,26 @@ No mock frameworks. Every assertion uses real numerics or subprocess/tool execut
 uv run pytest tests/ --cov=src --cov-fail-under=90
 ```
 
-`conftest.py` locates the template repo (sibling `template/` checkout) when the
-project runs from the private sidecar.
+`conftest.py` forces `MPLBACKEND=Agg` and puts three paths on `sys.path`: the
+template repo root, the project root, and `src/`. Its `_find_repo_root()` walks
+both the literal and the resolved ancestors for a directory containing
+`infrastructure/`, then falls back to a sibling `template/` checkout — so the
+same command works from the private sidecar and through the template's
+`projects/working/` symlink. It raises `RuntimeError` when neither is found.
+
+Figure tests monkeypatch `src.project_paths._DEFAULT_ROOT` to a `tmp_path`, so a
+test run never writes into the real `output/` tree.
+
+## Conventions
+
+See [`PATTERNS.md`](PATTERNS.md). In short: no mock frameworks, compare against
+independent formulas or hand calculations, assert invariants (normalization,
+orthogonality, detailed-balance limits), and exercise script wrappers through
+their real `main()`.
+
+## See Also
+
+- [`../src/AGENTS.md`](../src/AGENTS.md) — the modules under test
+- [`../src/figures/AGENTS.md`](../src/figures/AGENTS.md) — the `build_figure()`/`render()` split that makes figures testable
+- [`../formal/AGENTS.md`](../formal/AGENTS.md) — what `test_formal_lean.py` audits
+- [`../docs/testing_philosophy.md`](../docs/testing_philosophy.md) — why the suite is built this way

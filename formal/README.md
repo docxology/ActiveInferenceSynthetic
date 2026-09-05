@@ -17,8 +17,9 @@ A Synthetic Overview*. The development has **two surfaces**:
 
 ```bash
 cd formal
-lake update   # first time, or when the fep_lean path changes
-lake build
+lake update                     # first time, or when the fep_lean path changes
+lake build                      # both surfaces
+lake build ActiveInferenceFormalℤ   # ℤ surface alone — no fep_lean, no mathlib
 ```
 
 The `require FepSketches from "../../../ongoing/instituteos/repos/fep_lean/lean"`
@@ -33,21 +34,32 @@ theorem: ℝ theorems carry the standard mathlib footprint (including
 
 ## Layout
 
+Each surface is its own `lean_lib` target in its own directory.
+
 ```
-lakefile.lean                        requires FepSketches (fep_lean) + exposes both surfaces
+lakefile.lean                        requires FepSketches (fep_lean) + declares both targets
 lean-toolchain                       leanprover/lean4:v4.33.1 (matches fep_lean)
-ActiveInferenceFormal.lean           library root (imports all modules)
-ActiveInferenceFormal/
+lake-manifest.json                   resolved dependencies (written by `lake update`)
+ActiveInferenceFormal.lean           library root (imports every module of both surfaces)
+ActiveInferenceFormal/               ℝ target
   Geometry.lean                      ℝ flow / steady-state facts (from fep_lean)
   Information.lean                   ℝ perception / free-energy bound, EFE (from fep_lean)
   Bridge.lean                        documentation bridging Python ℝ, formal ℝ, formal ℤ
-  GeometryZ.lean                     ℤ flow identities (Lean core only)
-  InformationZ.lean                  ℤ VFE bound (Lean core only)
+  Audit.lean                         `#print axioms` on every headline theorem, both surfaces
+ActiveInferenceFormalℤ/              ℤ target (Lean core only)
+  GeometryZ.lean                     ℤ flow identities
+  InformationZ.lean                  ℤ VFE bound
   Sanity.lean                        non-vacuity witnesses for the ℤ surface
-  Audit.lean                         `#print axioms` on every headline theorem
 ```
 
+Per-directory guides: [`ActiveInferenceFormal/README.md`](ActiveInferenceFormal/README.md)
+and [`ActiveInferenceFormalℤ/README.md`](ActiveInferenceFormalℤ/README.md).
+
 ## What is proved
+
+Names below are the ℤ-surface names. The ℝ re-exports carry an `ℝ_` prefix
+(`ℝ_solenoidal_orthogonal`, `ℝ_surprisal_le_VFE`, …); both namespaces are listed
+per file in the two subdirectory guides.
 
 **Geometry / NESS flow** (§1, §3, §6) — on both surfaces:
 
