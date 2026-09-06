@@ -15,19 +15,12 @@ def main() -> dict[str, Path]:
     manifest = render_all()
     for path in manifest.values():
         print(path)
-    from src.manuscript_variables import (
-        generate_variables,
-        hydrate_manuscript,
-        save_variables,
-    )
-    from src.project_paths import project_output_dirs
+    # The variables + hydration tail belongs to z_generate_manuscript_variables;
+    # reuse its main() so both entry points share one code path (including the
+    # template-infrastructure injector preference).
+    from scripts.z_generate_manuscript_variables import main as generate_variables_tail
 
-    root = Path(__file__).resolve().parent.parent
-    variables = generate_variables(root)
-    save_variables(
-        variables, project_output_dirs(root)["data"] / "manuscript_variables.json"
-    )
-    hydrate_manuscript(root, variables)
+    generate_variables_tail()
     return manifest
 
 

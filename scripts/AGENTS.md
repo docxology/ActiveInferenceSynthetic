@@ -2,12 +2,27 @@
 
 Thin orchestrators. All numerics live in `src/`; scripts coordinate rendering only.
 
+## Contract
+
+Every script in this directory is a **thin orchestrator** and only does:
+
+1. the standard path bootstrap (below),
+2. a single delegated call into a `src/` entrypoint (`00_preflight.py` is the
+   one deliberate exception: it delegates into the template `infrastructure`
+   package), and
+3. invocation and exit plumbing: printing generated paths, returning a status.
+
+Business, data, plot, and analysis logic is prohibited here — it belongs in
+`src/`, where it is importable and tested. Do not duplicate palettes,
+numerical constants, or scientific formulas; see
+[`CONVENTIONS.md`](CONVENTIONS.md).
+
 ## Files
 
 | File | Role |
 | --- | --- |
 | `__init__.py` | Makes `scripts` importable so tests can call each `main()` |
-| `generate_all_figures.py` | All seven figures via `src.figures.render_all`, then writes `manuscript_variables.json` and hydrates `output/manuscript/` |
+| `generate_all_figures.py` | All seven figures via `src.figures.render_all`, then delegates the variables + hydration tail to `z_generate_manuscript_variables.main()` |
 | `generate_overview_figure.py` | `active_inference_overview.png` |
 | `generate_belief_update_figure.py` | `belief_update.png` |
 | `generate_trajectory_figure.py` | `worked_trajectories.png` |
@@ -37,6 +52,12 @@ when importable and falls back to the standalone
 `src.manuscript_variables.hydrate_manuscript` otherwise, so it works in both the
 sidecar and the template checkout. It prints both output paths.
 
+`generate_all_figures.py` does not re-implement that tail: it imports
+`scripts.z_generate_manuscript_variables` and calls its `main()`, so both entry
+points share one code path (identical injector preference, identical printed
+paths). Injector discovery lives in the script layer, not in `src/`, because
+`src/` must not import `infrastructure`.
+
 ## Import bootstrap
 
 Every figure script inserts the project root before importing `src`:
@@ -55,6 +76,13 @@ Two files differ, deliberately:
   first (it reuses the value later) and inserts that.
 - `00_preflight.py` resolves and inserts the *template* repo root instead
   (below), not the project root.
+
+Gotcha: when one script reuses another (as `generate_all_figures.py` reuses
+`z_generate_manuscript_variables.py`), import it package-absolute —
+`from scripts.z_generate_manuscript_variables import main` — never by bare
+module name. The bare name only resolves when the file is run directly
+(`scripts/` itself on `sys.path`), not when tests import
+`scripts.generate_all_figures` from the repo root.
 
 ## Preflight
 
