@@ -1,10 +1,10 @@
 """Discrete generative model — perception as free-energy minimization.
 
 This is the *inference* half of Active Inference, the complement to the
-Bayesian-mechanics flow in :mod:`free_energy_flow`. Where that module shows the
-thermodynamic descent of a system on its own free-energy landscape, this one
-shows the epistemic content of that descent: **perception is approximate
-Bayesian inference, carried out by minimizing variational free energy.**
+Bayesian-mechanics flow in :mod:`free_energy_flow`. That module evaluates a
+quadratic state potential; this one optimizes a categorical belief under a
+specified likelihood and prior. Identifying either computation with a physical
+or perceptual process requires additional assumptions.
 
 The setup is the smallest thing that still says something true. A system holds
 a categorical *generative model* of hidden states ``x`` and observations ``s``:
@@ -28,8 +28,8 @@ Two facts make this *applicable* rather than decorative, and both are asserted
 to machine precision in the tests:
 
 1. **F is an upper bound on surprise.** ``F[q] = −ln p(s) + KL[q ‖ p(x|s)] ≥
-   −ln p(s)`` for every ``q``. Minimizing F over beliefs therefore minimizes an
-   accessible bound on the (inaccessible) surprise ``−ln p(s)``.
+   −ln p(s)`` on the admitted support domain. In this finite example the
+   evidence and surprise are directly computable independent references.
 2. **The bound is tight at the posterior.** ``F`` is minimized exactly when
    ``q = p(x | s)``, where it *equals* the surprise. So free-energy
    minimization **is** Bayesian inference — the belief that minimizes F is the

@@ -17,3 +17,13 @@ output/manuscript/
 
 # Local credentials (never commit)
 .env
+
+# graft's local graph cache — regenerable, not committed (run `graft build`).
+/graft/
+
+# Generated artifacts are delivered through release assets.
+/output/
+/build/
+/.omo/
+/media/synthetic/lecture/sources/
+/media/synthetic/lecture/assets/

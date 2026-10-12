@@ -9,6 +9,8 @@ import pytest
 from src import project_paths
 from src.figures import (
     belief,
+    synthetic_agent,
+    hierarchy,
     blanket,
     efe,
     overview,
@@ -28,7 +30,7 @@ def tmp_project_root(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> Path:
 
 def test_render_all_writes_manifest(tmp_project_root: Path) -> None:
     manifest = render_all(tmp_project_root)
-    assert len(manifest) == 7
+    assert len(manifest) == 11
     for path in manifest.values():
         assert path.is_file()
         assert path.stat().st_size > 0
@@ -44,6 +46,8 @@ def test_render_all_writes_manifest(tmp_project_root: Path) -> None:
         (efe.render, "expected_free_energy.png"),
         (blanket.render, "markov_blanket.png"),
         (steady_state.render, "steady_state_current.png"),
+        (synthetic_agent.render, "synthetic_agent.png"),
+        (hierarchy.render, "hierarchical_inference.png"),
     ],
 )
 def test_individual_figure_render(

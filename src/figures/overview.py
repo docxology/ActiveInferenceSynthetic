@@ -91,9 +91,9 @@ def build_figure() -> plt.Figure:
     _draw_panel(
         ax_r,
         model=ness,
-        title="(b) Far-from-equilibrium (NESS)",
+        title="(b) Non-equilibrium steady state (NESS)",
         subtitle=r"$f=(Q-\Gamma)\,\nabla F$   ·   $Q\neq 0$"
-        "\nfree energy still minimised — current persists",
+        "\ndrift still relaxes; stationary current is separate",
         stream_color=palette.VERMILLION,
         style="stream",
     )
@@ -107,9 +107,8 @@ def build_figure() -> plt.Figure:
     fig.text(
         0.5,
         0.015,
-        r"Free Energy Principle: internal states $\mu$ minimise variational free energy "
-        r"$F \geq -\ln p(s)$ across a Markov blanket  external $\eta \mid$ sensory $s$, "
-        r"active $a \mid$ internal $\mu$.",
+        "Arrows show deterministic drift, not ensemble probability current. "
+        "Inference and Markov-blanket interpretations require additional models.",
         ha="center",
         va="bottom",
         fontsize=8.5,

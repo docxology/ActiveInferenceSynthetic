@@ -1,34 +1,26 @@
-# `ActiveInferenceFormal` — the ℝ surface
+# Paper-specific real-valued exposition
 
-Manuscript-canonical Lean 4 statements, re-exported from the companion
-**fep_lean** library (`FepSketches`, mathlib-backed), plus the cross-surface
-bridge and the axiom audit.
+Selected `FepSketches` results, concrete boundary witnesses, correspondence
+notes, and an axiom audit. The generic library is maintained by `fep_formal`.
 
-## Quick start
+Every name below is in namespace `ActiveInferenceFormal` and appears in
+`Audit.lean` and the source/native test inventory.
 
-```bash
-cd formal && lake update && lake build   # from the project root
-```
+| Adapter | Qualified principal declaration | Contract |
+| --- | --- | --- |
+| `GaussianBlanket.lean` | `ActiveInferenceFormal.ℝ_canonical_precision_entries` | Exact `Fin 4` transport of the upstream named-axis precision |
+| `GaussianBlanket.lean` | `ActiveInferenceFormal.ℝ_canonical_gaussian_blanket` | Native Gaussian conditional independence plus marginal covariance `1/24` |
+| `GaussianBlanket.lean` | `ActiveInferenceFormal.ℝ_canonical_conditional_rows` | Product endpoint conditional kernels, each variance `1/4` |
+| `GaussianBlanket.lean` | `ActiveInferenceFormal.ℝ_coupled_gaussian_not_independent` | Coupled bivariate Gaussian negative control |
+| `Planning.lean` | `ActiveInferenceFormal.ℝ_twoStep_terminal_history_bridge` | Upstream normalized history EFE equals terminal/history EFE plus `log 2` |
+| `Planning.lean` | `ActiveInferenceFormal.cumulative_terminal_counterexample` | Static cumulative EFE differs from terminal-payoff EFE |
+| `Planning.lean` | `ActiveInferenceFormal.revealing_history_information` | Repeating a perfect observation reveals one fair bit |
 
-Requires the fep_lean checkout at the relative path in
-[`../lakefile.lean`](../lakefile.lean). The ℤ target builds without it.
+The planning source also exposes exact history predictive/posterior masses,
+the fair zero-information witness and both terminal EFE evaluations. Read
+the exact matrices, support assumptions and exclusions in [formal setup](../README.md)
+before claiming a correspondence to another numerical example.
 
-## Files
-
-| File | Role |
-| --- | --- |
-| `Geometry.lean` | ℝ flow geometry — solenoidal orthogonality, dissipation, detailed balance, entropy production |
-| `Information.lean` | ℝ Gibbs inequality, VFE bound and tightness, EFE decomposition |
-| `Bridge.lean` | Maps Python ℝ ↔ formal ℤ ↔ formal ℝ; documentation only |
-| `Audit.lean` | `#print axioms` on every headline theorem, both surfaces |
-
-## Key facts
-
-- Every theorem here is prefixed `ℝ_` and lives in namespace `ActiveInferenceFormal`.
-- No proofs originate in this package — it re-exports fep_lean with exposition.
-- No `sorry`; verified by `tests/test_formal_lean.py`.
-
-## More information
-
-See [AGENTS.md](AGENTS.md) for the full theorem inventory and editing rules,
-and [`../README.md`](../README.md) for the two-surface design.
+See [formal setup](../README.md) for the pinned dependency and commands,
+[the section map](../../docs/positioning.md) for mathematical scope, and
+[AGENTS.md](AGENTS.md) for editing rules.

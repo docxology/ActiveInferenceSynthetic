@@ -30,6 +30,13 @@ ACTIONS = [CUE, BET]
 FLAT_PREFERENCES: NDArray[np.float64] = np.array([0.5, 0.5])
 SHARP_PREFERENCES: NDArray[np.float64] = np.array([0.9, 0.1])
 
+VOI_PRIOR: NDArray[np.float64] = np.array([0.5, 0.5])
+VOI_CHANNEL: NDArray[np.float64] = np.array([[0.9, 0.1], [0.1, 0.9]])
+VOI_UTILITIES: NDArray[np.float64] = np.eye(2)
+VOI_IRRELEVANT_UTILITIES: NDArray[np.float64] = np.array([[0.8, 0.8], [0.2, 0.2]])
+VOI_COST = 0.15
+VOI_ACCURACIES: NDArray[np.float64] = np.linspace(0.5, 1.0, 51)
+
 # Multi-step planning (policy-sequence EFE figure).
 #: Planning horizon: two steps — look, then leap.
 PLANNING_HORIZON = 2
@@ -49,3 +56,24 @@ BLANKET_PRECISION: NDArray[np.float64] = np.array(
 BLANKET_ETA_IDX = 0
 BLANKET_MU_IDX = 3
 BLANKET_GIVEN_IDX = [1, 2]
+
+# Exact canonical four-axis native Gaussian fixture from pinned fep_formal.
+NATIVE_BLANKET_PRECISION: NDArray[np.float64] = np.array(
+    [
+        [4.0, -1.0, -1.0, 0.0],
+        [-1.0, 4.0, 0.0, -1.0],
+        [-1.0, 0.0, 4.0, -1.0],
+        [0.0, -1.0, -1.0, 4.0],
+    ]
+)
+NATIVE_BLANKET_COVARIANCE: NDArray[np.float64] = (
+    np.array(
+        [
+            [7.0, 2.0, 2.0, 1.0],
+            [2.0, 7.0, 1.0, 2.0],
+            [2.0, 1.0, 7.0, 2.0],
+            [1.0, 2.0, 2.0, 7.0],
+        ]
+    )
+    / 24.0
+)

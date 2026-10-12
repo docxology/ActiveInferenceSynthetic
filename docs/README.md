@@ -2,6 +2,10 @@
 
 Operational guides for **Active Inference — A Synthetic Overview**.
 
+Begin with [project positioning and upstream methods](positioning.md): the
+standalone paper's contribution, its relationship to `fep_formal`, and the
+section-to-method map with upstream documentation entry points.
+
 | Guide | Purpose |
 | --- | --- |
 | [Quick start](quickstart.md) | Install, test, generate figures, render |
@@ -17,8 +21,14 @@ Operational guides for **Active Inference — A Synthetic Overview**.
 | [Agent instructions](agent_instructions.md) | Working rules for agents editing this tree |
 | [Output inventory](output_inventory.md) | The registered figure and artifact names |
 | [Lecture](lecture.md) | Outline of the video walkthrough built from the codebase |
+| [Publication](publication.md) | Synthetic DOI, source archive and published upstream references |
+| [GNN specifications](gnn_specifications.md) | Authored models, optional parser checks and thermodynamic transfer |
 
 ## Manuscript
+
+The [methods guide](methods.md) maps carriers, units, analytical checks and
+limitations. The [resource guide](resources.md) gives verified Institute and
+ecosystem routes for the next learning or implementation question.
 
 The manuscript sources are a subdirectory here, not a guide:
 [`manuscript/`](manuscript/README.md) holds the numbered Markdown sections,

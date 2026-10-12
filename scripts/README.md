@@ -6,7 +6,7 @@ live in `src/`.
 
 | Script | Purpose | Delegates to | Run command |
 | --- | --- | --- | --- |
-| `generate_all_figures.py` | All seven figures, then the variables + hydration tail | `src.figures.render_all.render_all`; tail via `z_generate_manuscript_variables.py` | `uv run python scripts/generate_all_figures.py` |
+| `generate_all_figures.py` | All ten figures, then the variables + hydration tail | `src.figures.render_all.render_all`; tail via `z_generate_manuscript_variables.py` | `uv run python scripts/generate_all_figures.py` |
 | `generate_overview_figure.py` | `active_inference_overview.png` | `src.figures.overview.render` | `uv run python scripts/generate_overview_figure.py` |
 | `generate_belief_update_figure.py` | `belief_update.png` | `src.figures.belief.render` | `uv run python scripts/generate_belief_update_figure.py` |
 | `generate_trajectory_figure.py` | `worked_trajectories.png` | `src.figures.trajectories_figure.render` | `uv run python scripts/generate_trajectory_figure.py` |
@@ -19,6 +19,14 @@ live in `src/`.
 
 ## More information
 
+`run_teaching_experiments.py` emits a source-bound decision-value report with
+informative, uninformative and irrelevant-payoff controls.
+`generate_decision_value_figure.py` renders the corresponding accuracy sweep.
+
 See [AGENTS.md](AGENTS.md) for the thin-orchestrator contract, the import
 bootstrap, and gotchas; [CONVENTIONS.md](CONVENTIONS.md) for the rules every
 script follows.
+
+The closed-loop and hierarchical panels are built by
+`src/figures/synthetic_agent.py` and `src/figures/hierarchy.py`, with the thin
+`generate_synthetic_agent_figure.py` and `generate_hierarchy_figure.py` scripts.

@@ -22,7 +22,7 @@
       "givenName": "Alexandra"
     }
   ],
-  "dateModified": "2026-07-22",
+  "dateModified": "2026-10-12",
   "keywords": [
     "active inference",
     "free energy principle",
@@ -34,5 +34,11 @@
   ],
   "license": "https://spdx.org/licenses/CC-BY-4.0",
   "name": "Active Inference -- A Synthetic Overview",
-  "version": "0.5.0"
+  "version": "0.5.0",
+  "codeRepository": "https://github.com/docxology/ActiveInferenceSynthetic",
+  "relatedLink": [
+    "https://doi.org/10.5281/zenodo.23321281",
+    "https://github.com/ActiveInferenceInstitute/fep_formal",
+    "https://github.com/ActiveInferenceInstitute/Generalized_Notation_Notation"
+  ]
 }

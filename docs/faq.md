@@ -22,3 +22,20 @@ mathematical statements without becoming a runtime dependency.
 ## Are outputs tracked evidence?
 
 This is a private working project. Treat `output/` as regeneratable local state.
+
+## Does the new agent learn a world model?
+
+No. It conditions an explicitly supplied finite model and changes its subsequent
+commitment. Informative and uninformative cues distinguish actual information
+use from a label-driven decision.
+
+## Are the original Gaussian and canonical native example the same law?
+
+No. The second fixture exactly matches the upstream native carrier; that bridge
+does not retroactively certify the original arbitrary precision matrix.
+
+## Is terminal/history EFE the sum of one-step EFE?
+
+No. The history-channel adapter requires normalized history preferences and an
+explicit constant offset. The native controls expose the difference between
+terminal preference cost, cumulative preference cost, and repeated information.

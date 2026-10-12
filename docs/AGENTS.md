@@ -7,6 +7,7 @@ valid from the project root unless a guide explicitly says “template root.”
 
 | Path | Purpose |
 | --- | --- |
+| [`positioning.md`](positioning.md) | Paper purpose, upstream methods, pin advancement and transfer boundaries |
 | [`quickstart.md`](quickstart.md) | Install, test, generate figures, render |
 | [`architecture.md`](architecture.md) | Python / figure / script / Lean layer boundaries |
 | [`testing_philosophy.md`](testing_philosophy.md) | Real-computation tests and the coverage floor |

@@ -1,207 +1,283 @@
 claims:
-  - claim_id: figure-export-dpi
-    kind: number
-    value: 300
-    source: src/figures/save.py save_figure() dpi
-    source_tier: project_source
-    freshness: active
-    artifact_path: output/figures/active_inference_overview.png
-  - claim_id: belief-precision
-    kind: number
-    value: 1.0
-    source: src/demos.py FLOW.precision (Gaussian belief precision)
-    source_tier: project_source
-    freshness: active
-    artifact_path: output/figures/active_inference_overview.png
-  - claim_id: dissipative-strength-gamma
-    kind: number
-    value: 1.0
-    source: src/demos.py FLOW.gamma (symmetric dissipative operator)
-    source_tier: project_source
-    freshness: active
-    artifact_path: output/figures/active_inference_overview.png
-  - claim_id: solenoidal-strength-omega-ness
-    kind: number
-    value: 2.4
-    source: src/demos.py OMEGA_NESS (solenoidal strength for the NESS panel)
-    source_tier: project_source
-    freshness: active
-    artifact_path: output/figures/active_inference_overview.png
-  - claim_id: equilibrium-solenoidal-strength
-    kind: number
-    value: 0.0
-    source: src/demos.py FLOW.omega (detailed balance, Q=0)
-    source_tier: project_source
-    freshness: active
-    artifact_path: output/figures/active_inference_overview.png
-
-  # --- Perception-as-inference figure (belief_update.png, section 2) ---
-  - claim_id: belief-model-prior
-    kind: vector
-    value: [0.6, 0.4]
-    source: src/demos.py PRIOR (categorical prior p(x))
-    source_tier: project_source
-    freshness: active
-    artifact_path: output/figures/belief_update.png
-  - claim_id: belief-posterior-x0
-    kind: number
-    value: 0.8709677419354839
-    source: src/generative_model.py posterior(); p(x0|s=0)=0.54/0.62 (verified in tests/test_generative_model.py)
-    source_tier: project_source
-    freshness: active
-    artifact_path: output/figures/belief_update.png
-  - claim_id: belief-inference-learning-rate
-    kind: number
-    value: 0.3
-    source: src/demos.py BELIEF_LEARNING_RATE (free-energy descent step)
-    source_tier: project_source
-    freshness: active
-    artifact_path: output/figures/belief_update.png
-
-  # --- Worked-trajectories figure (worked_trajectories.png, section 3) ---
-  - claim_id: trajectory-ness-omega
-    kind: number
-    value: 2.4
-    source: src/demos.py TRAJECTORY_OMEGA_NESS (solenoidal strength for the NESS panel)
-    source_tier: project_source
-    freshness: active
-    artifact_path: output/figures/worked_trajectories.png
-  - claim_id: trajectory-integrator-dt
-    kind: number
-    value: 0.002
-    source: src/demos.py TRAJECTORY_DT (RK4 fixed time step)
-    source_tier: project_source
-    freshness: active
-    artifact_path: output/figures/worked_trajectories.png
-  - claim_id: trajectory-integrator-steps
-    kind: number
-    value: 6000
-    source: src/demos.py TRAJECTORY_STEPS (RK4 integration steps)
-    source_tier: project_source
-    freshness: active
-    artifact_path: output/figures/worked_trajectories.png
-  - claim_id: trajectory-ness-net-rotation-turns
-    kind: number
-    value: -4.583662361046586
-    note: "Window-dependent total winding over horizon T = DT*STEPS = 12; grows with T. Not intrinsic — see trajectory-ness-rotation-rate."
-    source: src/trajectories.py net_rotation()/2pi for the NESS run (annotated on figure panel b)
-    source_tier: derived
-    freshness: active
-    artifact_path: output/figures/worked_trajectories.png
-  - claim_id: trajectory-ness-rotation-rate
-    kind: number
-    value: -0.3819718634205488
-    note: "Intrinsic IC-independent rotation rate = -omega*precision/(2pi) turns per unit time; analytic dθ/dt = -omega*precision. Exactly 0 at equilibrium. Verified in tests/test_trajectories.py::test_ness_rotation_rate_is_intrinsic (with omega=5, precision=1.3)."
-    source: src/trajectories.py net_rotation over horizon / (2pi * T); analytic -omega*precision/(2pi) with omega=2.4, precision=1
-    source_tier: derived
-    freshness: active
-    artifact_path: output/figures/worked_trajectories.png
-
-  # --- Expected-free-energy figure (expected_free_energy.png, section 4) ---
-  - claim_id: efe-cue-epistemic-value
-    kind: number
-    value: 0.3680642071684971
-    note: "Expected information gain of the informative 'cue' action = KL([0.9,0.1]||[0.5,0.5]) (both outcomes symmetric); verified in tests/test_expected_free_energy.py::test_epistemic_value_hand_value."
-    source: src/expected_free_energy.py epistemic_value(CUE, [0.5,0.5])
-    source_tier: derived
-    freshness: active
-    artifact_path: output/figures/expected_free_energy.png
-  - claim_id: efe-flat-choice
-    kind: string
-    value: explore
-    note: "Under flat preferences the argmin-EFE policy is the informative cue (explore): G_cue=0.33 < G_bet=0.69."
-    source: src/expected_free_energy.py select_policy([CUE,BET],[0.5,0.5],[0.5,0.5])
-    source_tier: derived
-    freshness: active
-    artifact_path: output/figures/expected_free_energy.png
-  - claim_id: efe-sharp-choice
-    kind: string
-    value: exploit
-    note: "Under sharp preferences [0.9,0.1] the argmin-EFE policy is the rewarding bet (exploit): G_bet=0.43 < G_cue=0.84."
-    source: src/expected_free_energy.py select_policy([CUE,BET],[0.5,0.5],[0.9,0.1])
-    source_tier: derived
-    freshness: active
-    artifact_path: output/figures/expected_free_energy.png
-
-  # --- Markov-blanket figure (markov_blanket.png, section 5) ---
-  - claim_id: blanket-eta-mu-precision
-    kind: number
-    value: 0.0
-    note: "Zero internal-external precision entry Pi[eta,mu] encodes eta ⊥ mu | {s,a}; the Markov-blanket condition by construction."
-    source: src/demos.py BLANKET_PRECISION[0,3]
-    source_tier: project_source
-    freshness: active
-    artifact_path: output/figures/markov_blanket.png
-  - claim_id: blanket-eta-mu-marginal-correlation
-    kind: number
-    value: 0.19
-    note: "Marginal correlation of external eta and internal mu (nonzero: they couple through the blanket); from correlation_matrix(inv(PRECISION))[0,3]. Verified in tests/test_markov_blanket.py::test_internal_and_external_are_marginally_dependent."
-    source: src/markov_blanket.py correlation_matrix(inv(PRECISION))[eta,mu]
-    source_tier: derived
-    freshness: active
-    artifact_path: output/figures/markov_blanket.png
-  - claim_id: blanket-eta-mu-partial-correlation-given-blanket
-    kind: number
-    value: 0.0
-    note: "Partial correlation of eta and mu given the blanket {s,a} vanishes (~1e-10): conditional independence. Verified in tests/test_markov_blanket.py::test_partial_correlation_zero_given_full_blanket."
-    source: src/markov_blanket.py partial_correlation(cov, eta, mu, [s,a])
-    source_tier: derived
-    freshness: active
-    artifact_path: output/figures/markov_blanket.png
-
-  # --- Steady-state figure (steady_state_current.png, section 6) ---
-  - claim_id: steady-state-ness-omega
-    kind: number
-    value: 2.4
-    source: src/demos.py OMEGA_NESS (solenoidal strength for the NESS panel)
-    source_tier: project_source
-    freshness: active
-    artifact_path: output/figures/steady_state_current.png
-  - claim_id: steady-state-entropy-production-equilibrium
-    kind: number
-    value: 0.0
-    note: "Entropy-production rate at equilibrium (omega=0) is exactly 0 (detailed balance). Verified in tests/test_steady_state.py::test_entropy_production_zero_at_equilibrium."
-    source: src/steady_state.py entropy_production_rate(precision=1, gamma=1, omega=0)
-    source_tier: derived
-    freshness: active
-    artifact_path: output/figures/steady_state_current.png
-  - claim_id: steady-state-entropy-production-ness
-    kind: number
-    value: 11.52
-    note: "NESS entropy-production rate sigma = 2*omega^2*precision/gamma = 2*2.4^2*1/1 = 11.52 nats/time; closed form verified in tests/test_steady_state.py::test_entropy_production_matches_closed_form."
-    source: src/steady_state.py entropy_production_rate(precision=1, gamma=1, omega=2.4)
-    source_tier: derived
-    freshness: active
-    artifact_path: output/figures/steady_state_current.png
-
-  - claim_id: planning-horizon-two
-    kind: number
-    value: 2
-    source: src/demos.py PLANNING_HORIZON
-    source_tier: project_source
-    freshness: active
-    artifact_path: output/figures/policy_planning.png
-
-  - claim_id: planning-look-then-leap-efe
-    kind: number
-    value: 0.07
-    source: src/policy_planning.py select_multistep_policy(demos constants, horizon 2) efe of policy (cue, bet)
-    source_tier: derived
-    freshness: active
-    artifact_path: output/figures/policy_planning.png
-
-  - claim_id: planning-exploit-first-efe
-    kind: number
-    value: 0.43
-    source: src/policy_planning.py select_multistep_policy(demos constants, horizon 2) efe of policy (bet, bet)
-    source_tier: derived
-    freshness: active
-    artifact_path: output/figures/policy_planning.png
-
-  - claim_id: planning-look-then-leap-epistemic
-    kind: number
-    value: 0.37
-    source: src/policy_planning.py evaluate_policy epistemic term of policy (cue, bet)
-    source_tier: derived
-    freshness: active
-    artifact_path: output/figures/policy_planning.png
+- claim_id: decision-value-informative-cue
+  kind: number
+  value: 0.4
+  source: src/value_of_information.py value_of_information() with src/demos.py VOI_CHANNEL, VOI_PRIOR, VOI_UTILITIES
+  note: Gross expected utility gain; distinct from mutual information in nats. Independently checked by exhaustive policy enumeration.
+  source_tier: derived
+  freshness: active
+  artifact_path: output/figures/value_of_information.png
+- claim_id: decision-value-cue-cost
+  kind: number
+  value: 0.15
+  source: src/demos.py VOI_COST
+  note: Declared utility cost, not physical energy or an empirical measurement.
+  source_tier: project_source
+  freshness: active
+  artifact_path: output/data/teaching_experiments.json
+- claim_id: decision-value-irrelevant-payoff
+  kind: number
+  value: 0.0
+  source: src/value_of_information.py value_of_information() with src/demos.py VOI_IRRELEVANT_UTILITIES
+  note: Informative cue, positive mutual information, zero gross decision value because payoff is state independent.
+  source_tier: derived
+  freshness: active
+  artifact_path: output/data/teaching_experiments.json
+- claim_id: figure-export-dpi
+  kind: number
+  value: 300
+  source: src/figures/save.py save_figure() dpi
+  source_tier: project_source
+  freshness: active
+  artifact_path: output/figures/active_inference_overview.png
+- claim_id: belief-precision
+  kind: number
+  value: 1.0
+  source: src/demos.py FLOW.precision (Gaussian belief precision)
+  source_tier: project_source
+  freshness: active
+  artifact_path: output/figures/active_inference_overview.png
+- claim_id: dissipative-strength-gamma
+  kind: number
+  value: 1.0
+  source: src/demos.py FLOW.gamma (symmetric dissipative operator)
+  source_tier: project_source
+  freshness: active
+  artifact_path: output/figures/active_inference_overview.png
+- claim_id: solenoidal-strength-omega-ness
+  kind: number
+  value: 2.4
+  source: src/demos.py OMEGA_NESS (solenoidal strength for the NESS panel)
+  source_tier: project_source
+  freshness: active
+  artifact_path: output/figures/active_inference_overview.png
+- claim_id: equilibrium-solenoidal-strength
+  kind: number
+  value: 0.0
+  source: src/demos.py FLOW.omega (detailed balance, Q=0)
+  source_tier: project_source
+  freshness: active
+  artifact_path: output/figures/active_inference_overview.png
+- claim_id: belief-model-prior
+  kind: vector
+  value:
+  - 0.6
+  - 0.4
+  source: src/demos.py PRIOR (categorical prior p(x))
+  source_tier: project_source
+  freshness: active
+  artifact_path: output/figures/belief_update.png
+- claim_id: belief-posterior-x0
+  kind: number
+  value: 0.8709677419354839
+  source: src/generative_model.py posterior(); p(x0|s=0)=0.54/0.62 (verified in tests/test_generative_model.py)
+  source_tier: project_source
+  freshness: active
+  artifact_path: output/figures/belief_update.png
+- claim_id: belief-inference-learning-rate
+  kind: number
+  value: 0.3
+  source: src/demos.py BELIEF_LEARNING_RATE (free-energy descent step)
+  source_tier: project_source
+  freshness: active
+  artifact_path: output/figures/belief_update.png
+- claim_id: trajectory-ness-omega
+  kind: number
+  value: 2.4
+  source: src/demos.py TRAJECTORY_OMEGA_NESS (solenoidal strength for the NESS panel)
+  source_tier: project_source
+  freshness: active
+  artifact_path: output/figures/worked_trajectories.png
+- claim_id: trajectory-integrator-dt
+  kind: number
+  value: 0.002
+  source: src/demos.py TRAJECTORY_DT (RK4 fixed time step)
+  source_tier: project_source
+  freshness: active
+  artifact_path: output/figures/worked_trajectories.png
+- claim_id: trajectory-integrator-steps
+  kind: number
+  value: 6000
+  source: src/demos.py TRAJECTORY_STEPS (RK4 integration steps)
+  source_tier: project_source
+  freshness: active
+  artifact_path: output/figures/worked_trajectories.png
+- claim_id: trajectory-ness-net-rotation-turns
+  kind: number
+  value: -4.583662361046586
+  note: "Window-dependent total winding over horizon T = DT*STEPS = 12; grows with T. Not intrinsic \u2014 see trajectory-ness-rotation-rate."
+  source: src/trajectories.py net_rotation()/2pi for the NESS run (annotated on figure panel b)
+  source_tier: derived
+  freshness: active
+  artifact_path: output/figures/worked_trajectories.png
+- claim_id: trajectory-ness-rotation-rate
+  kind: number
+  value: -0.3819718634205488
+  note: "Intrinsic IC-independent rotation rate = -omega*precision/(2pi) turns per unit time; analytic d\u03B8/dt\
+    \ = -omega*precision. Exactly 0 at equilibrium. Verified in tests/test_trajectories.py::test_ness_rotation_rate_is_intrinsic\
+    \ (with omega=5, precision=1.3)."
+  source: src/trajectories.py net_rotation over horizon / (2pi * T); analytic -omega*precision/(2pi) with omega=2.4,
+    precision=1
+  source_tier: derived
+  freshness: active
+  artifact_path: output/figures/worked_trajectories.png
+- claim_id: efe-cue-epistemic-value
+  kind: number
+  value: 0.3680642071684971
+  note: Expected information gain of the informative 'cue' action = KL([0.9,0.1]||[0.5,0.5]) (both outcomes symmetric);
+    verified in tests/test_expected_free_energy.py::test_epistemic_value_hand_value.
+  source: src/expected_free_energy.py epistemic_value(CUE, [0.5,0.5])
+  source_tier: derived
+  freshness: active
+  artifact_path: output/figures/expected_free_energy.png
+- claim_id: efe-flat-choice
+  kind: string
+  value: explore
+  note: 'Under flat preferences the argmin-EFE policy is the informative cue (explore): G_cue=0.33 < G_bet=0.69.'
+  source: src/expected_free_energy.py select_policy([CUE,BET],[0.5,0.5],[0.5,0.5])
+  source_tier: derived
+  freshness: active
+  artifact_path: output/figures/expected_free_energy.png
+- claim_id: efe-sharp-choice
+  kind: string
+  value: exploit
+  note: 'Under sharp preferences [0.9,0.1] the argmin-EFE policy is the rewarding bet (exploit): G_bet=0.43 < G_cue=0.84.'
+  source: src/expected_free_energy.py select_policy([CUE,BET],[0.5,0.5],[0.9,0.1])
+  source_tier: derived
+  freshness: active
+  artifact_path: output/figures/expected_free_energy.png
+- claim_id: blanket-eta-mu-precision
+  kind: number
+  value: 0.0
+  note: "Zero internal-external precision entry Pi[eta,mu] encodes eta \u22A5 mu | {s,a}; the Markov-blanket condition\
+    \ by construction."
+  source: src/demos.py BLANKET_PRECISION[0,3]
+  source_tier: project_source
+  freshness: active
+  artifact_path: output/figures/markov_blanket.png
+- claim_id: blanket-eta-mu-marginal-correlation
+  kind: number
+  value: 0.19
+  note: 'Marginal correlation of external eta and internal mu (nonzero: they couple through the blanket); from correlation_matrix(inv(PRECISION))[0,3].
+    Verified in tests/test_markov_blanket.py::test_internal_and_external_are_marginally_dependent.'
+  source: src/markov_blanket.py correlation_matrix(inv(PRECISION))[eta,mu]
+  source_tier: derived
+  freshness: active
+  artifact_path: output/figures/markov_blanket.png
+- claim_id: blanket-eta-mu-partial-correlation-given-blanket
+  kind: number
+  value: 0.0
+  note: 'Partial correlation of eta and mu given the blanket {s,a} vanishes (~1e-10): conditional independence.
+    Verified in tests/test_markov_blanket.py::test_partial_correlation_zero_given_full_blanket.'
+  source: src/markov_blanket.py partial_correlation(cov, eta, mu, [s,a])
+  source_tier: derived
+  freshness: active
+  artifact_path: output/figures/markov_blanket.png
+- claim_id: steady-state-ness-omega
+  kind: number
+  value: 2.4
+  source: src/demos.py OMEGA_NESS (solenoidal strength for the NESS panel)
+  source_tier: project_source
+  freshness: active
+  artifact_path: output/figures/steady_state_current.png
+- claim_id: steady-state-entropy-production-equilibrium
+  kind: number
+  value: 0.0
+  note: Entropy-production rate at equilibrium (omega=0) is exactly 0 (detailed balance). Verified in tests/test_steady_state.py::test_entropy_production_zero_at_equilibrium.
+  source: src/steady_state.py entropy_production_rate(precision=1, gamma=1, omega=0)
+  source_tier: derived
+  freshness: active
+  artifact_path: output/figures/steady_state_current.png
+- claim_id: steady-state-entropy-production-ness
+  kind: number
+  value: 11.52
+  note: NESS entropy-production rate sigma = 2*omega^2*precision/gamma = 2*2.4^2*1/1 = 11.52 nats/time; closed form
+    verified in tests/test_steady_state.py::test_entropy_production_matches_closed_form.
+  source: src/steady_state.py entropy_production_rate(precision=1, gamma=1, omega=2.4)
+  source_tier: derived
+  freshness: active
+  artifact_path: output/figures/steady_state_current.png
+- claim_id: planning-horizon-two
+  kind: number
+  value: 2
+  source: src/demos.py PLANNING_HORIZON
+  source_tier: project_source
+  freshness: active
+  artifact_path: output/figures/policy_planning.png
+- claim_id: planning-look-then-leap-efe
+  kind: number
+  value: 0.07
+  source: src/policy_planning.py select_multistep_policy(demos constants, horizon 2) efe of policy (cue, bet)
+  source_tier: derived
+  freshness: active
+  artifact_path: output/figures/policy_planning.png
+- claim_id: planning-exploit-first-efe
+  kind: number
+  value: 0.43
+  source: src/policy_planning.py select_multistep_policy(demos constants, horizon 2) efe of policy (bet, bet)
+  source_tier: derived
+  freshness: active
+  artifact_path: output/figures/policy_planning.png
+- claim_id: planning-look-then-leap-epistemic
+  kind: number
+  value: 0.37
+  source: src/policy_planning.py evaluate_policy epistemic term of policy (cue, bet)
+  source_tier: derived
+  freshness: active
+  artifact_path: output/figures/policy_planning.png
+- claim_id: closed-loop-right-posterior
+  kind: number
+  value: 1.0
+  source: src/synthetic_agent.py:synthetic_agent_demo
+  source_tier: derived
+  freshness: active
+  artifact_path: output/figures/synthetic_agent.png
+  note: Checked by tests/test_synthetic_agent.py
+- claim_id: uninformative-cue-right-posterior
+  kind: number
+  value: 0.5
+  source: src/synthetic_agent.py:synthetic_agent_demo
+  source_tier: derived
+  freshness: active
+  artifact_path: output/figures/synthetic_agent.png
+  note: Checked by tests/test_synthetic_agent.py
+- claim_id: hierarchical-context-posterior
+  kind: number
+  value: 0.7358490566037736
+  source: src/hierarchical_model.py:hierarchical_demo
+  source_tier: derived
+  freshness: active
+  artifact_path: output/figures/hierarchical_inference.png
+  note: Checked by tests/test_hierarchical_model.py
+- claim_id: hierarchical-observation-evidence
+  kind: number
+  value: 0.636
+  source: src/hierarchical_model.py:hierarchical_demo
+  source_tier: derived
+  freshness: active
+  artifact_path: output/figures/hierarchical_inference.png
+  note: Checked by tests/test_hierarchical_model.py
+- claim_id: canonical-native-marginal-covariance
+  kind: number
+  value: 0.04166666666666666
+  source: src/demos.py:NATIVE_BLANKET_PRECISION
+  source_tier: derived
+  freshness: active
+  artifact_path: output/figures/markov_blanket.png
+  note: Checked by tests/test_native_blanket_demo.py
+- claim_id: canonical-native-precision-input
+  kind: vector
+  value: [4, -1, -1, 0, -1, 4, 0, -1, -1, 0, 4, -1, 0, -1, -1, 4]
+  source: src/demos.py:NATIVE_BLANKET_PRECISION (row-major order external, sensory, active, internal)
+  source_tier: project_source
+  freshness: active
+  artifact_path: src/demos.py
+  note: Exact precision and inverse are checked by tests/test_native_blanket_demo.py; inverse powers are mathematical notation, not additional measured results.
+- claim_id: history-normalization-offset
+  kind: number
+  value: 0.6931471805599453
+  source: src/planning_bridge.py:two_step_history_efe
+  source_tier: derived
+  freshness: active
+  artifact_path: output/figures/policy_planning.png
+  note: Checked by tests/test_planning_bridge.py

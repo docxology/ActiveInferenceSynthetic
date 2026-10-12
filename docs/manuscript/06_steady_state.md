@@ -6,7 +6,7 @@ not the state itself — a single trajectory relaxes to the mode and stops, whil
 a genuine steady state is a property of a whole *stochastic* ensemble, with a
 current that never dies. This closing section supplies that missing object,
 still analytically and with no randomness, in `src/steady_state.py`. It is where
-"far from equilibrium" stops being a picture and becomes two numbers: a
+non-equilibrium is characterized by two model quantities: a
 **probability current** and an **entropy-production rate**.
 
 Give the Bayesian-mechanics flow a matched noise term — the Ornstein–Uhlenbeck
@@ -16,9 +16,11 @@ results follow, each checked against a closed form in the tests.
 
 First, the ensemble settles into a **stationary density**. Its covariance solves
 the Lyapunov equation $M\Sigma + \Sigma M^{\mathsf T} = 2D$, and with $D=\Gamma$
-the solution is exactly $\Sigma = P^{-1}$ — the system's own belief covariance.
-The distribution the noisy system lives in is precisely $\rho \propto e^{-F}$:
-free-energy minimization and the steady state are the same fixed point.
+the solution is exactly $\Sigma = P^{-1}$, the stationary ensemble covariance.
+The density is $\rho \propto e^{-\Phi}$, where $\Phi$ is the Gaussian potential
+called `free_energy` by the code. A stationary ensemble has nonzero variance;
+it is not the point reached by a deterministic path or automatically an
+agent's recognition distribution.
 
 Second, that density carries a **probability current**
 $j(x) = b(x)\rho - D\nabla\rho = (QPx)\,\rho(x)$. When $Q=0$ the current is zero
@@ -33,8 +35,9 @@ $\sigma = \operatorname{tr}\!\big(D^{-1} Q P\,\Sigma\,P^{\mathsf T}Q^{\mathsf T}
 measures the system's irreversibility, and for the isotropic model it is exactly
 $\sigma = 2\,\omega^2\,\Pi/\gamma$ (with $\Pi$ the precision). It is strictly
 positive out of equilibrium and **exactly zero if and only if $\omega=0$**.
-Entropy production is the thermodynamic cost of staying far from equilibrium — of
-keeping the current running — and it is the sharpest available statement of the
+Under even-coordinate time reversal this rate measures path irreversibility;
+with an isothermal physical model and local thermodynamic assumptions it can
+represent the cost of maintaining the current. It distinguishes the
 difference between the two regimes: not the shape of a path, but a
 non-negative number that vanishes precisely at detailed balance. (Two
 conventions, stated plainly: the choice $D=\Gamma$ is the fluctuation–
@@ -46,17 +49,17 @@ the Gaussian $\rho$ on its own looks equilibrium-like, so it is the circulation,
 not the shape of the steady state, that marks the regime as nonequilibrium.)
 
 [@fig:steady] shows both panels over the same stationary density. At equilibrium
-(a) the current field is identically zero and $\sigma=0$: nothing circulates and
-nothing is dissipated. In the NESS (b) the current curls steadily around the
+(a) the current field is identically zero and $\sigma=0$: there is no net
+stationary circulation or entropy production, although stochastic fluctuations
+and energy exchange remain. In the NESS (b) the current curls steadily around the
 mode and $\sigma>0$: the same density, now maintained by a perpetual,
 entropy-producing flow. Read against the whole overview, this is the final turn
 of the one thesis — and the point at which the mathematics reconnects to the
 motivation. A system that minimizes free energy need not merely come to rest at
 its expected states; a *nonequilibrium* steady state holds those states while
-circulating through them, at a strictly positive entropy cost. The overview
-opened by claiming that living systems occupy exactly this regime; the model
-here does not prove that of any organism, but it makes the regime itself — the
-sustained current and its irreversible price — precise and measurable.
+circulating through them, at a strictly positive entropy cost. The model makes the sustained current and its irreversible cost precise
+and measurable under the stated diffusion assumptions. This motivates connections
+to living and synthetic systems without proving biological adequacy or intelligence.
 
 ![**Probability current and entropy production.** Both panels place the same
 stationary Gaussian density (grey contours) under the Bayesian-mechanics

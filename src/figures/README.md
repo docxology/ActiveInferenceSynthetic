@@ -1,13 +1,13 @@
 # `src/figures/`
 
-Matplotlib builders for the seven manuscript figures.
+Matplotlib builders for the ten manuscript figures.
 
 ## Quick start
 
 ```python
 from src.figures import FIGURE_RENDERERS, render_all
 
-manifest = render_all()                       # {filename: Path}, all seven
+manifest = render_all()                       # {filename: Path}, all ten
 path = FIGURE_RENDERERS["belief_update.png"]()  # just one
 ```
 
@@ -33,6 +33,7 @@ uv run python scripts/generate_all_figures.py   # from the project root
 | `policy_planning.py` | `policy_planning.png` — multi-step planning |
 | `blanket.py` | `markov_blanket.png` |
 | `steady_state.py` | `steady_state_current.png` |
+| `decision_value.py` | `value_of_information.png` — utility gain, cost and information |
 | `render_all.py` | `FIGURE_RENDERERS`, `render_all()` |
 | `palette.py` | Shared colour constants |
 | `landscape.py` | Shared free-energy contour backdrop |
@@ -41,3 +42,7 @@ uv run python scripts/generate_all_figures.py   # from the project root
 ## More information
 
 See [AGENTS.md](AGENTS.md) for the builder contract and how to add a figure.
+
+The closed-loop and hierarchical panels are built by
+`src/figures/synthetic_agent.py` and `src/figures/hierarchy.py`, with the thin
+`generate_synthetic_agent_figure.py` and `generate_hierarchy_figure.py` scripts.

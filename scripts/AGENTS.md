@@ -22,7 +22,7 @@ numerical constants, or scientific formulas; see
 | File | Role |
 | --- | --- |
 | `__init__.py` | Makes `scripts` importable so tests can call each `main()` |
-| `generate_all_figures.py` | All seven figures via `src.figures.render_all`, then delegates the variables + hydration tail to `z_generate_manuscript_variables.main()` |
+| `generate_all_figures.py` | All nine figures via `src.figures.render_all`, then delegates the variables + hydration tail to `z_generate_manuscript_variables.main()` |
 | `generate_overview_figure.py` | `active_inference_overview.png` |
 | `generate_belief_update_figure.py` | `belief_update.png` |
 | `generate_trajectory_figure.py` | `worked_trajectories.png` |
@@ -116,3 +116,7 @@ the private sidecar alone therefore returns `2` by design.
 - [`../src/figures/AGENTS.md`](../src/figures/AGENTS.md) — the builders these wrap
 - [`../src/AGENTS.md`](../src/AGENTS.md) — the numerical cores
 - [`../docs/rendering_pipeline.md`](../docs/rendering_pipeline.md) — where these fit in the render pipeline
+
+The closed-loop and hierarchical panels are built by
+`src/figures/synthetic_agent.py` and `src/figures/hierarchy.py`, with the thin
+`generate_synthetic_agent_figure.py` and `generate_hierarchy_figure.py` scripts.

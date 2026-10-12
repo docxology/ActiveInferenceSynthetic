@@ -9,12 +9,14 @@ Two regimes over the *same* isotropic Gaussian free-energy landscape:
 
 * **Equilibrium** (``omega = 0``): pure gradient descent. A trajectory falls
   straight to the mode and comes to rest. Free energy decreases monotonically;
-  there is no net rotation — the flow obeys detailed balance.
+  there is no net rotation. Detailed balance concerns the matched stochastic
+  process, not this deterministic path alone.
 * **Non-equilibrium steady state** (``omega ≠ 0``): the same descent plus a
   solenoidal current. Free energy *still* decreases monotonically, yet the path
   spirals — because the conservative ``Q``-term circulates probability mass
-  along the level sets of ``F`` without ever changing it. That persistent
-  circulation is the signature of living systems.
+  along the level sets of ``F`` without ever changing it. With positive
+  dissipation, the deterministic spiral still approaches the origin; it is
+  neither a stable orbit nor evidence of life or intelligence.
 
 For this isotropic-Gaussian flow the angular velocity is analytically
 *constant*, ``dθ/dt = −ω · precision`` radians per unit time — independent of
@@ -71,8 +73,9 @@ def integrate_trajectory(
         start: Initial ``(x, y)`` position.
         precision: Belief precision of the Gaussian free energy (``> 0``).
         gamma: Dissipative (descent) strength (``>= 0``).
-        omega: Solenoidal (rotational) strength. ``0`` gives the equilibrium
-            regime; nonzero gives a non-equilibrium steady state.
+        omega: Solenoidal (rotational) strength. Nonzero values rotate the
+            deterministic drift. Stationary current additionally requires
+            the matched diffusion and stationary density.
         dt: Positive fixed time step.
         steps: Positive number of integration steps.
 
@@ -123,9 +126,9 @@ def free_energy_along(
         precision: Belief precision of the Gaussian free energy.
 
     Returns:
-        A length-``N`` array ``F(x_i, y_i)`` along the path. For both regimes
-        this sequence is non-increasing (descent is preserved even when the
-        NESS current circulates).
+        A length-``N`` array ``F(x_i, y_i)`` along the supplied path. Descent
+        holds for the continuous model and the demonstrated small RK4 steps;
+        this evaluator does not impose monotonicity on arbitrary paths.
     """
     arr = np.asarray(path, dtype=np.float64)
     if arr.ndim != 2 or arr.shape[1] != 2:
@@ -139,8 +142,8 @@ def net_rotation(path: NDArray[np.float64]) -> float:
     Computed by summing the exterior angle between successive position vectors
     via ``atan2`` cross/dot, so it accumulates past ``±π`` rather than wrapping.
     Near-zero for the equilibrium regime (a straight fall to the mode); large in
-    magnitude for a NESS spiral, which is exactly the persistent probability
-    current made quantitative.
+    magnitude for a rotating drift spiral. This measures deterministic
+    winding, not the stochastic stationary probability current.
 
     Args:
         path: An ``(N, 2)`` trajectory.

@@ -1,8 +1,12 @@
 """Active Inference -- A Synthetic Overview: project source.
 
+Installed imports use ``active_inference_synthetic``; checkout scripts use
+``src``. The Python package does not import ``fep_lean`` or ``gnn``. The
+independent Lean layer imports pinned ``FepSketches`` modules through Lake.
+
 This package holds the small, fully-tested numerical core behind the
-overview's figures and demonstrations. Two complementary cores make the
-overview's thesis — *one currency, two directions* — concrete:
+overview's figures and demonstrations. The examples keep their mathematical
+objects and interpretation boundaries distinct:
 
 * :mod:`src.free_energy_flow` encodes the Helmholtz decomposition of
   steady-state flow used in Bayesian mechanics — the basis of the equilibrium
@@ -11,9 +15,8 @@ overview's thesis — *one currency, two directions* — concrete:
   minimization over a discrete generative model — showing that the belief
   minimizing free energy *is* the Bayesian posterior, and that free energy is
   a tight upper bound on surprise.
-* :mod:`src.trajectories` integrates the Bayesian-mechanics flow into worked
-  equilibrium and non-equilibrium trajectories, quantifying the persistent
-  probability current that distinguishes living systems.
+* :mod:`src.trajectories` integrates deterministic drift trajectories;
+  ensemble probability current is calculated separately in the diffusion model.
 * :mod:`src.expected_free_energy` extends the generative model to *action*:
   choosing policies by minimizing expected free energy, whose pragmatic and
   epistemic terms produce the explore/exploit balance.
@@ -58,6 +61,7 @@ from .markov_blanket import (
     partial_correlation,
 )
 from .ou_model import IsotropicOU
+from .value_of_information import DecisionValue, value_of_information
 from .steady_state import (
     current_circulation,
     drift_matrix,
@@ -72,6 +76,8 @@ from .trajectories import (
 )
 
 __all__ = [
+    "DecisionValue",
+    "value_of_information",
     "BeliefDescent",
     "IsotropicOU",
     "PolicySelection",

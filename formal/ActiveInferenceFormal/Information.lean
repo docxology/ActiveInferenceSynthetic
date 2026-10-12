@@ -14,17 +14,12 @@ energy is an upper bound on surprise, and that minimizing it *is* Bayesian
 inference.  This module imports the ℝ-valued proofs from the companion
 **fep_lean** library and re-exports them with exposition.
 
-## Three evidence surfaces
+## Evidence boundary
 
-| Surface | Domain | Where proved |
-|---------|--------|-------------|
-| Python ``src/`` | ℝ (float) | ``src/generative_model.py``, ``src/expected_free_energy.py`` |
-| Formal (this module) | ℝ (mathlib) | ``FepSketches.finite_information``, ``FepSketches.active_inference`` |
-| Formal (legacy ℤ) | ℤ (core) | ``ActiveInferenceFormal.Informationℤ`` (see Sanity.lean) |
-
-The ℤ version proves the same structural facts (Gibbs' inequality, the
-free-energy bound) from Lean core alone, proving they are algebraic, not
-analytic.  The ℝ version below is the one used in the manuscript.
+The real-valued propositions are imported from fep_formal's FepSketches library.
+Python supplies independently tested numerical examples. The upstream finite
+KL convention is totalized over reals; Python rejects zero reference mass on
+positive belief support. Agreement requires the appropriate support domain.
 
 ## Key theorems imported from fep_lean
 
@@ -107,7 +102,7 @@ theorem ℝ_negative_VFE_le_logEvidence
 /-! ## Expected free energy (ℝ, from fep_lean) -/
 
 /-- **EFE decomposition matching ActiveInferenceSynthetic.**  G(π) =
--(E[ln P(o|π)] + I(s; o|π)).  The ``pragmaticValue`` is the expected
+-(E[ln C(o)] + I(s; o|π)), where C is the outcome preference law.  The ``pragmaticValue`` is the expected
 log-preference; the ``epistemicValue`` is the mutual information between
 latent state and outcome. -/
 theorem ℝ_EFE_decomposition
@@ -125,8 +120,8 @@ theorem ℝ_EFE_minimizer_exists
       expectedFreeEnergy model policy ≤ expectedFreeEnergy model alternative :=
   exists_expectedFreeEnergy_minimizer model
 
-/-- **Epistemic value is nonnegative:** the expected information gain from an
-action can never reduce free energy. -/
+/-- **Epistemic value is nonnegative:** the predictive joint has nonnegative
+mutual information. -/
 theorem ℝ_epistemicValue_nonneg
     {Policy State Outcome : Type*} [Fintype Policy] [Fintype State] [Fintype Outcome]
     (model : GenerativeModel Policy State Outcome) (policy : Policy) :

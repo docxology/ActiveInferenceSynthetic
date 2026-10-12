@@ -11,7 +11,7 @@ from pathlib import Path
 import pytest
 import yaml
 
-from src.demos import TRAJECTORY_DT
+from src.demos import NATIVE_BLANKET_PRECISION, TRAJECTORY_DT
 from src.manuscript_variables import (
     compute_claims,
     generate_variables,
@@ -93,6 +93,7 @@ def test_claim_ledger_matches_live_claims() -> None:
     claims = compute_claims()
     ledger = yaml.safe_load((_ROOT / "data" / "claim_ledger.yaml").read_text())
     by_id = {row["claim_id"]: row["value"] for row in ledger["claims"]}
+    assert by_id["canonical-native-precision-input"] == NATIVE_BLANKET_PRECISION.ravel().tolist()
     assert by_id["belief-model-prior"][0] == pytest.approx(claims["prior_x0"])
     assert by_id["belief-model-prior"][1] == pytest.approx(claims["prior_x1"])
     assert by_id["belief-posterior-x0"] == pytest.approx(claims["posterior_x0"])

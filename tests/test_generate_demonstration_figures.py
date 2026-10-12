@@ -8,6 +8,8 @@ import pytest
 
 from scripts import (
     generate_belief_update_figure,
+    generate_synthetic_agent_figure,
+    generate_hierarchy_figure,
     generate_efe_figure,
     generate_markov_blanket_figure,
     generate_policy_planning_figure,
@@ -28,6 +30,8 @@ _PNG_SIGNATURE = b"\x89PNG\r\n\x1a\n"
         (generate_markov_blanket_figure, "markov_blanket.png"),
         (generate_policy_planning_figure, "policy_planning.png"),
         (generate_steady_state_figure, "steady_state_current.png"),
+        (generate_synthetic_agent_figure, "synthetic_agent.png"),
+        (generate_hierarchy_figure, "hierarchical_inference.png"),
     ],
 )
 def test_generator_writes_non_empty_png(

@@ -11,17 +11,17 @@ where, for a Gaussian (quadratic) free energy ``F``:
 * ``Gamma`` is a symmetric positive-semidefinite *dissipative* operator
   (positive-definite when ``gamma > 0``; ``gamma == 0`` is allowed for
   deterministic flow). The
-  ``-Gamma @ grad F`` term is pure gradient descent on free energy — the
-  Free Energy Principle's claim that a system *climbs down* its own
-  surprise. On its own it drives the system to the mode and stops.
+  ``-Gamma @ grad F`` term is gradient descent on this quadratic potential.
+  For positive ``gamma`` it drives the deterministic state to the mode.
 * ``Q`` is an antisymmetric *solenoidal* operator. The ``Q @ grad F`` term
   is conservative: it is everywhere orthogonal to ``grad F`` and so leaves
   free energy unchanged while pushing probability mass *around* the mode.
 
-When ``Q = 0`` the flow obeys detailed balance and the system relaxes to a
-classical thermodynamic *equilibrium*. When ``Q != 0`` the same landscape
-sustains a persistent probability current — a *non-equilibrium steady
-state* (NESS), the regime of living, far-from-equilibrium systems.
+Detailed balance and stationary probability current refer to the matched
+stochastic OU process with diffusion ``Gamma`` and Gaussian stationary density.
+For positive ``gamma``, zero ``Q`` gives zero stationary current; nonzero ``Q``
+gives a circulating current. A deterministic trajectory alone establishes
+neither a stationary ensemble nor life, intelligence, or a physical heat budget.
 
 The free energy here is isotropic, ``F(x, y) = 0.5 * precision * (x^2 + y^2)``,
 i.e. the negative log of a zero-mean Gaussian *kernel*, up to an additive
@@ -114,18 +114,16 @@ def flow_field(
         fx = -gamma * dFdx + omega * dFdy
         fy = -gamma * dFdy - omega * dFdx
 
-    ``omega == 0`` gives pure gradient descent on free energy (an
-    equilibrium that obeys detailed balance); ``omega != 0`` adds a
-    rotational current that never changes ``F`` (a non-equilibrium steady
-    state).
+    ``omega == 0`` gives gradient descent; ``omega != 0`` adds a rotational
+    component orthogonal to the gradient. Stationary probability current is
+    computed separately with the matched diffusion and density.
 
     Args:
         x: X coordinates.
         y: Y coordinates.
         precision: Inverse-variance of the belief (``> 0``).
         gamma: Strength of the symmetric dissipative term (``>= 0``).
-        omega: Strength of the antisymmetric solenoidal term. Zero means
-            detailed balance / equilibrium.
+        omega: Strength of the antisymmetric solenoidal term.
 
     Returns:
         A ``(fx, fy)`` velocity-field tuple matching the input shapes.

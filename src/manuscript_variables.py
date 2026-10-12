@@ -25,6 +25,7 @@ from .demos import (
     FLOW,
     LIKELIHOOD,
     OMEGA_NESS,
+    NATIVE_BLANKET_PRECISION,
     PLANNING_HORIZON,
     PLANNING_PREFERENCES,
     PRIOR,
@@ -36,10 +37,15 @@ from .demos import (
 )
 from .expected_free_energy import epistemic_value, expected_free_energy
 from .generative_model import evidence, joint, posterior
+from .synthetic_agent import synthetic_agent_demo
+from .hierarchical_model import hierarchical_demo
+from .planning_bridge import two_step_history_efe
 from .markov_blanket import correlation_matrix, covariance_from_precision
 from .policy_planning import select_multistep_policy
 from .project_paths import project_output_dirs
 from .steady_state import entropy_production_rate
+from .value_of_information import value_of_information
+from .demos import VOI_CHANNEL, VOI_PRIOR, VOI_UTILITIES, VOI_COST
 from .trajectories import integrate_trajectory, net_rotation
 
 _DOC_ONLY = frozenset({"AGENTS.md", "README.md", "SYNTAX.md"})
@@ -81,7 +87,33 @@ def compute_claims() -> dict[str, float]:
     )
     look_then_leap = plan.policies.index((0, 1))
     exploit_first = plan.policies.index((1, 1))
+    agent = synthetic_agent_demo(1)
+    control = synthetic_agent_demo(1, informative=False)
+    hierarchy = hierarchical_demo()
+    native_cov = covariance_from_precision(NATIVE_BLANKET_PRECISION)
+    history = two_step_history_efe(ACTIONS[0], ACTIONS[1], BELIEF, PLANNING_PREFERENCES)
+    decision = value_of_information(VOI_CHANNEL, VOI_PRIOR, VOI_UTILITIES, cost=VOI_COST)
     return {
+        "voi_accuracy": float(VOI_CHANNEL[0, 0]),
+        "voi_cost": VOI_COST,
+        "voi_baseline": decision.baseline_utility,
+        "voi_informed": decision.informed_utility,
+        "voi_gross": decision.gross_value,
+        "voi_net": decision.net_value,
+        "voi_information": decision.information_nats,
+        "agent_cue_efe": float(agent.initial.efe[agent.initial.choice]),
+        "agent_posterior_right": float(agent.posterior[1]),
+        "agent_control_right": float(control.posterior[1]),
+        "agent_commit_right_efe": float(agent.commitment.efe[1]),
+        "agent_commit_left_efe": float(agent.commitment.efe[0]),
+        "agent_cue_probability": float(agent.observation_probability),
+        "hierarchy_evidence": float(hierarchy.evidence),
+        "hierarchy_state0": float(hierarchy.posterior_states[0]),
+        "hierarchy_context0": float(hierarchy.posterior_contexts[0]),
+        "hierarchy_predicted_state0": float(hierarchy.predicted_states[0]),
+        "native_blanket_covariance": float(native_cov[0, 3]),
+        "history_normalization_offset": float(history.normalization_offset),
+        "history_channel_efe": float(history.history_efe),
         "prior_x0": float(PRIOR[0]),
         "prior_x1": float(PRIOR[1]),
         "joint_s0_x0": float(j0[0]),
@@ -171,6 +203,24 @@ def generate_variables(project_root: Path | None = None) -> dict[str, str]:
         "PAPER_VERSION": _quoted("version"),
         "PAPER_TITLE": _quoted("title"),
     }
+    for key in (
+        "voi_accuracy", "voi_cost", "voi_baseline", "voi_informed",
+        "voi_gross", "voi_net", "voi_information",
+        "agent_cue_efe",
+        "agent_posterior_right",
+        "agent_control_right",
+        "agent_commit_right_efe",
+        "agent_commit_left_efe",
+        "agent_cue_probability",
+        "hierarchy_evidence",
+        "hierarchy_state0",
+        "hierarchy_context0",
+        "hierarchy_predicted_state0",
+        "native_blanket_covariance",
+        "history_normalization_offset",
+        "history_channel_efe",
+    ):
+        variables[key.upper()] = _approx(claims[key], 4)
     return variables
 
 

@@ -29,7 +29,8 @@ Two terms, mirroring the one-step decomposition:
   $\mathbb{E}_{q(o_{1:T}|\pi)}[\ln p_{\text{pref}}(o_T)]$.
   Payoffs are collected at the end of the plan, which is what makes
   *sequencing* matter: an informative first action has no immediate payoff but
-  sharpens the belief the final action is chosen under — along each branch.
+  changes branch beliefs without changing a state-independent terminal
+  payoff channel. Adaptive action choice is a separate closed-loop contract.
 
 * **Epistemic (cumulative)** — the expected total belief resolution:
   $\mathbb{E}_{q(o_{1:T}|\pi)}\big[\mathrm{KL}[\,q(s \mid o_{1:T})\, \Vert\, q(s)\,]\big]$.
@@ -44,8 +45,7 @@ $$
 The plan selected is $\arg\min_\pi G(\pi)$.
 
 Because later-step quantities are evaluated *along each branch* and then
-averaged, the nonlinearity of Bayes rule is preserved: the value of
-information is real. A mixture belief would collapse
+averaged, the nonlinearity of Bayes rule is preserved: the history information term is retained. A mixture belief would collapse
 $\mathbb{E}[\text{posterior}]$ back to the prior and erase the value of
 looking before leaping. Branch enumeration is exact — every branch of
 $O^T$ outcomes is summed, no sampling, no RNG.

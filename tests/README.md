@@ -25,7 +25,7 @@ uv run pytest tests/test_steady_state.py -q          # one file
 
 | File | Role |
 | --- | --- |
-| `conftest.py` | Headless matplotlib; puts template root, project root, and `src/` on `sys.path` |
+| `conftest.py` | Headless matplotlib; adds project root and `src/`, independent of template |
 | `test_*.py` | One file per module or script group — see [AGENTS.md](AGENTS.md) |
 | [`PATTERNS.md`](PATTERNS.md) | Test conventions |
 

@@ -49,7 +49,7 @@ uv run pytest tests/ --cov=src --cov-fail-under=90   # from the project root
 | `steady_state.py` | NESS current, entropy-production rate |
 | `project_paths.py` | `project_output_dirs()` |
 | `manuscript_variables.py` | Live `{{TOKEN}}` map and manuscript hydration |
-| [`figures/`](figures/README.md) | Matplotlib builders for the seven figures |
+| [`figures/`](figures/README.md) | Matplotlib builders for the ten figures |
 
 The package-level public API is whatever [`__init__.py`](__init__.py)
 re-exports; `policy_planning`, `project_paths`, and `manuscript_variables` are
@@ -60,3 +60,8 @@ imported from their own modules.
 - [AGENTS.md](AGENTS.md) — module contracts and the full export surface
 - [STYLE.md](STYLE.md) — source conventions
 - [`figures/AGENTS.md`](figures/AGENTS.md) — the figure builder contract
+
+Additional teaching cores: `synthetic_agent.py` (observation-sensitive commitment),
+`hierarchical_model.py` (exact two-level inference), and `planning_bridge.py`
+(normalized history carrier). Canonical native Gaussian fixture arrays live in
+`demos.py` alongside the original numerical blanket fixture.

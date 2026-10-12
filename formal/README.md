@@ -1,102 +1,94 @@
-# Formal verification (Lean 4)
+# Selected formal results for the Synthetic paper
 
-Machine-checked formalization of the mathematical core of *Active Inference —
-A Synthetic Overview*. The development has **two surfaces**:
+This is an exposition and verification layer over
+[ActiveInferenceInstitute/fep_formal](https://github.com/ActiveInferenceInstitute/fep_formal).
+The generic real-valued mathematics lives upstream in `FepSketches`.
+[Positioning and methods](../docs/positioning.md) links each paper section to
+its upstream carrier and explains where a transfer remains unproved.
 
-1. **ℝ surface (manuscript-canonical).** `Geometry.lean` and `Information.lean`
-   import and re-export the ℝ-valued theorems from the companion **fep_lean**
-   library (`FepSketches`, mathlib-backed). `Bridge.lean` documents how the
-   three evidence surfaces — Python `src/` (floats), formal ℝ, and formal ℤ —
-   map onto one another.
-2. **ℤ legacy surface (Lean core only).** `GeometryZ.lean`, `InformationZ.lean`,
-   and `Sanity.lean` prove the same structural statements over ℤ from Lean's
-   core axioms alone — no mathlib, no `sorry` — showing the identities are
-   algebraic, not analytic.
+The dependency is pinned to upstream main revision
+`99276926da1df4287a2e13e9aa7f6d1822cfdca3`, with Lean/Mathlib `v4.34.1`.
+`lakefile.lean` and `lake-manifest.json` record the portable Git dependency and
+transitive revisions. This package has one real-valued library target.
 
-## Build
+## First build
+
+With elan/Lake installed, from this directory:
 
 ```bash
-cd formal
-lake update                     # first time, or when the fep_lean path changes
-lake build                      # both surfaces
-lake build ActiveInferenceFormalℤ   # ℤ surface alone — no fep_lean, no mathlib
+lake exe cache get
+lake build
+lake env lean ActiveInferenceFormal/Audit.lean
 ```
 
-The `require FepSketches from "../../../ongoing/instituteos/repos/fep_lean/lean"`
-is a relative path into the private projects repository's `ongoing/` tree; the
-ℝ surface needs that checkout present. The ℤ surface alone builds from Lean core
-with no dependencies.
+The committed manifest is the dependency authority. `lake update` is a maintenance
+operation for intentionally advancing the pin, not a routine reproduction step.
+Lean is selected by `lean-toolchain`. Dependencies and compiled objects belong
+to this checkout's `.lake/`, never a symlink into another active project.
 
-The build prints, via the `Audit` module, the axiom set of each headline
-theorem: ℝ theorems carry the standard mathlib footprint (including
-`Classical.choice`); every ℤ theorem reports only Lean's trusted core — never
-`sorryAx`.
+## Source ownership
 
-## Layout
+- `Geometry.lean`: selected flow orthogonality, dissipation, detailed balance,
+  and entropy-production propositions from `FEP.NessFlow`.
+- `Information.lean`: selected finite information, VFE, and EFE propositions.
+- `Witnesses.lean`: concrete positive/boundary controls, including negative
+  dissipation and disjoint-support totalized KL.
+- `GaussianBlanket.lean`: canonical four-axis Gaussian fixture, native
+  conditional independence, exact conditional rows and a coupled countermodel.
+- `Planning.lean`: two-step Boolean history channel, terminal-preference
+  normalization correction, static cumulative-objective counterexample and
+  uninformative/perfect-observation witnesses.
+- `Bridge.lean`: paper-to-library correspondence and its limits.
+- `Audit.lean`: axiom output for every selected theorem and witness.
 
-Each surface is its own `lean_lib` target in its own directory.
+The wrappers retain the `ℝ_` naming convention. Numerical Python tests are
+independent implementation evidence; the Lean propositions do not certify
+floating-point code, biological adequacy, or a deployed agent.
 
+The Gaussian adapter covers only the canonical precision with diagonal 4,
+in the explicit external/sensory/active/internal order. It does not transfer
+conditional independence to the original diagonal-2.5 numerical example.
+The planning adapter covers two Boolean observations of a static Boolean
+state. A history preference `c(last)/2` is normalized, so its upstream EFE is
+the paper's terminal-cost/full-history-information objective plus `log 2`.
+Strictly positive terminal preferences are required; impossible histories
+are allowed. The static cumulative EFE theorem is not that objective:
+even two fair uninformative observations give `2 log 2` rather than `log 2`.
+
+In index order `(external, sensory, active, internal)`, the canonical fixture is
+
+```text
+K = [[4,-1,-1,0],[-1,4,0,-1],[-1,0,4,-1],[0,-1,-1,4]]
+Sigma = (1/24) * [[7,2,2,1],[2,7,1,2],[2,1,7,2],[1,2,2,7]]
 ```
-lakefile.lean                        requires FepSketches (fep_lean) + declares both targets
-lean-toolchain                       leanprover/lean4:v4.33.1 (matches fep_lean)
-lake-manifest.json                   resolved dependencies (written by `lake update`)
-ActiveInferenceFormal.lean           library root (imports every module of both surfaces)
-ActiveInferenceFormal/               ℝ target
-  Geometry.lean                      ℝ flow / steady-state facts (from fep_lean)
-  Information.lean                   ℝ perception / free-energy bound, EFE (from fep_lean)
-  Bridge.lean                        documentation bridging Python ℝ, formal ℝ, formal ℤ
-  Audit.lean                         `#print axioms` on every headline theorem, both surfaces
-ActiveInferenceFormalℤ/              ℤ target (Lean core only)
-  GeometryZ.lean                     ℤ flow identities
-  InformationZ.lean                  ℤ VFE bound
-  Sanity.lean                        non-vacuity witnesses for the ℤ surface
-```
 
-Per-directory guides: [`ActiveInferenceFormal/README.md`](ActiveInferenceFormal/README.md)
-and [`ActiveInferenceFormalℤ/README.md`](ActiveInferenceFormalℤ/README.md).
+At any center `m`, conditioning on sensory/active values `(s,a)` gives
+independent endpoint Gaussians with means
+`m_endpoint + ((s-m_sensory)+(a-m_active))/4` and variance `1/4`.
+The marginal external/internal covariance is `1/24`. The separate native
+nonindependence witness has endpoint precision `[[4,1],[1,4]]` and covariance
+`(1/15)*[[4,-1],[-1,4]]`.
 
-## What is proved
+For a fixed two-action sequence, the history likelihood is
+`L(h|state)=first(state,h.first)*second(state,h.last)`. Both rows and the prior
+are normalized finite laws; the history posterior is defined only when its
+predictive mass is positive. The adapter accepts any normalized Boolean-history
+channel, and `twoStepHistory` supplies the conditionally independent product
+channel used in the paper. Fair uninformative observations yield zero mutual
+information and terminal EFE `log 2`; repeated perfect observations yield
+mutual information `log 2` and terminal EFE zero. The latter permits impossible
+off-diagonal histories. Generic horizon lengths, observation-adaptive trees,
+and a formal proof of Python's floating-point posterior-KL summation are outside
+this adapter.
 
-Names below are the ℤ-surface names. The ℝ re-exports carry an `ℝ_` prefix
-(`ℝ_solenoidal_orthogonal`, `ℝ_surprisal_le_VFE`, …); both namespaces are listed
-per file in the two subdirectory guides.
+## Verification
 
-**Geometry / NESS flow** (§1, §3, §6) — on both surfaces:
+From the project root, `uv run pytest tests/test_formal_lean.py` checks immutable
+dependency metadata, source contracts, the real build, complete axiom output,
+and real false propositions that Lean must reject. The current audit has 34
+declarations; the explicit inventory in `tests/test_formal_lean.py` is the
+maintained authority. `sorryAx`, missing audit
+entries, and admission keywords fail the checks. Positive support and other
+hypotheses remain visible rather than being inferred from theorem names.
 
-- `solenoidal_orthogonal` — the antisymmetric current `Q g` is orthogonal to the
-  gradient `g` (it does no work against free energy).
-- `flow_work_eq_dissipation` — the work of the full flow is exactly `-γ‖g‖²`;
-  the solenoidal part is free, so free energy is non-increasing.
-- `detailed_balance_iff` — the current vanishes iff `ω = 0`.
-- `entropyProduction_nonneg` / zero-iff — entropy production is `≥ 0` and `= 0`
-  exactly at `ω = 0`.
-
-**Information / perception** (§2) — ℤ surface plus ℝ counterparts from fep_lean:
-
-- `relEntropy_nonneg` — Gibbs' inequality (relative entropy `≥ 0`).
-- `freeEnergy_eq_surprise_add_relEntropy` — the decomposition `F = surprise +
-  D(q‖posterior)`.
-- `freeEnergy_ge_surprise` — variational free energy is an upper bound on
-  surprise (ℤ: total-scaled; ℝ: for a genuine generative model).
-- `freeEnergy_eq_surprise_at_posterior` — the bound is tight at the posterior.
-
-## Design notes
-
-- **Why ℤ at all.** The structural claims are polynomial identities and sign
-  facts; the integers suffice and keep the legacy surface dependency-free. The
-  real-valued instances live on the Python side and in the fep_lean-backed ℝ
-  surface.
-- **The logarithm's properties are explicit hypotheses — and non-vacuity is
-  proved.** The ℤ free-energy bound needs two facts about `ln`: additivity and
-  the tangent bound (`ln x ≤ x-1`). Stated *universally* over ℤ these are
-  unsatisfiable, which would make the theorems vacuously true. The development
-  takes them only at the exact points each proof consumes, and `Sanity.lean`
-  proves both a **negative control** (`relEntropy_can_be_negative`: the tangent
-  hypothesis is necessary) and a **positive control** (`okL*`: the hypotheses
-  are satisfiable on a genuine generative model and the bound fires with a real
-  gap). So the ℤ results are faithful, not vacuous.
-
-The Python suite verifies all of this via `tests/test_formal_lean.py`: source
-audits (`sorry`/`admit` absence, theorem and witness presence, surface import
-contracts) plus a real `lake build` with axiom-audit inspection when a Lean
-toolchain is installed.
+Module instructions: [ActiveInferenceFormal/AGENTS.md](ActiveInferenceFormal/AGENTS.md).

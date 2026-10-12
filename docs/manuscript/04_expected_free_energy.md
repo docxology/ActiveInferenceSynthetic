@@ -21,7 +21,7 @@ minimizes their negatives):
 $$
 G(a) \;=\; -\underbrace{\mathbb{E}_{q(o\mid a)}\big[\ln p_{\text{pref}}(o)\big]}_{\text{pragmatic value}}
 \;-\; \underbrace{\mathbb{E}_{q(o\mid a)}\!\big[\mathrm{KL}[\,q(s\mid o,a)\,\Vert\,q(s)\,]\big]}_{\text{epistemic value}}.
-$$
+$$ {#eq:efe}
 
 **Pragmatic value** is expected utility: how well an action's likely outcomes
 match what the agent prefers. **Epistemic value** is expected information gain —

@@ -21,9 +21,9 @@ belief $q(x)$ and a single scalar, the **variational free energy**:
 $$
 F[q] \;=\; \underbrace{\mathrm{KL}\!\left[q(x)\,\Vert\,p(x)\right]}_{\text{complexity}}
 \;-\; \underbrace{\mathbb{E}_{q}\!\left[\ln p(s \mid x)\right]}_{\text{accuracy}}.
-$$
+$$ {#eq:vfe}
 
-Two facts, both asserted to machine precision in the tests, make $F$ the whole
+The decomposition in [@eq:vfe] separates complexity from accuracy. Two facts, both asserted to machine precision in the tests, make $F$ the whole
 game. First, **$F$ is an upper bound on surprise**: $F[q] = -\ln p(s) +
 \mathrm{KL}\!\left[q \Vert p(x \mid s)\right] \ge -\ln p(s)$, because a KL
 divergence is never negative. Surprise $-\ln p(s)$ is exactly what an organism

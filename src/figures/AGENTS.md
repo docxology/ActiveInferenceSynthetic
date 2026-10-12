@@ -67,7 +67,7 @@ uv run python scripts/generate_overview_figure.py
 ```python
 from src.figures import FIGURE_RENDERERS, render_all
 
-manifest = render_all()               # {filename: Path} for all seven
+manifest = render_all()               # {filename: Path} for all nine
 one = FIGURE_RENDERERS["belief_update.png"]()
 ```
 
@@ -95,3 +95,7 @@ one = FIGURE_RENDERERS["belief_update.png"]()
 - [`../STYLE.md`](../STYLE.md) — source conventions
 - [`../../scripts/AGENTS.md`](../../scripts/AGENTS.md) — the orchestrators
 - [`../../tests/AGENTS.md`](../../tests/AGENTS.md) — `test_figures.py` coverage
+
+The closed-loop and hierarchical panels are built by
+`src/figures/synthetic_agent.py` and `src/figures/hierarchy.py`, with the thin
+`generate_synthetic_agent_figure.py` and `generate_hierarchy_figure.py` scripts.

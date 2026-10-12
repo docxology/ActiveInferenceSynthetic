@@ -1,0 +1,26 @@
+{
+  "primary": {
+    "title": "Active Inference -- A Synthetic Overview",
+    "display_label": "SYNTHETIC / REVISED PAPER AND LECTURE",
+    "doi": "10.5281/zenodo.23321281",
+    "record_url": "https://zenodo.org/records/23321281",
+    "authored_state": "Revised local paper and teaching release; DOI identifies earlier archived publication"
+  },
+  "links": [
+    {
+      "label": "Revised paper, lecture and sources",
+      "url": "https://github.com/docxology/ActiveInferenceSynthetic/releases/tag/synthetic-teaching-v0.6.0",
+      "display_url": "GitHub release: synthetic-teaching-v0.6.0"
+    },
+    {
+      "label": "FEP_Formal published reference",
+      "url": "https://zenodo.org/records/23220027",
+      "display_url": "zenodo.org/records/23220027"
+    },
+    {
+      "label": "GNN published reference",
+      "url": "https://zenodo.org/records/7803328",
+      "display_url": "zenodo.org/records/7803328"
+    }
+  ]
+}

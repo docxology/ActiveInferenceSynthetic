@@ -23,18 +23,22 @@ No mock frameworks. Every assertion uses real numerics or subprocess/tool execut
 | `test_formal_lean.py` | `formal/` Lean sources + real `lake build` |
 | `test_project_paths.py` | `src/project_paths.py` |
 
+New behavioral tests cover `synthetic_agent`, `hierarchical_model`,
+`planning_bridge`, and the exact canonical native Gaussian fixture. Formal tests
+check both new adapters and their negative controls. Figure/script tests cover
+all registered PNGs.
+
 ## Running
 
 ```bash
 uv run pytest tests/ --cov=src --cov-fail-under=90
 ```
 
-`conftest.py` forces `MPLBACKEND=Agg` and puts three paths on `sys.path`: the
-template repo root, the project root, and `src/`. Its `_find_repo_root()` walks
-both the literal and the resolved ancestors for a directory containing
-`infrastructure/`, then falls back to a sibling `template/` checkout — so the
-same command works from the private sidecar and through the template's
-`projects/working/` symlink. It raises `RuntimeError` when neither is found.
+`conftest.py` forces `MPLBACKEND=Agg` and adds only the project root and `src/`
+to `sys.path`. No template discovery is needed. `test_standalone_collection.py`
+exercises a real pytest subprocess with numerical code in a checkout without
+infrastructure. `test_formal_lean.py` checks the immutable upstream dependency,
+complete axiom output, boundary witnesses, and native rejection of a false claim.
 
 Figure tests monkeypatch `src.project_paths._DEFAULT_ROOT` to a `tmp_path`, so a
 test run never writes into the real `output/` tree.

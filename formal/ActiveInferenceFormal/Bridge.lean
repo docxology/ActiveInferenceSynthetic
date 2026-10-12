@@ -1,56 +1,28 @@
-/-
-Copyright (c) 2026 Daniel Ari Friedman, Alexandra Mikhailova.
-Released under the CC-BY-4.0 license (matching the manuscript).
--/
-
 /-!
-# Bridge between three evidence surfaces
+# Paper-to-library correspondence
 
-This module maps every lemma across the three surfaces --- Python ℝ (src/),
-formal ℤ (GeometryZ, InformationZ), and formal ℝ (fep_lean) --- so the
-manuscript's scientific claims are traceable to their formal machine-checked
-counterpart and their quantitative Python demonstration.
+Synthetic owns tested examples and the paper; fep_formal owns generic proofs.
 
-## The three surfaces
+* Perception/VFE: src/generative_model.py; FEP.ActiveInference and
+  FEP.FiniteInformation, selected in Information.lean.
+* Action/EFE: src/expected_free_energy.py; FEP.ActiveInference, selected in
+  Information.lean. A finite minimizer is not a proof of softmax implementation.
+* Flow/NESS: src/free_energy_flow.py, src/trajectories.py, src/steady_state.py;
+  FEP.NessFlow, selected in Geometry.lean.
+* Blanket: GaussianBlanket.lean transports the canonical upstream four-axis
+  precision to the second Python fixture, proving native Gaussian conditional
+  independence and nonzero marginal covariance. The original diagonal-2.5
+  fixture is a separate numerical example, not covered by that theorem.
+* Planning: Planning.lean gives an exact two-step Boolean-history channel;
+  normalized history preferences add log 2 to the terminal-payoff objective.
+  Removing that constant matches terminal pragmatic value minus full-history
+  mutual information. A static, uninformative counterexample proves upstream
+  stagewise cumulative EFE is different; repeating a perfect observation
+  carries only one bit of information. Neither theorem certifies the Python
+  floating-point recursion or an observation-adaptive policy tree.
 
-| Layer | Domain | Tool | Dependency | Builds in |
-|-------|--------|------|------------|-----------|
-| Python | ℝ (float) | NumPy, matplotlib | — | seconds |
-| Formal (ℤ) | ℤ (Int) | Lean core | no mathlib | seconds |
-| Formal (ℝ) | ℝ (Real) | Lean + mathlib | fep_lean (3 GB) | minutes |
-
-Each layer proves the same mathematical structures:
-
-| Claim | Python demo | ℤ formal | ℝ formal (fep_lean) |
-|-------|-------------|--------------|---------------------------|
-| Gibbs' inequality (KL ≥ 0) | — | `relEntropy_nonneg` | `finiteKL_nonneg` |
-| VFE bounds surprise | `src/generative_model.py` | `freeEnergy_ge_surprise` | `outcomeSurprisal_le_variationalFreeEnergy` |
-| Solenoidal current does no work | `src/free_energy_flow.py` | `solenoidal_orthogonal` | `solenoidal_orthogonal` (FepSketches.ness_flow) |
-| Detailed balance iff ω=0 | `src/free_energy_flow.py` | `detailed_balance_iff` | `detailed_balance_iff` (FepSketches.ness_flow) |
-| Entropy production ≥ 0 | `src/steady_state.py` | `entropyProduction_nonneg` | `entropyProduction_nonneg` (FepSketches.ness_flow) |
-| EFE = -(E[ln P] + I(s;o)) | `src/expected_free_energy.py` | — | `expectedFreeEnergy_eq_negPragmaticValuePlusEpistemicValue` |
-| Markov blanket | `src/markov_blanket.py` | — | `conditional_internal_external_factorization` |
+Finite laws, floating-point arrays, OU diffusions, and conditional measures
+are distinct carriers. Record normalization, support, sign conventions and
+hypotheses for each claimed match. Numerical tests and native Lean evidence
+remain separate. See docs/positioning.md for the maintained navigation map.
 -/
-
-namespace ActiveInferenceFormal.Bridge
-
-/-!
-## How to read this bridge
-
-Each section below names one structural claim and lists every surface that
-proves it.  The ℤ theorem is named (with its module and namespace), the
-ℝ theorem is named (with its fep_lean module), and the Python line
-reference is given.  All three use the same notation.
-
-### Notation key
-
-| Symbol | ℤ meaning | ℝ meaning | Python meaning |
-|--------|---------------|---------------|----------------|
-| `g = ∇F` | integer vector | `Fin 2 → ℝ` | 2-D numpy array |
-| `ω` | integer | real | `float` |
-| `γ` | integer | real | `float` |
-| `D(q‖r)` | integer sum | ℝ sum | float sum |
-| `F[q]` | integer sum | ℝ sum | float sum |
--/
-
-end ActiveInferenceFormal.Bridge

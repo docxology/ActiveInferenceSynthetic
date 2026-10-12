@@ -33,6 +33,14 @@ short action *sequences*: terminal pragmatic value plus cumulative epistemic
 value, minimised over exhaustively enumerated branches — no sampling, no RNG.
 It backs §8 of the manuscript and `src/figures/policy_planning.py`.
 
+## Additional teaching cores
+
+- `synthetic_agent.py`: a finite cue/commitment environment, exact observation
+  conditioning, and a matched uninformative-cue control.
+- `hierarchical_model.py`: exact joint inference for context -> state -> observation.
+- `planning_bridge.py`: normalized two-step history carrier and EFE offset;
+  it does not change the existing terminal/history objective.
+
 ## Internal helpers
 
 | Module | Purpose |

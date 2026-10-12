@@ -1,9 +1,10 @@
 # Troubleshooting
 
-## Tests cannot locate `infrastructure/`
+## Formal dependency is unavailable
 
-Run from the template symlink or keep the sibling `template/` checkout beside
-the private projects repository. `tests/conftest.py` supports both layouts.
+The full suite runs native checks when Lake is installed. Acquire the committed
+Git dependency and Mathlib cache using [formal setup](../formal/README.md).
+Numerical test collection requires no template infrastructure.
 
 ## A figure command fails to import `src`
 

@@ -84,7 +84,7 @@ def build_figure() -> plt.Figure:
     _draw_trajectory_panel(
         ax_r,
         model=ness,
-        title=r"(b) NESS — spirals, current persists",
+        title=r"(b) Rotating drift — spirals and relaxes",
         color=palette.VERMILLION,
     )
     fig.suptitle(

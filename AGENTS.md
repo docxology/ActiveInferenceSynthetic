@@ -1,7 +1,10 @@
 # ActiveInferenceSynthetic — AGENTS.md
 
-Educational Active Inference overview project (private sidecar, symlinked from
-`projects/working/ActiveInferenceSynthetic` in the template checkout).
+Standalone educational paper and numerical demonstrations of Active Inference
+and synthetic intelligences in equilibrium/non-equilibrium settings. The formal
+layer selects real-valued results from `ActiveInferenceInstitute/fep_formal`;
+[docs/positioning.md](docs/positioning.md) owns upstream navigation and transfer
+boundaries. The template is used for publication rendering.
 
 ## Layer contract
 
@@ -19,7 +22,6 @@ Per-directory guides: [`src/`](src/AGENTS.md), [`src/figures/`](src/figures/AGEN
 [`scripts/`](scripts/AGENTS.md), [`tests/`](tests/AGENTS.md),
 [`formal/`](formal/AGENTS.md),
 [`formal/ActiveInferenceFormal/`](formal/ActiveInferenceFormal/AGENTS.md),
-[`formal/ActiveInferenceFormalℤ/`](formal/ActiveInferenceFormalℤ/AGENTS.md),
 [`docs/`](docs/AGENTS.md), [`docs/manuscript/`](docs/manuscript/AGENTS.md),
 [`data/`](data/AGENTS.md). Every one of those directories also carries a
 `README.md` quick reference alongside its `AGENTS.md`.
@@ -48,6 +50,9 @@ Per-directory guides: [`src/`](src/AGENTS.md), [`src/figures/`](src/figures/AGEN
 | `generative_model.py` | Discrete generative model, VFE, `BeliefDescent` |
 | `trajectories.py` | RK4 integration, net rotation |
 | `expected_free_energy.py` | One-step EFE, pragmatic/epistemic value, `PolicySelection` |
+| `synthetic_agent.py` | Closed-loop cue, inference, commitment, and control |
+| `hierarchical_model.py` | Exact two-level prediction and conditioning |
+| `planning_bridge.py` | Normalized observation-history EFE correspondence |
 | `policy_planning.py` | Multi-step policies, `MultiStepSelection` (not re-exported by `src/__init__.py`) |
 | `markov_blanket.py` | Gaussian blanket / partial correlation |
 | `steady_state.py` | NESS current, entropy production |
@@ -59,7 +64,7 @@ Per-directory guides: [`src/`](src/AGENTS.md), [`src/figures/`](src/figures/AGEN
 
 | Script | Output |
 | --- | --- |
-| `generate_all_figures.py` | All seven PNGs + hydrate manuscript tokens |
+| `generate_all_figures.py` | All nine PNGs + hydrate manuscript tokens |
 | `z_generate_manuscript_variables.py` | `output/data/manuscript_variables.json` + `output/manuscript/` |
 | `generate_overview_figure.py` | `active_inference_overview.png` |
 | `generate_belief_update_figure.py` | `belief_update.png` |
@@ -74,7 +79,7 @@ Per-directory guides: [`src/`](src/AGENTS.md), [`src/figures/`](src/figures/AGEN
 
 ```bash
 # From project root (private sidecar or template symlink):
-uv sync
+uv sync --locked --extra dev
 uv run pytest tests/ --cov=src --cov-fail-under=90
 uv run python scripts/generate_all_figures.py
 uv run python scripts/z_generate_manuscript_variables.py
@@ -88,8 +93,7 @@ uv run mypy src
 uv run python scripts/pipeline/stage_03_render.py --project working/ActiveInferenceSynthetic
 
 # Lean formal layer (cwd = formal/):
-cd formal && lake update && lake build          # both surfaces; ℝ needs fep_lean
-cd formal && lake build ActiveInferenceFormalℤ  # ℤ surface alone, no dependencies
+(cd formal && lake build)  # pinned real-valued FepSketches dependency
 ```
 
 `pyproject.toml` declares `numpy`, `matplotlib`, `pyyaml` plus a `dev` extra of

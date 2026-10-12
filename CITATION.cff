@@ -2,12 +2,12 @@ authors:
 - affiliation: Active Inference Institute
   family-names: Friedman
   given-names: Daniel Ari
-  orcid: 0000-0001-6232-9096
+  orcid: https://orcid.org/0000-0001-6232-9096
 - affiliation: Active Inference Institute
   family-names: Mikhailova
   given-names: Alexandra
 cff-version: 1.2.0
-date-released: "2026-07-22"
+date-released: '2026-10-12'
 keywords:
 - active inference
 - free energy principle
@@ -17,6 +17,59 @@ keywords:
 - self-organization
 license: CC-BY-4.0
 message: If you use this work, please cite it using the metadata from this file.
-title: "Active Inference -- A Synthetic Overview"
+title: Active Inference -- A Synthetic Overview
 type: software
-version: "0.5.0"
+version: 0.5.0
+repository-code: https://github.com/docxology/ActiveInferenceSynthetic
+preferred-citation:
+  type: article
+  title: Active Inference -- A Synthetic Overview
+  authors:
+  - family-names: Friedman
+    given-names: Daniel Ari
+    orcid: https://orcid.org/0000-0001-6232-9096
+  - family-names: Mikhailova
+    given-names: Alexandra
+  year: 2026
+  doi: 10.5281/zenodo.23321281
+  url: https://zenodo.org/records/23321281
+references:
+- type: software
+  title: 'fep_formal: Towards Lean 4 Formalization of the Free Energy Principle'
+  authors:
+  - family-names: Friedman
+    given-names: Daniel Ari
+  version: 1.6.0
+  doi: 10.5281/zenodo.23196891
+  repository-code: https://github.com/ActiveInferenceInstitute/fep_formal
+  commit: 99276926da1df4287a2e13e9aa7f6d1822cfdca3
+- type: article
+  title: 'Towards Lean 4 Formalization of the Free Energy Principle: AI-Driven Theorem
+    Sketching and Verification for Active Inference and Bayesian Mechanics'
+  authors:
+  - family-names: Friedman
+    given-names: Daniel Ari
+  year: 2026
+  journal: Active Inference Journal
+  doi: 10.5281/zenodo.23220027
+- type: software
+  title: Generalized_Notation_Notation (GNN)
+  authors:
+  - family-names: Friedman
+    given-names: Daniel Ari
+  version: 4.1.0
+  doi: 10.5281/zenodo.7803313
+  repository-code: https://github.com/ActiveInferenceInstitute/Generalized_Notation_Notation
+  commit: 9255e19f951d4c9c1461514464d420bd3fc8b912
+  notes: Optional model-specification reference; concept DOI, not a version-specific
+    archive.
+- type: article
+  title: Generalized Notation Notation for Active Inference Models
+  authors:
+  - family-names: Smékal
+    given-names: Jakub
+  - family-names: Friedman
+    given-names: Daniel Ari
+  year: 2023
+  journal: Active Inference Journal
+  doi: 10.5281/zenodo.7803328

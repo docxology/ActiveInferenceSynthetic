@@ -17,7 +17,7 @@ where `Γ = γ·I` is symmetric and `Q = ω·[[0,1],[-1,0]]` is antisymmetric.
 
 At equilibrium (ω = 0) the flow is pure gradient descent and comes to rest.
 Far from equilibrium (ω ≠ 0) a persistent probability current circulates
-along the level sets of free energy — the signature of a living system.
+along the level sets of free energy in the stated stochastic model.
 
 ## Source of theorems
 
@@ -41,10 +41,8 @@ open FEP.NessFlow
 
 /-! ## The ℝ Bayesian-mechanics flow (from fep_lean) -/
 
-/-- **The solenoidal current does no work.** (ℝ version from fep_lean.)
-``(Q g) · g = 0`` for every gradient ``g`` and every ``ω``.  The circulation
-conserves free energy: this is the mathematical heart of the Free Energy
-Principle's claim that the solenoidal flow is "free". -/
+/-- Antisymmetric drive is orthogonal to the gradient. This geometric identity
+does not imply zero physical work or zero stochastic entropy production. -/
 theorem ℝ_solenoidal_orthogonal (ω : ℝ) (g : Fin 2 → ℝ) :
     dot (solenoidal ω g) g = 0 :=
   solenoidal_orthogonal ω g
@@ -58,15 +56,13 @@ theorem ℝ_flow_work_eq_dissipation (γ ω : ℝ) (g : Fin 2 → ℝ) :
   flow_work_eq_dissipation γ ω g
 
 /-- **Free energy is non-increasing along the flow.** (ℝ version from fep_lean.)
-This is the First Law of Bayesian Mechanics: the landscape's value can only
-decrease or stay constant. -/
+This is a work inequality for the stated flow under nonnegative dissipation. -/
 theorem ℝ_freeEnergy_non_increasing (γ : ℝ) (hγ : 0 ≤ γ) (ω : ℝ) (g : Fin 2 → ℝ) :
     dot (flow γ ω g) g ≤ 0 :=
   freeEnergy_non_increasing γ hγ g
 
-/-- **Detailed balance iff no solenoidal drive.** (ℝ version from fep_lean.)
-The solenoidal current vanishes exactly when ``ω = 0`` — equilibrium (detailed
-balance) is the absence of the antisymmetric drive. -/
+/-- At a nonzero gradient, the algebraic solenoidal vector vanishes iff drive
+is zero. Relating this to stochastic detailed balance requires a diffusion model. -/
 theorem ℝ_detailed_balance_iff (ω : ℝ) (g : Fin 2 → ℝ) (hg : g 0 ≠ 0 ∨ g 1 ≠ 0) :
     solenoidal ω g = 0 ↔ ω = 0 :=
   detailed_balance_iff ω g hg
@@ -85,14 +81,5 @@ theorem ℝ_entropyProduction_eq_zero_iff (precision ω γ : ℝ)
     entropyProduction precision ω γ = 0 ↔ ω = 0 :=
   entropyProduction_eq_zero_iff precision ω γ hp hg
 
-/-! ## ℤ structural surface (legacy, no mathlib)
-
-The same identities hold over ℤ (proved in the companion module
-``ActiveInferenceFormal.Geometryℤ``, which is Lean-core-only).  They require
-only algebraic identities and sign reasoning, not real analysis — the
-Bayesian-mechanics flow structure is fundamentally combinatorial.
-
-For the ℝ-valued formal proofs used in the manuscript, use the theorems above.
--/
 
 end ActiveInferenceFormal

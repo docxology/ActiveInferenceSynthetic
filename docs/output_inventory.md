@@ -12,6 +12,8 @@ Registered figures:
 - `policy_planning.png`
 - `markov_blanket.png`
 - `steady_state_current.png`
+- `synthetic_agent.png`
+- `hierarchical_inference.png`
 
 The combined PDF is `output/pdf/ActiveInferenceSynthetic_combined.pdf` when the
 template rendering stage completes. Validation reports may add files under

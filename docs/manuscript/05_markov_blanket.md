@@ -15,19 +15,14 @@ $\to$ world). The blanket's defining property is a **conditional independence**:
 
 $$
 p(\eta, \mu \mid s, a) \;=\; p(\eta \mid s, a)\; p(\mu \mid s, a).
-$$
+$$ {#eq:blanket-factorization}
 
-Internal and external states are *not* independent — they are statistically
-coupled, that is the entire point of a mind modeling a world. But that coupling
-is **screened by** the blanket. Fix the blanket, and they become conditionally
-independent: nothing about $\eta$ tells you anything more about $\mu$ once you
-know $s$ and $a$. (This is a statement about statistical dependence in the joint
-distribution, not about causal direction or intervention — a causal reading
-would need a dynamical or interventional model on top of this one.) That
-conditional independence is what licenses treating internal states as
-*inferring* external ones they never share a variable with: conditioned on the
-blanket, the internal states' sufficient statistics for the external world are
-exactly their beliefs given the blanket.
+In this example the endpoints are marginally dependent, but their coupling is
+screened by the blanket. Given sensory and active coordinates, knowing the
+external coordinate supplies no additional information about the internal
+coordinate under the stated Gaussian law. A causal interpretation would need
+a dynamical or interventional model. Conditional independence alone does not
+establish a posterior encoding or a cognitive interpretation.
 
 [@fig:blanket] makes both halves of the claim visible on a Gaussian built so
 that the $\eta$–$\mu$ block of its **precision matrix** (the inverse covariance)
@@ -42,15 +37,30 @@ to zero (the tests confirm it vanishes to ${{PARTIAL_CORR_ATOL}}$ via the Schur 
 even though conditioning on only *part* of the blanket does not — both the
 sensory and active states are needed to close the channel.
 
-That is the geometry underneath the whole overview. A free-energy-minimizing
-system is one whose internal states, across its blanket, come to encode a
-posterior over the external states it is coupled to but cannot see. Perception
-([@sec:generative-model]) updates that encoding; action
-([@sec:expected-free-energy]) acts through the blanket to keep the world within
-the range the encoding expects; and the flow and trajectories
-([@sec:extended;@sec:worked-regimes]) are what that coupling looks like as
-dynamics. The blanket is the boundary that makes "a thing that models its world"
-a well-posed idea rather than a metaphor.
+## A matched native Gaussian example
+
+A second fixture matches the pinned upstream canonical four-axis Gaussian
+carrier. Its ordered variables are external, sensory, active, and internal.
+The exact precision and covariance arrays live in `src/demos.py`; tests verify
+their rational inverse relation. External and internal marginal covariance is
+{{NATIVE_BLANKET_COVARIANCE}}, while conditioning on sensory and active yields
+a diagonal endpoint covariance. The native Lean adapter binds the canonical
+precision to a positive-definite Gaussian law and uses upstream conditional
+independence for every supplied center, including its almost-everywhere
+conditional-kernel interpretation.
+
+The corresponding perturbed endpoint precision supplies a genuine boundary:
+adding a nonzero external-internal coupling produces conditional covariance
+$-1/15$ and native non-independence. The original numerical fixture and this
+canonical native fixture are distinct examples. Formal coverage is claimed for
+the matched canonical carrier, not inferred for arbitrary precision matrices
+from the appearance of a zero cell.
+
+Conditional independence alone does not imply that internal states encode a
+posterior, that the partition is causal, or that an organism is intelligent.
+Those interpretations require a generative or dynamical model and additional
+assumptions. The finite perception-action example makes such a model explicit
+rather than inferring it from the Gaussian partition.
 
 ![**Marginal dependence, conditional independence.** A jointly Gaussian world
 over external $\eta$, sensory $s$, active $a$, internal $\mu$, built with a zero
@@ -59,7 +69,9 @@ correlated (${{BLANKET_CORR}}$, highlighted) — they are statistically coupled 
 blanket. **(b) Precision (inverse covariance):** the $\eta$–$\mu$ entry is
 exactly $0$, which in a Gaussian *is* conditional independence given the other
 variables — so $\eta \perp \mu \mid \{s,a\}$ and the partial correlation given
-the blanket is $0$. The sensory and active states screen the internal states
+the blanket is $0$. **(c)** The matched upstream canonical fixture has a
+diagonal conditioned endpoint covariance despite nonzero marginal coupling.
+The sensory and active states screen the internal states
 from the external world. Rendered deterministically by
 `scripts/generate_markov_blanket_figure.py` over the tested core in
 `src/markov_blanket.py`.](../output/figures/markov_blanket.png){#fig:blanket width=94%}

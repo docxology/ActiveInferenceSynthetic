@@ -5,9 +5,12 @@
 
 paper:
   title: "Active Inference -- A Synthetic Overview"
-  subtitle: "An applicable introduction across equilibrium and far-from-equilibrium systems"
+  subtitle: "An executable introduction to Active Inference and synthetic intelligences across equilibrium and non-equilibrium settings"
   version: "0.5.0"
-  date: "2026-07-22"
+  date: "2026-10-12"
+  cover:
+    image: "output/figures/graphical_abstract.png"
+    alt: "The same Gaussian density supports equilibrium with zero current or a non-equilibrium stationary circulation. A separate perception-action model connects inference and policy selection. GNN specifies, Synthetic computes, and FEP_Formal proves statements under explicit hypotheses."
 
 authors:
   - name: "Daniel Ari Friedman"
@@ -21,7 +24,10 @@ authors:
     corresponding: false
 
 publication:
-  github_repository: ""
+  github_repository: "docxology/ActiveInferenceSynthetic"
+  doi_status: "Revised manuscript; archived edition: 10.5281/zenodo.23321281"
+  concept_doi: "10.5281/zenodo.23321280"
+  zenodo_record: "https://zenodo.org/records/23321281"
 
 keywords:
   - "active inference"
@@ -30,12 +36,16 @@ keywords:
   - "non-equilibrium steady state"
   - "variational inference"
   - "self-organization"
+  - "synthetic intelligence"
 
 metadata:
   license: "CC-BY-4.0"
   language: "en"
 
-# Lightweight first-iteration render: PDF + HTML only.
+# Supported publication formats: PDF and HTML.
+rendering:
+  cover_height_fraction: 0.57
+
 render:
   formats:
     pdf: true
@@ -44,11 +54,11 @@ render:
     docx: false
     epub: false
 
-# Steganography off for this early educational draft.
+# Steganography is disabled for this educational paper.
 steganography:
   enabled: false
 
-# No LLM stages for this overview draft.
+# No LLM stages are required by this paper.
 llm:
   reviews:
     enabled: false

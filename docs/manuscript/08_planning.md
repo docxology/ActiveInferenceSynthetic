@@ -1,72 +1,53 @@
 # Planning: Policies as Action Sequences {#sec:planning}
 
-[@sec:expected-free-energy] scored *one* action: what is the best thing to do
-right now? But the value of an action often lies in what it makes possible
-*next*. This section extends the same currency to **policies** — short
-sequences of actions — and shows that *planning* is not a new rule bolted onto
-Active Inference: it is expected free energy minimized over sequences. The
-core is `src/policy_planning.py`; every value below is checked against a
-hand-worked reference, and [@fig:planning] is generated from the same live
-computation.
+The one-step EFE example can be extended to a finite sequence of actions on a
+static hidden state. The local algorithm enumerates every observation branch,
+updates beliefs along that branch, and scores a declared terminal-preference
+objective. It does not optimize a general feedback policy. With
+$\pi=(a_1,\ldots,a_T)$, its branch law is
 
-The agent of [@sec:expected-free-energy] returns, with the same two actions —
-a **cue** that reveals the hidden context and a **bet** whose outcome model is
-state-independent — and the same **sharp** preferences under which the
-*one-step* rule chose to exploit. Now it plans over a horizon of
-$T = {{PLANNING_HORIZON}}$ steps. A policy $\pi = (a_1, \dots, a_T)$ induces a
-distribution over outcome sequences; along each branch the belief evolves by
-exact Bayes rule, and the plan's expected free energy is
+$$q(o_{1:T}\mid\pi)=\sum_x q(x)\prod_t p(o_t\mid x,a_t).$$ {#eq:predictive-history}
 
-$$
-G(\pi) \;=\; -\underbrace{\mathbb{E}_{q(o_{1:T}\mid\pi)}\big[\ln p_{\text{pref}}(o_T)\big]}_{\text{pragmatic (terminal)}}
-\;-\; \underbrace{I(s;\, o_{1:T} \mid \pi)}_{\text{epistemic (cumulative)}}.
-$$
+The score implemented in `src/policy_planning.py` is
 
-Two changes from the one-step $G(a)$ are load-bearing. The **pragmatic term
-is terminal**: payoffs are collected on the *final* outcome only, so an
-informative first action earns nothing immediately — its entire value is the
-sharper belief the final action is then chosen under. And the **epistemic term
-is cumulative**: the expected resolution of uncertainty over the whole
-sequence, which by the chain rule of relative entropy is the mutual
-information $I(s; o_{1:T} \mid \pi)$ between the context and the *entire*
-outcome sequence (a fact the tests verify against an independently computed
-mutual information).
+$$G_{\mathrm{terminal}}(\pi)=-\mathbb E[\ln C(o_T)]-I(x;o_{1:T}\mid\pi).$$ {#eq:terminal-efe}
 
-The subtlety that makes this genuinely planning rather than bookkeeping is
-*when* the expectation is taken. Each branch is followed to its end, the
-final action evaluated under that branch's posterior, and only then averaged
-over branches. The nonlinearity of Bayes rule is preserved inside the
-expectation — which is exactly why information has value. Averaging *first*
-(the posterior-mixture shortcut) would collapse every branch's posterior back
-to the prior and erase the value of looking before leaping.
+The score in [@eq:terminal-efe] uses the predictive history in [@eq:predictive-history].
+Terminal pragmatic value is collected only at the last step. Epistemic value
+is the expected sequential posterior KL gain, checked independently against
+mutual information of the complete observation history. The two-step result
+selects cue-then-bet at {{PLANNING_EFE_LOOK_THEN_LEAP}}, compared with
+{{PLANNING_EFE_EXPLOIT_FIRST}} for bet-then-bet. Its information contribution is
+{{PLANNING_EPISTEMIC_LOOK_THEN_LEAP}}.
 
-![**Planning as expected-free-energy minimization.** The same agent and
-preferences as [@sec:expected-free-energy] now plan over two-step policies. All
-four plans are scored exactly (branch enumeration, no sampling): bars are
-$G(\pi)$, annotated with pragmatic/epistemic splits. **Cue-then-bet wins**
-($G = {{PLANNING_EFE_LOOK_THEN_LEAP}}$): the first action collects epistemic
-value ($+{{PLANNING_EPISTEMIC_LOOK_THEN_LEAP}}$ nats), and the terminal bet is
-then placed under the sharpened belief. Betting first
-($G = {{PLANNING_EFE_EXPLOIT_FIRST}}$) pays the same either way and forgoes the
-information — under these sharp preferences the *one-step* optimum is not the
-*plan* optimum. Exploration is deferred exploitation. Rendered
-deterministically by `scripts/generate_policy_planning_figure.py` over the
-tested core in `src/policy_planning.py`.](../output/figures/policy_planning.png){#fig:planning width=94%}
+The bet channel here is state-independent. Observing the cue does not improve
+that fixed bet's reward distribution. Cue-then-bet wins through the objective's
+information term while retaining the preferred terminal outcome law. Genuine
+observation-adaptive commitment is demonstrated separately in [@sec:synthetic-agent]. Reading this
+open-loop score as an instrumental advantage or a closed-loop control theorem
+would exceed what the example computes.
 
-[@fig:planning] evaluates all four two-step policies. The winner is **cue
-then bet**: look, resolve the uncertainty (epistemic value
-$+{{PLANNING_EPISTEMIC_LOOK_THEN_LEAP}}$ nats), and *then* place the wager the
-sharpened belief licenses — $G = {{PLANNING_EFE_LOOK_THEN_LEAP}}$. Betting
-first — the one-step optimum under these same preferences — costs
-$G = {{PLANNING_EFE_EXPLOIT_FIRST}}$: the terminal bet pays the same either
-way, but it forgoes the information the plan could have collected first. The
-explore/exploit balance of [@sec:expected-free-energy] is revealed as a
-*temporal* structure: exploration is what exploitation looks like when it is
-allowed to plan. One currency, one minimization, now over sequences — the
-agent defers gratification because $\arg\min_\pi G(\pi)$ told it to.
+## An explicit upstream carrier bridge
 
-Branch enumeration is exact — every one of $O^T$ outcome sequences is summed,
-no sampling, no RNG — so the demonstration is deterministic and reproducible.
-The horizon is deliberately short; tree search over longer horizons, and
-approximate schemes for intractable ones, are the natural next expansions, and
-are recorded as such in the roadmap.
+For Boolean observations, define one history outcome $(o_1,o_2)$ with product
+likelihood and normalized preference $C_H(o_1,o_2)=C(o_2)/2$. Upstream one-step
+EFE on that finite history carrier equals the local terminal/history objective
+plus the constant $\ln 2$. The computed normalization offset is
+{{HISTORY_NORMALIZATION_OFFSET}}, and the cue-then-bet history-channel score is
+{{HISTORY_CHANNEL_EFE}}. The offset does not change the ranking of the same
+policy set. `src/planning_bridge.py` tests the correspondence numerically;
+`formal/ActiveInferenceFormal/Planning.lean` proves the exact finite-carrier
+identity and predictive mass law.
+
+This differs from repeatedly summing one-step EFE at every stage. A fair
+uninformative two-step model has terminal preference cost $\ln 2$ but cumulative
+preference cost $2\ln 2$. A repeated perfect observation resolves the static
+state only once: history mutual information is $\ln 2$, not twice that value.
+The native controls preserve these distinctions. The Lean identity is about its
+explicit normalized carrier; it does not certify the floating-point branch
+implementation or general policy-tree optimization.
+
+![**Finite sequence scoring.** The four two-step sequences share a static hidden
+state. Cue-then-bet minimizes the declared terminal-preference minus history-information
+objective. The bet remains state-independent; the advantage is information
+scoring, not an observation-conditioned improvement in its payout.](../output/figures/policy_planning.png){#fig:planning width=94%}

@@ -1,54 +1,66 @@
 domain: active_inference
 display_name: Active Inference Synthetic Overview
 required_packages:
-  - numpy
-  - matplotlib
-  - pytest
+- numpy
+- matplotlib
+- pytest
 preferred_outputs:
-  - pdf
-  - html
-  - docx
-  - epub
+- pdf
+- html
+- docx
+- epub
 validation_gates:
-  - experiment_method_design
-  - artifact_manifest
-  - evidence_grounding
-  - render_validation
-  - publication_readiness
+- experiment_method_design
+- artifact_manifest
+- evidence_grounding
+- render_validation
+- publication_readiness
 figure_types:
-  - free_energy_flow
-  - belief_update
-  - worked_trajectories
-  - expected_free_energy
-  - markov_blanket
-  - steady_state_current
+- graphical_abstract
+- free_energy_flow
+- belief_update
+- worked_trajectories
+- expected_free_energy
+- markov_blanket
+- steady_state_current
+- policy_planning
+- synthetic_agent
+- hierarchical_inference
+- value_of_information
 citation_policy: official_or_scholarly
-source_policy: "Prefer primary project outputs and scholarly Active Inference, Free Energy Principle, and Bayesian-mechanics references."
+source_policy: Prefer primary project outputs and scholarly Active Inference, Free Energy Principle, and Bayesian-mechanics
+  references.
 review_gates:
-  - experiment_method_design
-  - render_validation
-  - publication_readiness
+- experiment_method_design
+- render_validation
+- publication_readiness
 artifact_expectations:
-  - output/figures/active_inference_overview.png
-  - output/figures/belief_update.png
-  - output/figures/worked_trajectories.png
-  - output/figures/expected_free_energy.png
-  - output/figures/markov_blanket.png
-  - output/figures/steady_state_current.png
-  - output/pdf/ActiveInferenceSynthetic_combined.pdf
+- output/figures/graphical_abstract.png
+- output/figures/active_inference_overview.png
+- output/figures/belief_update.png
+- output/figures/worked_trajectories.png
+- output/figures/expected_free_energy.png
+- output/figures/markov_blanket.png
+- output/figures/steady_state_current.png
+- output/figures/policy_planning.png
+- output/pdf/ActiveInferenceSynthetic_combined.pdf
+- output/figures/synthetic_agent.png
+- output/figures/hierarchical_inference.png
+- output/figures/value_of_information.png
 benchmark_rubric:
   name: code-research-readiness
   dimensions:
-    - name: output_validity
-      weight: 1.0
-    - name: reproducibility_bundle
-      weight: 1.0
-    - name: artifact_manifest
-      weight: 1.0
-    - name: evidence_grounding
-      weight: 2.0
-    - name: render_success
-      weight: 1.0
-    - name: publication_readiness
-      weight: 1.0
-llm_prompt_guidance: "Use tested numerical cores, generated figures, Lean proofs, and manuscript citations as evidence; do not invent numeric results."
+  - name: output_validity
+    weight: 1.0
+  - name: reproducibility_bundle
+    weight: 1.0
+  - name: artifact_manifest
+    weight: 1.0
+  - name: evidence_grounding
+    weight: 2.0
+  - name: render_success
+    weight: 1.0
+  - name: publication_readiness
+    weight: 1.0
+llm_prompt_guidance: Use tested numerical cores, generated figures, Lean proofs, and manuscript citations as evidence;
+  do not invent numeric results.

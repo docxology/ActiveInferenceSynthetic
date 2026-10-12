@@ -21,7 +21,33 @@
     "infrastructure automation"
   ],
   "license": "CC-BY-4.0",
-  "related_identifiers": [],
+  "related_identifiers": [
+    {
+      "identifier": "10.5281/zenodo.23321281",
+      "relation": "IsSupplementTo",
+      "scheme": "doi"
+    },
+    {
+      "identifier": "10.5281/zenodo.23196891",
+      "relation": "References",
+      "scheme": "doi"
+    },
+    {
+      "identifier": "10.5281/zenodo.23220027",
+      "relation": "References",
+      "scheme": "doi"
+    },
+    {
+      "identifier": "10.5281/zenodo.7803313",
+      "relation": "References",
+      "scheme": "doi"
+    },
+    {
+      "identifier": "10.5281/zenodo.7803328",
+      "relation": "References",
+      "scheme": "doi"
+    }
+  ],
   "title": "Active Inference -- A Synthetic Overview",
   "upload_type": "software",
   "version": "0.5.0"

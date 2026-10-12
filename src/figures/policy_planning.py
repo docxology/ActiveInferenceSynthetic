@@ -40,7 +40,7 @@ def build_figure() -> plt.Figure:
     for i in idx:
         x = float(i)
         ax.annotate(
-            f"pragmatic {sel.pragmatic[i]:+.2f}\\nepistemic {sel.epistemic[i]:+.2f}",
+            f"pragmatic {sel.pragmatic[i]:+.2f}\nepistemic {sel.epistemic[i]:+.2f}",
             xy=(x, float(sel.efe[i])),
             xytext=(0, 8),
             textcoords="offset points",

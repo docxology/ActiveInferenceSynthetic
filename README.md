@@ -1,103 +1,141 @@
-# Active Inference -- A Synthetic Overview
+# Active Inference — A Synthetic Overview
 
-> An applicable introduction to Active Inference, with a focus on equilibrium
-> vs far-from-equilibrium systems, Bayesian Mechanics, and the Free Energy
-> Principle. Concise, educational, **show not tell**.
+## Revised paper and twenty-minute lecture
 
-**Authors:** Daniel Ari Friedman, Alexandra Mikhailova — Active Inference Institute.
+The [teaching release](https://github.com/docxology/ActiveInferenceSynthetic/releases/tag/synthetic-teaching-v0.6.0)
+brings the graphical-abstract manuscript, Daniel narration, five model animations,
+linked slides and synchronized captions together. Its frozen source bundle
+supports replay with LectureCreate. The [lecture guide](docs/lecture.md) records
+the models, clocks, caption method and reproduction commands.
 
-## Status
+The revised manuscript adds equilibrium/transient/NESS distinctions,
+finite path-thermodynamics imports and checked
+[GNN specifications](docs/gnn_specifications.md). The earlier published paper
+and source archive are available at [Zenodo](https://zenodo.org/records/23321281).
 
-Fifth iteration (`v0.5.0`). The manuscript currently contains:
+A standalone paper and executable introduction to Active Inference and synthetic
+intelligences across equilibrium and non-equilibrium thermodynamic and
+informational settings. Daniel Ari Friedman and Alexandra Mikhailova,
+Active Inference Institute. Package and manuscript version: **0.5.0**.
 
-- **`docs/manuscript/00_abstract.md`** — a ~200-character abstract.
-- **`docs/manuscript/01_extended_abstract.md`** — a single-page extended abstract
-  built around the overview figure ([@fig:overview]).
-- **`docs/manuscript/02_generative_model.md`** — *perception as inference*: a
-  discrete generative model showing that minimizing variational free energy
-  **is** Bayesian updating, and that free energy is a tight upper bound on
-  surprise ([@fig:belief]).
-- **`docs/manuscript/03_worked_regimes.md`** — *worked equilibrium vs NESS
-  trajectories*: the flow integrated into paths, with the persistent
-  probability current quantified as net rotation ([@fig:trajectories]).
-- **`docs/manuscript/04_expected_free_energy.md`** — *action*: variational vs
-  **expected** free energy, whose pragmatic and epistemic terms produce the
-  explore/exploit balance from one rule ([@fig:efe]).
-- **`docs/manuscript/08_planning.md`** — *planning*: policies as action
-  sequences; EFE minimization over sequences makes "look, then leap"
-  emerge (`src/policy_planning.py`, `[@fig:planning]`).
-- **`docs/manuscript/05_markov_blanket.md`** — *the boundary*: internal and external
-  states are marginally dependent but conditionally independent given the
-  sensory/active blanket ([@fig:blanket]).
-- **`docs/manuscript/06_steady_state.md`** — *the steady state, quantified*: the
-  analytic NESS probability current and entropy-production rate ($\sigma=0$ at
-  equilibrium, $>0$ far from it), closing the deterministic-drift gap of §3
-  ([@fig:steady]).
-- **`docs/manuscript/07_formal_verification.md`** — *formal verification*: the
-  load-bearing theorems (Gibbs' inequality, the free-energy bound, solenoidal
-  orthogonality, entropy-production sign) are **machine-checked in Lean 4**
-  (`formal/`) across two surfaces — ℝ theorems re-exported from the companion
-  fep_lean library, and a legacy Lean-core-only ℤ surface — with no `sorry`.
-- **`docs/manuscript/99_references.md`** + `references.bib` — the canonical FEP /
-  Active Inference / Bayesian-mechanics references.
+Paper and accompanying source archive:
+[Synthetic v0.5.0 on Zenodo](https://zenodo.org/records/23321281)
+([DOI](https://doi.org/10.5281/zenodo.23321281)).
 
-The overview figure is the conceptual anchor: *one free-energy landscape, two
-regimes*. At equilibrium the flow is pure gradient descent on free energy
-($f=-\nabla F$) and comes to rest; far from equilibrium an antisymmetric
-solenoidal term adds a persistent probability current ($f=(Q-\Gamma)\nabla F$) —
-the signature of living systems. This is the Free Energy Principle (the descent)
-plus Bayesian mechanics (the circulation). The demonstration sections then
-show each pillar: §2 perception (inference), §3 the mechanics (equilibrium vs
-non-equilibrium trajectories), §4 action (expected free energy / explore-exploit),
-§5 the Markov blanket (the boundary that makes inference well-posed).
+## Purpose and relationship to fep_formal
 
-## Layout
+Synthetic makes a selected mathematical story concrete: how a model updates
+beliefs, selects actions, plans, and represents a statistical boundary; how
+relaxation differs from persistent stationary probability current; and how
+these examples connect to the Free Energy Principle and Bayesian mechanics.
+Its contribution is the teaching sequence, minimal numerical models, tested
+examples, figures, and authored paper.
 
-```
-docs/              operational guides (quickstart, architecture, rendering, style…)
-docs/manuscript/   abstract through formal verification + references
-src/               tested numerical cores + figures/ builders
-scripts/           thin orchestrators (generate_all_figures.py + per-figure aliases)
-tests/             no-mocks tests; ≥90% coverage of src/ (+ Lean build verification)
-formal/            Lean 4 formalization — ℝ (fep_lean) + legacy ℤ (Lean core only)
-data/              versioned inputs only (claim_ledger.yaml)
-output/            disposable rendered artifacts (PDF/HTML/figures)
-```
+Start with the [methods and experiment guide](docs/methods.md) and the
+[resource pathways](docs/resources.md). They distinguish numerical calculations,
+formal reuse, vocabulary, model specifications, curricula and transcripts.
 
-Each directory carries its own `README.md` (quick reference) and `AGENTS.md`
-(detailed guide). Start at [`docs/README.md`](docs/README.md) for the guides,
-[`AGENTS.md`](AGENTS.md) for the layer contract, and
-[`STANDALONE.md`](STANDALONE.md) for what runs without the template checkout.
+[**fep_formal**](https://github.com/ActiveInferenceInstitute/fep_formal) supplies
+the broader mathematical reference and reusable formal library. Its interfaces
+are `fep_lean` (Python), `fep-lean` (CLI), and `FepSketches` (Lean). Synthetic
+selects and explains results from that library; substantive generic proofs
+belong upstream. The optional
+[GNN model-specification pathway](https://github.com/ActiveInferenceInstitute/Generalized_Notation_Notation)
+is introduced in that guide; the current demonstrations do not require or
+execute GNN. See the [positioning and methods map](docs/positioning.md) for
+section-level links and the protocol for advancing the upstream pin.
 
-The project uses the template repository's build, validation, and rendering
-infrastructure while keeping its scientific code self-contained under `src/`.
+“Synthetic intelligences” is the intended application and teaching perspective.
+The current examples are controlled mathematical demonstrations, not empirical
+validation of an intelligent organism or a deployed autonomous agent. Persistent
+NESS current alone does not establish life or intelligence. Variational free
+energy, expected free energy, and thermodynamic free energy require their own
+models and units; sharing a name does not establish a physical equivalence.
 
-## Build
+## The teaching sequence
+
+- **Perception:** a discrete model, Bayesian posterior, and VFE bound.
+- **Mechanics:** one Gaussian landscape with relaxation and circulating
+  flow; RK4 drift trajectories are checked against an analytic solution.
+- **Action:** pragmatic and epistemic contributions to one-step EFE.
+- **Boundary:** Gaussian marginal dependence and blanket-conditioned independence.
+- **Steady state:** matched-noise OU covariance, current, and entropy production.
+- **Formal reference:** selected real-valued upstream results and explicit assumptions.
+- **Planning:** action sequences with a static hidden state and conditional
+  observation updates; this is distinct from general closed-loop control.
+- **Synthetic agent:** informative observations change the next commitment,
+  with a state-independent cue as the matched control.
+- **Hierarchy:** context predicts state; one observation updates both hidden levels.
+- **Decision value:** feedback utility gain, acquisition cost, and informative-but-irrelevant evidence separate learning from useful control.
+- **Interpretation:** informational and thermodynamic units, assumptions, and limits.
+
+Parameters and live manuscript values come from the numerical cores, not hand
+edits to figures or rendered prose. Scientific scope and proof-transfer limits
+are explicit in the [manuscript](docs/manuscript/README.md).
+
+## Python package and imports
 
 ```bash
-# Generate figures and hydrate {{TOKEN}} manuscript values:
-uv run python scripts/generate_all_figures.py
-uv run python scripts/z_generate_manuscript_variables.py
-
-# Render PDF from the template checkout:
-uv run python scripts/pipeline/stage_03_render.py --project working/ActiveInferenceSynthetic
-
-# Tests (≥90% src coverage, no mocks):
-uv run pytest tests/ --cov=src --cov-fail-under=90
-
-# Formal proofs (machine-checked; ℝ via fep_lean + legacy ℤ core-only):
-cd formal && lake update && lake build   # prints axiom sets; no `sorry`
+uv sync --locked --extra dev
 ```
 
-Output PDF: `output/pdf/ActiveInferenceSynthetic_combined.pdf`.
+The installed distribution provides the import namespace
+`active_inference_synthetic`:
 
-## Roadmap
+```python
+from active_inference_synthetic import posterior
+from active_inference_synthetic.synthetic_agent import synthetic_agent_demo
+from active_inference_synthetic.hierarchical_model import hierarchical_demo
 
-All four planned demonstrations ship — the generative model (§2), worked
-trajectories (§3), expected free energy / action (§4), the Markov blanket (§5) —
-plus a §6 capstone quantifying the non-equilibrium steady state and a §7 that
-**machine-checks the mathematics in Lean 4** (`formal/`, via the fep_lean ℝ
-surface and a legacy Lean-core ℤ surface). Each numeric section is
-runnable, tested, and deterministic; the formal layer proves the theorems those
-sections rely on. See [`TODO.md`](TODO.md) for remaining candidate directions
-(multi-step policies, a hierarchical model, tightening the ℤ/ℝ formal-layer coupling).
+episode = synthetic_agent_demo(observation=1)
+assert episode.commitment.choice == 1
+hierarchy = hierarchical_demo()
+```
+
+Scripts run from this checkout retain local `src` imports. Lean dependencies
+are acquired separately through Lake; there is no implicit Python import of
+`fep_lean` or `gnn`. Numerical imports do not run upstream pipelines or load
+provider credentials. Installed figure builders accept an explicit
+`project_root` for output; manuscript hydration requires the source checkout.
+
+## Run independently
+
+```bash
+uv sync --locked --extra dev
+uv run pytest tests/ --cov=src --cov-fail-under=90
+uv run python scripts/generate_all_figures.py
+```
+
+The numerical package, test collection, figures, and manuscript hydration need
+no template or upstream Python package. When Lake is installed, the full suite
+also builds the external formal dependency; missing formal prerequisites are
+failures, not numerical verification.
+
+For the real-valued formal layer, install the declared Lean toolchain and run:
+
+```bash
+(cd formal && lake build)
+```
+
+The committed Lake manifest pins a revision observed on upstream `main`, along
+with its Lean/Mathlib dependencies. See [formal setup](formal/README.md) for
+first-run acquisition and axiom auditing. Do not substitute a moving branch or
+a local donor cache for the committed dependency.
+
+PDF/HTML rendering currently uses the research template. From that template root:
+
+```bash
+uv run python scripts/pipeline/stage_03_render.py --project working/ActiveInferenceSynthetic
+```
+
+See [STANDALONE.md](STANDALONE.md) for execution boundaries and
+[docs/README.md](docs/README.md) for operational guides. Outputs are generated
+under `output/`; authored sources live under `docs/manuscript/`.
+
+## Development
+
+`src/` owns numerical cores and figure builders; `scripts/` are thin
+orchestrators; `tests/` use real computation; `formal/` selects upstream theorems
+and supplies paper-specific controls. [AGENTS.md](AGENTS.md) states the layer
+contract. [ISA.md](ISA.md) defines purpose and acceptance;
+[TODO.md](TODO.md) contains prospective extensions.

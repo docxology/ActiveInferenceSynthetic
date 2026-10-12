@@ -1,0 +1,1614 @@
+1
+00:00:00,440 --> 00:00:04,261
+Why can the same probability landscape
+describe two different dynamical regimes?
+
+2
+00:00:04,882 --> 00:00:06,702
+And when does learning improve a decision?
+
+3
+00:00:07,263 --> 00:00:09,604
+This graphical abstract gives us a working
+map.
+
+4
+00:00:09,964 --> 00:00:13,085
+At the top, compare stationary currents
+over the same density.
+
+5
+00:00:13,485 --> 00:00:18,007
+In the middle, follow observation,
+inference, policy evaluation and
+
+6
+00:00:18,187 --> 00:00:18,487
+action.
+
+7
+00:00:18,967 --> 00:00:23,069
+At the bottom, keep specification,
+computation and proof distinct.
+
+8
+00:00:23,569 --> 00:00:28,011
+This is the revised Synthetic manuscript;
+the linked release contains this paper
+
+9
+00:00:28,111 --> 00:00:31,632
+and lecture, while Zenodo preserves the
+earlier published edition.
+
+10
+00:00:32,092 --> 00:00:35,874
+In twenty minutes we will make these
+connections executable, using tested
+
+11
+00:00:35,934 --> 00:00:40,215
+numerical models, selected Lean results
+and concrete model specifications.
+
+12
+00:00:40,776 --> 00:00:42,536
+Read every result with its assumptions.
+
+13
+00:00:45,818 --> 00:00:47,119
+Keep three questions in view.
+
+14
+00:00:47,299 --> 00:00:48,539
+What explains an observation?
+
+15
+00:00:48,779 --> 00:00:51,260
+A posterior belief answers that inference
+question.
+
+16
+00:00:51,580 --> 00:00:52,741
+Which action should come next?
+
+17
+00:00:53,041 --> 00:00:56,462
+Expected free energy compares predicted
+outcomes using preferences and
+
+18
+00:00:56,482 --> 00:00:57,363
+information gain.
+
+19
+00:00:57,763 --> 00:00:59,463
+What maintains a stationary distribution?
+
+20
+00:00:59,744 --> 00:01:03,105
+Drift, diffusion, current, and entropy
+production describe that dynamical
+
+21
+00:01:03,145 --> 00:01:03,485
+regime.
+
+22
+00:01:03,745 --> 00:01:07,607
+Variational and expected free energy are
+information theoretic quantities.
+
+23
+00:01:07,807 --> 00:01:10,828
+Physical free energy needs a thermodynamic
+model and units.
+
+24
+00:01:11,188 --> 00:01:14,109
+The shared vocabulary does not make these
+objects interchangeable.
+
+25
+00:01:14,569 --> 00:01:17,791
+As you read the three cards, connect each
+question to its mathematical
+
+26
+00:01:17,871 --> 00:01:18,211
+object.
+
+27
+00:01:21,553 --> 00:01:23,534
+Start with a hidden state and an
+observation.
+
+28
+00:01:23,754 --> 00:01:27,176
+A prior describes uncertainty about the
+hidden state before the observation.
+
+29
+00:01:27,737 --> 00:01:31,279
+A likelihood describes which observations
+each state tends to generate.
+
+30
+00:01:31,779 --> 00:01:34,981
+Multiplying prior and likelihood produces
+the joint distribution.
+
+31
+00:01:35,461 --> 00:01:38,563
+Summing over hidden states gives the
+evidence for the observed outcome.
+
+32
+00:01:38,943 --> 00:01:42,945
+Bayes' rule then divides the appropriate
+joint probabilities by that evidence.
+
+33
+00:01:43,466 --> 00:01:47,288
+In the repository's finite models,
+conditional distributions are stored in
+
+34
+00:01:47,348 --> 00:01:49,809
+columns, so each column must sum to one.
+
+35
+00:01:50,149 --> 00:01:54,952
+This orientation matters: transposing a
+plausible looking matrix can change the
+
+36
+00:01:54,992 --> 00:01:55,713
+entire model.
+
+37
+00:01:56,313 --> 00:02:01,096
+The examples reject invalid probabilities
+and impossible observations, instead
+
+38
+00:02:01,136 --> 00:02:03,677
+of silently replacing them with an
+arbitrary belief.
+
+39
+00:02:06,999 --> 00:02:09,219
+Now introduce a candidate belief, called
+q.
+
+40
+00:02:09,399 --> 00:02:13,120
+Variational free energy compares this
+belief with the generative model after an
+
+41
+00:02:13,200 --> 00:02:14,280
+observation has arrived.
+
+42
+00:02:14,580 --> 00:02:19,161
+One decomposition is complexity minus
+accuracy: divergence from the prior, minus
+
+43
+00:02:19,221 --> 00:02:20,321
+expected log likelihood.
+
+44
+00:02:20,681 --> 00:02:22,541
+A second decomposition is especially
+revealing.
+
+45
+00:02:22,821 --> 00:02:26,522
+Free energy equals the observation's
+surprise plus the divergence between the
+
+46
+00:02:26,562 --> 00:02:28,522
+candidate belief and the exact posterior.
+
+47
+00:02:28,942 --> 00:02:32,503
+Because this divergence is nonnegative on
+the stated support domain, free energy
+
+48
+00:02:32,543 --> 00:02:33,703
+bounds surprise from above.
+
+49
+00:02:34,103 --> 00:02:37,083
+When the candidate belief equals the
+posterior, the gap closes.
+
+50
+00:02:37,483 --> 00:02:38,983
+This is an identity within the model.
+
+51
+00:02:39,283 --> 00:02:42,664
+It does not say that every physical system
+computes Bayes' rule, or
+
+52
+00:02:42,724 --> 00:02:45,444
+that minimizing an arbitrary scalar makes
+a system intelligent.
+
+53
+00:02:48,546 --> 00:02:50,646
+Read the belief figure from left to right.
+
+54
+00:02:51,446 --> 00:02:55,227
+The categorical belief moves from a
+uniform assignment toward the exact
+
+55
+00:02:55,287 --> 00:02:55,887
+posterior.
+
+56
+00:02:56,687 --> 00:02:59,087
+Free energy approaches the surprise
+reference line.
+
+57
+00:02:59,567 --> 00:03:01,388
+The gap is posterior divergence.
+
+58
+00:03:02,168 --> 00:03:06,728
+Check the answer independently using
+Bayes' rule and the complexity minus
+
+59
+00:03:06,868 --> 00:03:08,209
+accuracy calculation.
+
+60
+00:03:09,129 --> 00:03:11,769
+Their agreement supplies a numerical
+oracle.
+
+61
+00:03:12,809 --> 00:03:16,090
+The descent algorithm needs safeguards and
+convergence checks.
+
+62
+00:03:16,750 --> 00:03:19,750
+A lower bound by itself cannot guarantee
+convergence.
+
+63
+00:03:20,390 --> 00:03:22,971
+Check the updates against the exact
+posterior.
+
+64
+00:03:23,471 --> 00:03:27,091
+The changing belief and the shrinking gap
+should tell the same story.
+
+65
+00:03:30,293 --> 00:03:33,974
+We now switch from a discrete belief to a
+continuous, two dimensional
+
+66
+00:03:34,014 --> 00:03:34,614
+model state.
+
+67
+00:03:34,914 --> 00:03:39,274
+The Gaussian contours define a
+dimensionless stationary potential, Phi.
+
+68
+00:03:39,634 --> 00:03:43,395
+This is a function of coordinates,
+distinct from the variational functional
+
+69
+00:03:43,535 --> 00:03:44,855
+of a recognition distribution.
+
+70
+00:03:45,635 --> 00:03:48,976
+The drift is Q minus Gamma, acting on the
+gradient of Phi.
+
+71
+00:03:49,616 --> 00:03:54,217
+Gamma supplies dissipation; antisymmetric
+Q supplies tangential motion.
+
+72
+00:03:54,877 --> 00:03:58,537
+Along the noise-free drift, the potential
+decreases because the gradient is
+
+73
+00:03:58,637 --> 00:04:00,658
+orthogonal to its solenoidal component.
+
+74
+00:04:01,058 --> 00:04:05,238
+That geometric identity does not mean
+circulation has zero physical cost.
+
+75
+00:04:05,859 --> 00:04:09,779
+Connecting these coordinates to beliefs,
+or scaling this potential to energy in
+
+76
+00:04:09,819 --> 00:04:11,959
+joules, requires additional assumptions.
+
+77
+00:04:12,300 --> 00:04:13,500
+Keep those bridges visible.
+
+78
+00:04:16,742 --> 00:04:19,523
+The trajectory figure integrates those
+drift fields.
+
+79
+00:04:20,043 --> 00:04:24,264
+With no solenoidal term, the path relaxes
+radially toward the mode.
+
+80
+00:04:24,704 --> 00:04:29,505
+With circulation, the path spirals inward
+while the landscape still decreases.
+
+81
+00:04:30,006 --> 00:04:34,287
+The numerical integrator is a fixed step
+fourth order Runge Kutta method,
+
+82
+00:04:34,587 --> 00:04:37,147
+checked against the available linear
+closed form.
+
+83
+00:04:37,628 --> 00:04:39,728
+Two cautions make the picture more useful.
+
+84
+00:04:40,088 --> 00:04:44,729
+First, total rotation depends on the
+chosen time window; angular velocity is
+
+85
+00:04:44,789 --> 00:04:48,050
+the more intrinsic diagnostic in this
+isotropic example.
+
+86
+00:04:48,750 --> 00:04:52,791
+Second, both deterministic trajectories
+relax toward the mode.
+
+87
+00:04:53,252 --> 00:04:56,552
+The spiral does not depict a particle
+moving forever on a stable
+
+88
+00:04:56,652 --> 00:04:56,953
+orbit.
+
+89
+00:04:57,713 --> 00:05:01,974
+A non-equilibrium steady state is an
+ensemble property of the corresponding
+
+90
+00:05:02,014 --> 00:05:04,054
+stochastic model, which we examine next.
+
+91
+00:05:07,416 --> 00:05:09,476
+Add matched diffusion to the linear drift.
+
+92
+00:05:09,997 --> 00:05:13,417
+The stationary covariance is inverse
+precision in both regimes.
+
+93
+00:05:14,057 --> 00:05:17,818
+To see a transient, begin with that
+covariance but displace the Gaussian
+
+94
+00:05:17,858 --> 00:05:18,098
+mean.
+
+95
+00:05:18,678 --> 00:05:23,319
+The contour cloud now changes position:
+its mean follows the relaxing drift,
+
+96
+00:05:23,579 --> 00:05:26,100
+radially on the left and spirally on the
+right.
+
+97
+00:05:26,700 --> 00:05:29,780
+The clock is model time, not an inference
+iteration.
+
+98
+00:05:30,380 --> 00:05:33,981
+This moving density is not stationary,
+even though the coefficients are
+
+99
+00:05:34,081 --> 00:05:34,601
+constant.
+
+100
+00:05:35,121 --> 00:05:39,922
+Individual noisy paths would fluctuate;
+these contours show the ensemble
+
+101
+00:05:39,982 --> 00:05:40,642
+distribution.
+
+102
+00:05:41,283 --> 00:05:44,483
+A stationary density instead stops
+changing with time.
+
+103
+00:05:44,903 --> 00:05:47,504
+It may nevertheless support a probability
+current.
+
+104
+00:05:48,124 --> 00:05:50,984
+The next animation isolates that different
+question.
+
+105
+00:05:54,307 --> 00:05:58,229
+Here every frame is a stationary model
+with the same Gaussian density.
+
+106
+00:05:58,689 --> 00:06:02,552
+We sweep a known drive parameter; this
+clock is not physical time.
+
+107
+00:06:03,092 --> 00:06:07,034
+The arrows are probability current, not
+individual particle trajectories.
+
+108
+00:06:07,674 --> 00:06:11,717
+At zero drive the current vanishes
+everywhere and detailed balance holds in
+
+109
+00:06:11,757 --> 00:06:13,177
+this even-coordinate model.
+
+110
+00:06:13,397 --> 00:06:16,719
+On either side, the arrows circulate with
+zero divergence.
+
+111
+00:06:17,119 --> 00:06:21,262
+Reversing drive reverses circulation while
+preserving the density, and the
+
+112
+00:06:21,362 --> 00:06:23,903
+entropy-production curve depends on its
+square.
+
+113
+00:06:24,363 --> 00:06:27,985
+Notice that current vanishes at the mode
+even in the driven regime.
+
+114
+00:06:28,686 --> 00:06:31,867
+One zero arrow therefore cannot establish
+equilibrium.
+
+115
+00:06:32,408 --> 00:06:36,750
+A histogram sees the shared density;
+temporal and reversal statistics
+
+116
+00:06:36,930 --> 00:06:38,251
+distinguish the processes.
+
+117
+00:06:41,493 --> 00:06:45,653
+Entropy production measures the difference
+between forward and reversed path
+
+118
+00:06:45,673 --> 00:06:46,274
+statistics.
+
+119
+00:06:46,554 --> 00:06:50,474
+For this elliptic, stationary diffusion
+with even coordinates, the current
+
+120
+00:06:50,514 --> 00:06:54,815
+formula gives twice squared drive times
+precision, divided by dissipation.
+
+121
+00:06:55,035 --> 00:06:57,835
+Positive precision and dissipation are
+essential.
+
+122
+00:06:58,095 --> 00:07:02,175
+Momentum variables, a reversed magnetic
+field or a different reverse protocol
+
+123
+00:07:02,295 --> 00:07:06,136
+require a separate analysis; a circulating
+phase-space current is not
+
+124
+00:07:06,236 --> 00:07:07,396
+universally dissipative.
+
+125
+00:07:07,616 --> 00:07:12,297
+Nonzero drive establishes non-equilibrium
+here, not automatically far from
+
+126
+00:07:12,377 --> 00:07:12,897
+equilibrium.
+
+127
+00:07:13,197 --> 00:07:16,997
+Scaling the informational rate to entropy
+or power requires temperature,
+
+128
+00:07:17,297 --> 00:07:19,877
+Boltzmann's constant and a compatible
+physical model.
+
+129
+00:07:20,358 --> 00:07:24,398
+This simulation does not measure
+metabolism or a computer's energy budget.
+
+130
+00:07:24,858 --> 00:07:29,219
+The paper cites stationary diffusion
+theory and stochastic thermodynamics for
+
+131
+00:07:29,259 --> 00:07:30,059
+these distinctions.
+
+132
+00:07:33,301 --> 00:07:36,102
+We now ask how a model separates a system
+from its surroundings.
+
+133
+00:07:36,422 --> 00:07:41,183
+The Markov blanket example partitions
+variables into external, sensory, active,
+
+134
+00:07:41,383 --> 00:07:42,223
+and internal roles.
+
+135
+00:07:42,724 --> 00:07:46,825
+The defining statistical condition is that
+external and internal states become
+
+136
+00:07:46,885 --> 00:07:49,425
+independent after conditioning on the
+blanket variables.
+
+137
+00:07:49,906 --> 00:07:53,887
+This allows marginal dependence and
+conditional independence to coexist.
+
+138
+00:07:54,327 --> 00:07:58,448
+The figure makes that contrast visible:
+ordinary correlations can connect
+
+139
+00:07:58,728 --> 00:08:02,629
+external and internal variables, while a
+particular entry of the Gaussian
+
+140
+00:08:02,669 --> 00:08:04,550
+precision matrix is zero.
+
+141
+00:08:05,250 --> 00:08:09,511
+For a nonsingular Gaussian distribution,
+that zero identifies conditional
+
+142
+00:08:09,591 --> 00:08:11,632
+independence given the remaining
+variables.
+
+143
+00:08:12,452 --> 00:08:16,193
+The model therefore demonstrates a precise
+screening relation, rather than a
+
+144
+00:08:16,233 --> 00:08:19,254
+literal wall separating two independent
+parts of the world.
+
+145
+00:08:22,596 --> 00:08:25,999
+Statistical screening alone does not
+assign causal direction or prove that
+
+146
+00:08:26,059 --> 00:08:28,101
+internal states represent external states.
+
+147
+00:08:28,501 --> 00:08:31,964
+Those claims require additional dynamical
+or interventional assumptions.
+
+148
+00:08:32,584 --> 00:08:36,347
+Here we can establish something precise:
+conditioning on the full blanket
+
+149
+00:08:36,447 --> 00:08:38,529
+removes the relevant Gaussian dependence.
+
+150
+00:08:39,009 --> 00:08:41,431
+Conditioning on only part need not do so.
+
+151
+00:08:41,932 --> 00:08:44,994
+Compare the marginal and conditional
+panels before moving on.
+
+152
+00:08:45,455 --> 00:08:49,157
+A blanket is useful because the
+conditioning statement can be tested; it
+
+153
+00:08:49,218 --> 00:08:51,920
+is not a literal wall or a certificate of
+cognition.
+
+154
+00:08:55,142 --> 00:08:59,364
+The revised blanket figure also separates
+a canonical Gaussian model selected
+
+155
+00:08:59,424 --> 00:09:00,785
+for its formal correspondence.
+
+156
+00:09:01,205 --> 00:09:04,807
+Its precision matrix has four on the
+diagonal, negative one on the
+
+157
+00:09:04,847 --> 00:09:08,849
+blanket connections, and zero direct
+external to internal coupling.
+
+158
+00:09:09,410 --> 00:09:12,451
+This is a distinct model from the original
+numerical example.
+
+159
+00:09:12,871 --> 00:09:16,793
+The added panel makes the distinction
+explicit instead of silently transferring
+
+160
+00:09:16,833 --> 00:09:18,514
+a theorem between different matrices.
+
+161
+00:09:19,095 --> 00:09:22,817
+Conditional Gaussian calculations expose
+the screened relation, while a
+
+162
+00:09:22,857 --> 00:09:25,538
+perturbed direct connection supplies a
+counterexample.
+
+163
+00:09:25,958 --> 00:09:29,740
+Matching a concrete probability model to a
+formal statement requires this level
+
+164
+00:09:29,780 --> 00:09:34,363
+of specificity: variable order, precision
+entries, conditioning variables, and
+
+165
+00:09:34,403 --> 00:09:35,843
+the exact property being claimed.
+
+166
+00:09:39,145 --> 00:09:41,746
+Perception evaluates beliefs after an
+observation.
+
+167
+00:09:42,166 --> 00:09:45,908
+Decision making evaluates possible
+observations before they arrive.
+
+168
+00:09:46,488 --> 00:09:48,689
+Each candidate action has an outcome
+model.
+
+169
+00:09:49,089 --> 00:09:51,910
+Combine that model with the present belief
+to predict outcomes.
+
+170
+00:09:52,370 --> 00:09:55,072
+Then score the action using expected free
+energy.
+
+171
+00:09:55,352 --> 00:09:59,713
+Our score is negative pragmatic value
+minus epistemic value.
+
+172
+00:10:00,154 --> 00:10:03,775
+The pragmatic term averages log
+preferences over predicted outcomes.
+
+173
+00:10:04,215 --> 00:10:07,897
+The epistemic term measures expected
+information gain about hidden states.
+
+174
+00:10:08,337 --> 00:10:10,538
+These are distinct contributions to one
+objective.
+
+175
+00:10:10,958 --> 00:10:13,739
+Lower expected free energy is preferred.
+
+176
+00:10:14,079 --> 00:10:17,681
+The chosen likelihoods, preferences and
+available actions determine the
+
+177
+00:10:17,721 --> 00:10:18,601
+resulting behavior.
+
+178
+00:10:18,981 --> 00:10:21,682
+Read the two terms separately before
+comparing the bars.
+
+179
+00:10:24,903 --> 00:10:28,664
+The one step example compares an
+informative cue with an uninformative bet.
+
+180
+00:10:29,144 --> 00:10:33,585
+With flat preferences, pragmatic values
+are equal, so the cue wins through
+
+181
+00:10:33,685 --> 00:10:34,526
+information gain.
+
+182
+00:10:35,066 --> 00:10:37,767
+Concentrate preferences enough, and the
+rewarding bet wins.
+
+183
+00:10:38,467 --> 00:10:41,988
+The same score changes the balance without
+a separate exploration switch.
+
+184
+00:10:42,508 --> 00:10:47,029
+These supplied matrices expose a
+mechanism, rather than explaining every
+
+185
+00:10:47,209 --> 00:10:48,210
+intelligent action.
+
+186
+00:10:48,750 --> 00:10:52,731
+Before leaving the figure, identify which
+bar changes when preferences change
+
+187
+00:10:52,911 --> 00:10:54,931
+and which term describes information.
+
+188
+00:10:58,193 --> 00:11:02,814
+To understand the epistemic term, imagine
+following each possible observation
+
+189
+00:11:02,934 --> 00:11:03,394
+separately.
+
+190
+00:11:04,194 --> 00:11:08,015
+For each observation, update the prior
+belief using Bayes' rule.
+
+191
+00:11:08,695 --> 00:11:13,096
+Measure how far that posterior moves from
+the prior using relative entropy.
+
+192
+00:11:13,856 --> 00:11:17,837
+Then average those changes with the
+predicted observation probabilities.
+
+193
+00:11:18,497 --> 00:11:23,059
+This is the expected information gain,
+equal here to mutual information between
+
+194
+00:11:23,099 --> 00:11:24,739
+the hidden state and the outcome.
+
+195
+00:11:25,439 --> 00:11:29,880
+An observation independent of the hidden
+state leaves the posterior unchanged
+
+196
+00:11:30,220 --> 00:11:32,241
+and contributes zero information.
+
+197
+00:11:32,821 --> 00:11:37,162
+An informative observation can contribute
+positive information even before we
+
+198
+00:11:37,202 --> 00:11:38,822
+know which outcome will occur.
+
+199
+00:11:39,362 --> 00:11:43,443
+Notice the support conditions: impossible
+observations cannot be treated as
+
+200
+00:11:43,643 --> 00:11:47,884
+ordinary posterior updates, and a
+logarithm involving zero probability
+
+201
+00:11:48,024 --> 00:11:49,844
+requires an explicit convention.
+
+202
+00:11:53,125 --> 00:11:56,566
+The planning example extends actions into
+short, fixed sequences.
+
+203
+00:11:57,086 --> 00:12:00,687
+Each policy induces a distribution over
+observation sequences.
+
+204
+00:12:01,267 --> 00:12:05,168
+Follow every possible branch, update the
+posterior along that branch, and
+
+205
+00:12:05,288 --> 00:12:07,029
+average the evaluated contributions.
+
+206
+00:12:07,669 --> 00:12:10,089
+The pragmatic term concerns the terminal
+outcome.
+
+207
+00:12:10,549 --> 00:12:14,971
+The epistemic term scores information
+across the whole observation sequence.
+
+208
+00:12:15,491 --> 00:12:17,571
+This is one specific planning objective.
+
+209
+00:12:18,231 --> 00:12:21,252
+Other active inference models may use
+different objectives.
+
+210
+00:12:21,812 --> 00:12:26,354
+Here the horizon and outcome spaces are
+small, so we can enumerate
+
+211
+00:12:26,394 --> 00:12:27,674
+branches exactly.
+
+212
+00:12:28,394 --> 00:12:30,155
+There is no sampling uncertainty.
+
+213
+00:12:30,675 --> 00:12:32,995
+Longer horizons grow combinatorially.
+
+214
+00:12:33,455 --> 00:12:38,437
+This exact calculation is an explanatory
+reference, not a claim of scalable
+
+215
+00:12:38,517 --> 00:12:38,857
+planning.
+
+216
+00:12:42,078 --> 00:12:45,259
+Information gain and decision value answer
+different questions.
+
+217
+00:12:45,459 --> 00:12:50,140
+Consider two equally likely states and two
+commitments, each paying one utility
+
+218
+00:12:50,220 --> 00:12:51,981
+unit only when it matches the state.
+
+219
+00:12:52,161 --> 00:12:55,062
+Without a cue, the best expected payoff is
+one half.
+
+220
+00:12:55,322 --> 00:12:59,403
+A ninety percent reliable cue followed by
+the matching commitment raises
+
+221
+00:12:59,583 --> 00:13:01,504
+expected payoff to point nine.
+
+222
+00:13:01,704 --> 00:13:05,805
+The gross value of information is point
+four; subtracting a point fifteen
+
+223
+00:13:05,925 --> 00:13:08,346
+observation cost leaves point two five.
+
+224
+00:13:08,586 --> 00:13:13,007
+Watch the cue accuracy sweep: decision
+value changes in utility units,
+
+225
+00:13:13,427 --> 00:13:15,888
+while mutual information changes in nats.
+
+226
+00:13:16,548 --> 00:13:20,489
+An informative cue can have zero decision
+value when payoffs do not
+
+227
+00:13:20,529 --> 00:13:21,910
+depend on the hidden state.
+
+228
+00:13:22,570 --> 00:13:27,271
+Exhaustive enumeration of all finite
+feedback policies independently checks the
+
+229
+00:13:27,291 --> 00:13:27,972
+calculation.
+
+230
+00:13:28,392 --> 00:13:32,813
+This comparison assumes a fixed state,
+known likelihood and utilities,
+
+231
+00:13:33,273 --> 00:13:35,394
+and unchanged available actions.
+
+232
+00:13:35,994 --> 00:13:39,915
+Next we connect such contingent
+commitments to the perception-action loop.
+
+233
+00:13:43,096 --> 00:13:46,597
+The synthetic agent demonstration makes
+actions and outcomes sequential.
+
+234
+00:13:46,997 --> 00:13:50,198
+Initially, the agent is uncertain which
+hidden context holds.
+
+235
+00:13:50,618 --> 00:13:52,878
+It can obtain a cue or choose a commitment
+action.
+
+236
+00:13:53,438 --> 00:13:57,199
+After selecting an initial action, it
+receives one explicitly specified
+
+237
+00:13:57,279 --> 00:14:00,180
+observation and updates its belief by
+Bayes' rule.
+
+238
+00:14:00,480 --> 00:14:04,261
+It then evaluates the available commitment
+actions again under the posterior.
+
+239
+00:14:04,381 --> 00:14:08,182
+The environment gives those commitments
+state dependent consequences: choosing
+
+240
+00:14:08,202 --> 00:14:11,923
+the action that matches the hidden context
+produces reward, while choosing the
+
+241
+00:14:11,963 --> 00:14:13,103
+other produces loss.
+
+242
+00:14:13,643 --> 00:14:17,224
+This creates a setting in which
+information can change the next decision.
+
+243
+00:14:17,724 --> 00:14:20,205
+The small example is deliberately
+transparent.
+
+244
+00:14:20,485 --> 00:14:23,965
+It is a two stage model with supplied
+probabilities, not a trained
+
+245
+00:14:24,025 --> 00:14:25,646
+general purpose autonomous system.
+
+246
+00:14:28,967 --> 00:14:32,348
+The informative cue identifies the hidden
+context, allowing different
+
+247
+00:14:32,408 --> 00:14:34,789
+observations to lead to different
+commitment decisions.
+
+248
+00:14:35,389 --> 00:14:38,591
+Compare that with a cue replaced by a fair
+coin independent of
+
+249
+00:14:38,651 --> 00:14:39,211
+context.
+
+250
+00:14:39,911 --> 00:14:43,492
+The coin still generates observations, but
+those observations carry no
+
+251
+00:14:43,532 --> 00:14:44,893
+information about the hidden state.
+
+252
+00:14:45,393 --> 00:14:49,315
+The posterior consequently stays at the
+prior, and any change in behavior
+
+253
+00:14:49,375 --> 00:14:51,495
+cannot be credited to learning the
+context.
+
+254
+00:14:52,096 --> 00:14:56,177
+This comparison separates receiving a
+signal from receiving useful evidence.
+
+255
+00:14:56,577 --> 00:15:00,819
+It also separates rerunning a decision
+rule from genuinely observation dependent
+
+256
+00:15:00,839 --> 00:15:01,279
+behavior.
+
+257
+00:15:01,859 --> 00:15:06,101
+The repository represents branches
+explicitly, making both the informative
+
+258
+00:15:06,161 --> 00:15:08,682
+case and its counterexample reproducible.
+
+259
+00:15:09,362 --> 00:15:12,803
+Neither the selected branch nor its clean
+outcome should be mistaken for
+
+260
+00:15:12,843 --> 00:15:15,704
+a population estimate of real world agent
+performance.
+
+261
+00:15:19,005 --> 00:15:22,046
+The hierarchy example adds a second hidden
+level.
+
+262
+00:15:22,306 --> 00:15:26,328
+Context influences a lower level state,
+and that state influences an
+
+263
+00:15:26,488 --> 00:15:27,128
+observation.
+
+264
+00:15:27,428 --> 00:15:31,270
+Top down prediction starts with the
+context prior, propagates it through the
+
+265
+00:15:31,310 --> 00:15:35,852
+state given context distribution, and then
+through the observation given state
+
+266
+00:15:35,952 --> 00:15:36,512
+distribution.
+
+267
+00:15:37,232 --> 00:15:40,934
+Bottom up inference conditions the full
+joint distribution on an actual
+
+268
+00:15:41,014 --> 00:15:41,554
+observation.
+
+269
+00:15:42,454 --> 00:15:46,956
+Marginalizing the resulting posterior
+joint gives revised beliefs at both hidden
+
+270
+00:15:46,996 --> 00:15:47,316
+levels.
+
+271
+00:15:47,896 --> 00:15:51,618
+This is exact finite Bayesian
+conditioning, so the model provides an
+
+272
+00:15:51,678 --> 00:15:54,859
+unusually clear reference for what a
+hierarchical update means.
+
+273
+00:15:55,579 --> 00:15:58,921
+The hierarchy is about the factorization
+of a probability model.
+
+274
+00:15:59,521 --> 00:16:03,222
+It does not require us to assume a
+particular neural architecture, predictive
+
+275
+00:16:03,262 --> 00:16:05,423
+coding implementation, or learning
+algorithm.
+
+276
+00:16:08,644 --> 00:16:12,547
+A lower level observation can revise
+higher level context through the
+
+277
+00:16:12,587 --> 00:16:13,387
+conditional model.
+
+278
+00:16:13,847 --> 00:16:18,070
+If either connecting channel is
+uninformative, evidence cannot recover the
+
+279
+00:16:18,090 --> 00:16:18,670
+missing link.
+
+280
+00:16:19,191 --> 00:16:22,933
+Direct enumeration of the joint
+distribution independently checks the
+
+281
+00:16:22,973 --> 00:16:24,114
+posterior marginals.
+
+282
+00:16:24,874 --> 00:16:29,257
+This validates finite conditioning, not a
+biological implementation, learned
+
+283
+00:16:29,297 --> 00:16:32,279
+parameters, or an automatic benefit from
+greater depth.
+
+284
+00:16:32,939 --> 00:16:36,941
+Trace the figure downward for prediction,
+then upward for inference, and
+
+285
+00:16:37,001 --> 00:16:38,983
+identify the channel each step needs.
+
+286
+00:16:42,264 --> 00:16:46,286
+The revised formal layer imports finite
+path thermodynamics from the same pinned
+
+287
+00:16:46,506 --> 00:16:47,687
+FEP Formal library.
+
+288
+00:16:48,307 --> 00:16:52,349
+A protocol supplies normalized forward and
+aligned reverse path laws, with an
+
+289
+00:16:52,389 --> 00:16:53,370
+involutive reversal.
+
+290
+00:16:53,990 --> 00:16:56,571
+Their Kullback Leibler divergence is
+nonnegative.
+
+291
+00:16:57,071 --> 00:17:01,013
+With strictly positive forward and reverse
+support, the expected exponential of
+
+292
+00:17:01,073 --> 00:17:03,375
+minus the path log ratio equals one.
+
+293
+00:17:03,835 --> 00:17:07,697
+The displayed Lean declaration makes those
+support hypotheses explicit.
+
+294
+00:17:08,237 --> 00:17:11,879
+This is a finite path-space identity, not
+a proof of the continuous
+
+295
+00:17:12,119 --> 00:17:14,540
+Ornstein Uhlenbeck entropy-production
+rate.
+
+296
+00:17:15,221 --> 00:17:18,862
+A physical interpretation also requires
+the correct reverse protocol.
+
+297
+00:17:19,443 --> 00:17:23,685
+Lean checks the stated proposition;
+numerical correspondence and scientific
+
+298
+00:17:23,725 --> 00:17:25,466
+interpretation remain separate checks.
+
+299
+00:17:25,946 --> 00:17:27,887
+Our local wrappers preserve that boundary.
+
+300
+00:17:31,128 --> 00:17:34,229
+There is also a precise route from the two
+step planner to
+
+301
+00:17:34,289 --> 00:17:36,669
+a one channel formal information
+statement.
+
+302
+00:17:37,169 --> 00:17:40,890
+Treat the pair of observations as one
+history outcome.
+
+303
+00:17:41,350 --> 00:17:45,771
+Its likelihood is the product of the two
+action likelihoods conditional on
+
+304
+00:17:45,791 --> 00:17:46,611
+the hidden state.
+
+305
+00:17:47,191 --> 00:17:51,272
+Normalize the history preference using the
+terminal preference and the number of
+
+306
+00:17:51,352 --> 00:17:53,012
+possible first observations.
+
+307
+00:17:53,772 --> 00:17:58,433
+In this binary example, that normalization
+introduces an additive natural
+
+308
+00:17:58,493 --> 00:18:01,314
+logarithm of two into the expected free
+energy.
+
+309
+00:18:01,954 --> 00:18:03,994
+The constant preserves policy ranking.
+
+310
+00:18:04,354 --> 00:18:08,635
+This construction does not identify the
+local terminal objective with a sum
+
+311
+00:18:08,775 --> 00:18:11,036
+of repeatedly applied one step objectives.
+
+312
+00:18:11,636 --> 00:18:14,796
+The channel and preference normalization
+are part of the bridge.
+
+313
+00:18:18,117 --> 00:18:21,577
+The repository now includes two
+Generalized Notation Notation
+
+314
+00:18:21,618 --> 00:18:22,518
+specifications.
+
+315
+00:18:22,838 --> 00:18:27,278
+The continuous file declares a two
+dimensional state, precision, dissipation,
+
+316
+00:18:27,498 --> 00:18:29,779
+drive alternatives, diffusion and current.
+
+317
+00:18:30,339 --> 00:18:35,039
+Q underscore OU is antisymmetric drive,
+not a process-noise
+
+318
+00:18:35,079 --> 00:18:35,559
+covariance.
+
+319
+00:18:36,400 --> 00:18:41,180
+The finite file declares cue and bet
+channels, a prior and normalized
+
+320
+00:18:41,260 --> 00:18:45,041
+preferences; rows are outcomes and columns
+are states.
+
+321
+00:18:45,861 --> 00:18:50,601
+An optional bridge uses the real upstream
+parser, checks exact values and
+
+322
+00:18:50,621 --> 00:18:54,662
+dimensions against our numerical demos,
+and rejects deliberately wrong
+
+323
+00:18:54,722 --> 00:18:56,502
+dissipation or state dimension.
+
+324
+00:18:56,942 --> 00:18:59,363
+Parsing does not execute a simulation
+backend.
+
+325
+00:18:59,823 --> 00:19:02,403
+Nor does it transport a Lean theorem
+automatically.
+
+326
+00:19:02,903 --> 00:19:07,224
+Record support, orientation, units and
+control assumptions before extending the
+
+327
+00:19:07,244 --> 00:19:07,544
+model.
+
+328
+00:19:10,685 --> 00:19:12,806
+Choose the next resource by your question.
+
+329
+00:19:13,326 --> 00:19:16,868
+Synthetic supplies the paper, Python
+package and teaching experiments.
+
+330
+00:19:17,329 --> 00:19:20,150
+FEP Formal supplies the pinned
+mathematical library.
+
+331
+00:19:20,610 --> 00:19:22,871
+GNN supplies model specification tools.
+
+332
+00:19:23,312 --> 00:19:26,533
+Our optional parser bridge is separate
+from the ordinary numerical runtime.
+
+333
+00:19:26,773 --> 00:19:29,055
+The Active Inference Ontology supports
+terminology.
+
+334
+00:19:29,495 --> 00:19:31,256
+Fundamentals and courses support study.
+
+335
+00:19:31,736 --> 00:19:34,277
+Cognitive supplies examples of
+computational models.
+
+336
+00:19:34,778 --> 00:19:37,559
+Active Inference Journal connects videos
+with searchable transcripts.
+
+337
+00:19:38,179 --> 00:19:41,761
+The release links this revised paper,
+lecture, slides, captions and
+
+338
+00:19:41,801 --> 00:19:42,882
+reproducibility sources.
+
+339
+00:19:43,562 --> 00:19:46,364
+The earlier published paper remains
+archived on Zenodo.
+
+340
+00:19:46,944 --> 00:19:50,186
+Start with one model, change one
+assumption, and test a failure case.
+
+341
+00:19:50,506 --> 00:19:51,746
+Specification communicates.
+
+342
+00:19:51,807 --> 00:19:52,827
+Computation evaluates.
+
+343
+00:19:52,947 --> 00:19:54,448
+Proof establishes a proposition.
+
+344
+00:19:54,648 --> 00:19:56,629
+Scientific interpretation requires
+evidence.

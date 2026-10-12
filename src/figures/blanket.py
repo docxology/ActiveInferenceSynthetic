@@ -12,9 +12,11 @@ from ..demos import (
     BLANKET_GIVEN_IDX,
     BLANKET_MU_IDX,
     BLANKET_PRECISION,
+    NATIVE_BLANKET_PRECISION,
 )
 from ..markov_blanket import (
     correlation_matrix,
+    conditional_covariance,
     covariance_from_precision,
     partial_correlation,
 )
@@ -71,7 +73,7 @@ def build_figure() -> plt.Figure:
         cov, BLANKET_ETA_IDX, BLANKET_MU_IDX, BLANKET_GIVEN_IDX
     )
 
-    fig, (ax_l, ax_r) = plt.subplots(1, 2, figsize=(10.2, 5.0))
+    fig, (ax_l, ax_r, ax_native) = plt.subplots(1, 3, figsize=(14.0, 5.0))
     _draw_matrix(ax_l, corr, "(a) marginal correlation", "coolwarm")
     _draw_matrix(
         ax_r, BLANKET_PRECISION, "(b) precision (inverse covariance)", "coolwarm"
@@ -99,6 +101,26 @@ def build_figure() -> plt.Figure:
         va="top",
         fontsize=9,
         color=palette.VERMILLION,
+    )
+    native_cov = covariance_from_precision(NATIVE_BLANKET_PRECISION)
+    conditional = conditional_covariance(native_cov, [0, 3], [1, 2])
+    ax_native.imshow(conditional, cmap="Blues", vmin=0, vmax=conditional.max())
+    for i in range(2):
+        for j in range(2):
+            ax_native.text(j, i, f"{conditional[i, j]:.2f}", ha="center", va="center")
+    ax_native.set_xticks([0, 1], ["external", "internal"])
+    ax_native.set_yticks([0, 1], ["external", "internal"])
+    ax_native.set_title(
+        "(c) canonical native bridge: conditioned covariance", fontsize=9
+    )
+    ax_native.text(
+        0.5,
+        -0.16,
+        f"marginal covariance = {native_cov[0, 3]:.4f}\nzero conditioned cross-covariance",
+        transform=ax_native.transAxes,
+        ha="center",
+        va="top",
+        fontsize=9,
     )
     fig.suptitle(
         "The Markov blanket: internal and external states, screened by (s, a)",

@@ -1,0 +1,44 @@
+{
+  "release_tag": "synthetic-teaching-v0.6.0",
+  "edition": "edition_v15",
+  "duration_s": 1200,
+  "chapters": 26,
+  "captions": 344,
+  "animated_chapters": [
+    5,
+    7,
+    8,
+    9,
+    18
+  ],
+  "voice": "ElevenLabs Daniel",
+  "caption_timing": "Known-text Wav2Vec2 CTC word alignment; no character-proportional timing",
+  "source_files": 449,
+  "assets": {
+    "ActiveInferenceSynthetic_20min.mp4": {
+      "sha256": "b7c6aa3dd8486579242abf778784a64231abe9e862f4f89d2a62221ea9d99157",
+      "bytes": 45117113
+    },
+    "ActiveInferenceSynthetic_Reproducibility.zip": {
+      "sha256": "9d6a2a18b492c7a98e24acf78791f35df8e8b5a1a07615304de360ae6f849d18",
+      "bytes": 104776384
+    },
+    "ActiveInferenceSynthetic_Revised.pdf": {
+      "sha256": "0247f4aa292915941b599a6dc479d1ff8d294f501a4c7e3f5a0781be3ffec7d2",
+      "bytes": 3776345
+    },
+    "ActiveInferenceSynthetic_Slides.pdf": {
+      "sha256": "6ac661d6530d9a4335074c2d14bf567e82431e011a7b4b0dec2ccd9ce2875e7e",
+      "bytes": 4521666
+    },
+    "captions.srt": {
+      "sha256": "0c7954378655e517bf40aa69fcd2a469d27878933a10d069aca8f1193b8c3a61",
+      "bytes": 30942
+    },
+    "captions.vtt": {
+      "sha256": "a8d26152b8f8336f65df3d9fb97979d5426c3ca8c449133e170a20346a50829a",
+      "bytes": 29682
+    }
+  },
+  "publication_scope": "Revised manuscript and teaching release; earlier Zenodo edition remains archived"
+}
