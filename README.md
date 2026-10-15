@@ -1,26 +1,32 @@
 # Active Inference — A Synthetic Overview
 
-## Revised paper and twenty-minute lecture
+An executable introduction to Active Inference and synthetic intelligences across
+equilibrium and non-equilibrium thermodynamic and informational settings.
+Daniel Ari Friedman and Alexandra Mikhailova, Active Inference Institute.
 
-The [teaching release](https://github.com/docxology/ActiveInferenceSynthetic/releases/tag/synthetic-teaching-v0.6.0)
-brings the graphical-abstract manuscript, Daniel narration, five model animations,
-linked slides and synchronized captions together. Its frozen source bundle
-supports replay with LectureCreate. The [lecture guide](docs/lecture.md) records
-the models, clocks, caption method and reproduction commands.
+## Read, watch, reproduce
 
-The revised manuscript adds equilibrium/transient/NESS distinctions,
-finite path-thermodynamics imports and checked
-[GNN specifications](docs/gnn_specifications.md). The earlier published paper
-and source archive are available at [Zenodo](https://zenodo.org/records/23321281).
+| Deliverable | Repository copy | Download |
+| --- | --- | --- |
+| Revised paper | [28-page PDF](ActiveInferenceSynthetic_Revised.pdf) | [Release PDF](https://github.com/docxology/ActiveInferenceSynthetic/releases/download/synthetic-public-v0.6.1/ActiveInferenceSynthetic_Revised.pdf) |
+| Daniel lecture | [Twenty-minute MP4](ActiveInferenceSynthetic_20min.mp4) | [Release video](https://github.com/docxology/ActiveInferenceSynthetic/releases/download/synthetic-public-v0.6.1/ActiveInferenceSynthetic_20min.mp4) |
+| Linked slides | [Slide PDF](media/synthetic/slides.pdf) | Included in the release |
+| Captions | [SRT](media/synthetic/captions.srt), [WebVTT](media/synthetic/captions.vtt) | Included in the release |
+| Narration | [Transcript](media/synthetic/transcript.txt), [speaker notes](media/synthetic/speaker_notes.md) | Included in the source archive |
+| Replay inputs | [Lecture guide](docs/lecture.md) | [Frozen replay bundle](https://github.com/docxology/ActiveInferenceSynthetic/releases/download/synthetic-public-v0.6.1/ActiveInferenceSynthetic_Reproducibility.zip) |
 
-A standalone paper and executable introduction to Active Inference and synthetic
-intelligences across equilibrium and non-equilibrium thermodynamic and
-informational settings. Daniel Ari Friedman and Alexandra Mikhailova,
-Active Inference Institute. Package and manuscript version: **0.5.0**.
+The [public release](https://github.com/docxology/ActiveInferenceSynthetic/releases/tag/synthetic-public-v0.6.1)
+packages the revised paper, five-animation lecture, source snapshot and documentation.
+The [current Zenodo archive](https://zenodo.org/records/23396307) contains this
+distribution. The [Zenodo version history](https://doi.org/10.5281/zenodo.23321280) retains each
+archival edition, including the [original paper](https://zenodo.org/records/23321281).
+[Publication details](docs/publication.md) distinguish the distribution version
+**0.6.1**, scientific package/manuscript **0.5.0**, and frozen lecture **edition_v15**.
 
-Paper and accompanying source archive:
-[Synthetic v0.5.0 on Zenodo](https://zenodo.org/records/23321281)
-([DOI](https://doi.org/10.5281/zenodo.23321281)).
+The PDF and MP4 are ordinary files at the repository root. Their exact byte
+identities appear in [publication.json](publication.json) and
+[SHA256SUMS.txt](SHA256SUMS.txt). GitHub may require downloading the video for
+playback. Verify a checkout with `uv run python scripts/verify_publication.py`.
 
 ## Purpose and relationship to fep_formal
 
@@ -138,4 +144,4 @@ under `output/`; authored sources live under `docs/manuscript/`.
 orchestrators; `tests/` use real computation; `formal/` selects upstream theorems
 and supplies paper-specific controls. [AGENTS.md](AGENTS.md) states the layer
 contract. [ISA.md](ISA.md) defines purpose and acceptance;
-[TODO.md](TODO.md) contains prospective extensions.
+[TODO.md](TODO.md) records implemented teaching extensions and their scope.

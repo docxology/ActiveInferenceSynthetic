@@ -10,6 +10,8 @@ transfer to a paper example.
 - Use an immutable revision observed on upstream main; never a machine-specific path.
 - Keep paper wrappers and concrete boundary witnesses here. Do not duplicate the
   generic theorem library or introduce an alternative proof carrier.
+- Finite path thermodynamics uses normalized finite laws and explicit support;
+  do not infer a theorem about continuous OU trajectories from those wrappers.
 - Audit every selected declaration and witness in `Audit.lean`; no `sorry`,
   `admit`, new assumed axioms, or `sorryAx` evidence is allowed.
 - Changing a statement requires checking its upstream hypotheses and the local

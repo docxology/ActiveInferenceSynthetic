@@ -30,6 +30,9 @@ to this checkout's `.lake/`, never a symlink into another active project.
 
 - `Geometry.lean`: selected flow orthogonality, dissipation, detailed balance,
   and entropy-production propositions from `FEP.NessFlow`.
+- `Thermodynamics.lean`: finite path KL nonnegativity and the supported integral
+  fluctuation identity, retaining normalized finite laws and positive-support
+  assumptions; this is not a continuous OU path-measure transfer.
 - `Information.lean`: selected finite information, VFE, and EFE propositions.
 - `Witnesses.lean`: concrete positive/boundary controls, including negative
   dissipation and disjoint-support totalized KL.

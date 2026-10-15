@@ -1,6 +1,13 @@
 # Output conventions
 
-`output/` is generated and disposable.
+`output/` holds generated working artifacts. Regenerate derived outputs from
+sources; preserve failed receipts and existing evidence until a verified
+replacement permits retirement.
+
+The root PDF and MP4 are deliberate tracked publication copies. Their hashes
+are bound by [publication.json](../publication.json); committed companions live
+in [media/synthetic/](../media/synthetic/README.md). Release assets and Zenodo
+archives retain the corresponding frozen distribution.
 
 | Path | Producer |
 | --- | --- |

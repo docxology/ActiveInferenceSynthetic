@@ -20,7 +20,7 @@ section-to-method map with upstream documentation entry points.
 | [FAQ](faq.md) | Short answers |
 | [Agent instructions](agent_instructions.md) | Working rules for agents editing this tree |
 | [Output inventory](output_inventory.md) | The registered figure and artifact names |
-| [Lecture](lecture.md) | Outline of the video walkthrough built from the codebase |
+| [Lecture](lecture.md) | Current lecture, captions, and frozen replay workflow |
 | [Publication](publication.md) | Synthetic DOI, source archive and published upstream references |
 | [GNN specifications](gnn_specifications.md) | Authored models, optional parser checks and thermodynamic transfer |
 

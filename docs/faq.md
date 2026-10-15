@@ -21,7 +21,10 @@ mathematical statements without becoming a runtime dependency.
 
 ## Are outputs tracked evidence?
 
-This is a private working project. Treat `output/` as regeneratable local state.
+This repository is public. `output/` is generated working state; preserve
+existing evidence until replacement checks pass. The root PDF/video and
+`media/synthetic/` companions are deliberate tracked release artifacts.
+GitHub release assets and Zenodo records provide immutable distribution copies.
 
 ## Does the new agent learn a world model?
 

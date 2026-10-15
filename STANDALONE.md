@@ -53,6 +53,6 @@ paper outputs require separate review after source changes.
 `from active_inference_synthetic.synthetic_agent import synthetic_agent_demo`.
 The repository's development scripts and tests still use local `src` imports.
 `FepSketches` is acquired by Lake in the independent Lean workspace.
-`fep_lean` and `gnn` are not Python runtime dependencies. GNN is introduced
-as a possible model-specification extension in [positioning](docs/positioning.md);
-these models do not parse GNN files or claim backend equivalence.
+`fep_lean` and `gnn` are not Python runtime dependencies. Authored GNN inputs and the optional real-parser bridge are documented in
+[the specification guide](docs/gnn_specifications.md). Numerical execution does
+not depend on GNN and parser success does not establish backend equivalence.

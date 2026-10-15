@@ -31,6 +31,10 @@ would silently desynchronise the prose from the plots.
 
 | Module | Output PNG | Manuscript section |
 | --- | --- | --- |
+| `graphical_abstract.py` | `graphical_abstract.png` | cover |
+| `synthetic_agent.py` | `synthetic_agent.png` | closed-loop commitments |
+| `hierarchy.py` | `hierarchical_inference.png` | hierarchical inference |
+| `decision_value.py` | `value_of_information.png` | decision value |
 | `overview.py` | `active_inference_overview.png` | §1 extended abstract |
 | `belief.py` | `belief_update.png` | §2 generative model |
 | `trajectories_figure.py` | `worked_trajectories.png` | §3 worked regimes |
@@ -67,7 +71,7 @@ uv run python scripts/generate_overview_figure.py
 ```python
 from src.figures import FIGURE_RENDERERS, render_all
 
-manifest = render_all()               # {filename: Path} for all nine
+manifest = render_all()               # {filename: Path} for all registered figures
 one = FIGURE_RENDERERS["belief_update.png"]()
 ```
 

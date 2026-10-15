@@ -1,6 +1,6 @@
 # Paper exposition modules
 
-`Geometry.lean` and `Information.lean` re-export selected real-valued
+`Geometry.lean`, `Information.lean`, and `Thermodynamics.lean` re-export selected real-valued
 `FepSketches` theorems under `ActiveInferenceFormal`. Keep their `ℝ_` names
 stable and retain upstream hypotheses. `Witnesses.lean` supplies concrete
 boundary cases. `GaussianBlanket.lean` transports the canonical four-axis

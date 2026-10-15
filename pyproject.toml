@@ -1,5 +1,4 @@
 # Code Project Configuration
-# Inherits workspace settings from root pyproject.toml
 
 [build-system]
 requires = ["setuptools>=61.0"]
@@ -36,6 +35,9 @@ active_inference_synthetic = "src"
 dev = [
     "pytest>=7.4.0",
     "pytest-cov>=4.1.0",
+    "ruff==0.15.21",
+    "mypy==2.4.0",
+    "types-PyYAML>=6.0",
 ]
 
 [tool.pytest.ini_options]
@@ -59,8 +61,6 @@ omit = [
 ]
 
 [tool.coverage.report]
-# ≥90% on src/ is the enforced gate; live coverage % is tracked in
-# docs/_generated/COUNTS.md (do not hardcode it here — it drifts).
 fail_under = 90
 show_missing = true
 precision = 2
@@ -70,14 +70,8 @@ exclude_lines = [
     "raise NotImplementedError",
 ]
 
-[tool.uv]
-# Inherits workspace settings from root pyproject.toml
-
-# Explicit local Ruff config. The project is a private sidecar that is also
-# symlinked into the template checkout; pinning [tool.ruff] here makes the lint
-# and format surface deterministic regardless of which directory Ruff resolves
-# config from, instead of silently inheriting a 120-column / 88-column default.
 [tool.ruff]
+required-version = "==0.15.21"
 target-version = "py310"
 line-length = 88
 

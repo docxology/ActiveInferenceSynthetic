@@ -5,16 +5,16 @@ Ordered source for **Active Inference — A Synthetic Overview**.
 | Section | Demonstration |
 | --- | --- |
 | `00_abstract.md` | concise abstract |
-| `02_methods.md` | numerical and formal reproducibility |
-| `03_equilibrium_concepts.md` | stationarity, detailed balance, transients and time reversal |
-| `07_thermodynamic_transfer.md` | finite path-theorem imports and validated GNN specifications |
 | `01_extended_abstract.md` | overview |
 | `02_generative_model.md` | perception and VFE |
+| `02_methods.md` | numerical and formal reproducibility |
+| `03_equilibrium_concepts.md` | stationarity, detailed balance, transients and time reversal |
 | `03_worked_regimes.md` | equilibrium/NESS trajectories |
 | `04_expected_free_energy.md` | action and explore/exploit |
 | `05_markov_blanket.md` | conditional independence |
 | `06_steady_state.md` | current and entropy production |
 | `07_formal_verification.md` | Lean-checked claims |
+| `07_thermodynamic_transfer.md` | finite path-theorem imports and validated GNN specifications |
 | `08_planning.md` | planning as EFE minimization over action sequences |
 | `09_synthetic_agent.md` | closed-loop observation-sensitive commitments |
 | `09_value_of_information.md` | feedback utility, acquisition cost and counterexamples |

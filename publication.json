@@ -1,0 +1,49 @@
+{
+  "schema_version": 1,
+  "release_tag": "synthetic-public-v0.6.1",
+  "distribution_version": "0.6.1",
+  "scientific_package_version": "0.5.0",
+  "manuscript_version": "0.5.0",
+  "publication_date": "2026-10-15",
+  "zenodo_doi": "10.5281/zenodo.23396307",
+  "zenodo_record": "https://zenodo.org/records/23396307",
+  "concept_doi": "10.5281/zenodo.23321280",
+  "scientific_source_commit": "13ac2b9386b17565a6de03eaa1ab33c6dbe249f3",
+  "original_teaching_release": "synthetic-teaching-v0.6.0",
+  "lecture_edition": "edition_v15",
+  "scope": "Public distribution and documentation refresh; root PDF, MP4, and media companions preserve original teaching-edition bytes. Numerical cores, scientific manuscript content and Lean propositions are unchanged.",
+  "assets": {
+    "ActiveInferenceSynthetic_Revised.pdf": {
+      "bytes": 3776345,
+      "sha256": "0247f4aa292915941b599a6dc479d1ff8d294f501a4c7e3f5a0781be3ffec7d2"
+    },
+    "ActiveInferenceSynthetic_20min.mp4": {
+      "bytes": 45117113,
+      "sha256": "b7c6aa3dd8486579242abf778784a64231abe9e862f4f89d2a62221ea9d99157"
+    },
+    "media/synthetic/slides.pdf": {
+      "bytes": 4521666,
+      "sha256": "6ac661d6530d9a4335074c2d14bf567e82431e011a7b4b0dec2ccd9ce2875e7e"
+    },
+    "media/synthetic/captions.srt": {
+      "bytes": 30942,
+      "sha256": "0c7954378655e517bf40aa69fcd2a469d27878933a10d069aca8f1193b8c3a61"
+    },
+    "media/synthetic/captions.vtt": {
+      "bytes": 29682,
+      "sha256": "a8d26152b8f8336f65df3d9fb97979d5426c3ca8c449133e170a20346a50829a"
+    },
+    "media/synthetic/transcript.txt": {
+      "bytes": 19243,
+      "sha256": "bbf39180f3aecdb2ea61c1a3f9ffc55d7888543de7876976f4d9b714ec22a5c3"
+    },
+    "media/synthetic/speaker_notes.md": {
+      "bytes": 24126,
+      "sha256": "f961502ab947d37b39d159840a24f3581a3645c69aa0318f920b98933327e9ee"
+    },
+    "media/synthetic/poster.png": {
+      "bytes": 235664,
+      "sha256": "75f0b1583b00f4a34fc4ebc3522cfa0d9ab575b1d0f9694d482544f16fdebf9b"
+    }
+  }
+}

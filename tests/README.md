@@ -19,7 +19,8 @@ uv run pytest tests/test_steady_state.py -q          # one file
   `src.project_paths._DEFAULT_ROOT` to a `tmp_path`, so a run never writes into
   the real `output/` tree.
 - **Formal layer included.** `test_formal_lean.py` audits the Lean sources for
-  `sorry`/`admit` and runs a real `lake build` when a toolchain is present.
+  `sorry`/`admit` and runs a real `lake build` when Lake is on PATH. Missing Lake skips native checks; report those skips
+  explicitly and prepare the pinned toolchain for full proof verification.
 
 ## Layout
 

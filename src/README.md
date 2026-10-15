@@ -1,8 +1,8 @@
 # `src/` — README
 
-Numerical cores and figure builders for the Active Inference overview. Every
-number in the manuscript, every figure, and every Lean theorem statement traces
-back to a module here.
+Numerical cores and figure builders for the Active Inference overview. Numerical manuscript values and figures derive from these models. Lean
+statements have their own upstream carriers and hypotheses; Python outputs do
+not prove their correspondence.
 
 ## Quick start
 
@@ -22,7 +22,8 @@ uv run pytest tests/ --cov=src --cov-fail-under=90   # from the project root
 ## Key features
 
 - **Deterministic.** No RNG anywhere in the cores; every demonstration is
-  reproducible byte-for-byte.
+  reproducible for the same inputs and runtime. Floating-point and rendered
+  binary identity across different dependency versions is not promised.
 - **Single source of numbers.** `demos.py` holds the shared parameters that the
   figures, the tests, and the manuscript `{{TOKEN}}` values all consume.
 - **Typed results.** Multi-field returns are frozen dataclasses
@@ -47,9 +48,14 @@ uv run pytest tests/ --cov=src --cov-fail-under=90   # from the project root
 | `policy_planning.py` | Multi-step policies, `MultiStepSelection` |
 | `markov_blanket.py` | Gaussian blanket, partial correlation |
 | `steady_state.py` | NESS current, entropy-production rate |
+| `synthetic_agent.py` | Observation-sensitive cue and commitment episode |
+| `hierarchical_model.py` | Exact two-level categorical prediction and inference |
+| `planning_bridge.py` | Normalized history-channel EFE correspondence |
+| `value_of_information.py` | Feedback utility, cost, and information |
+| `experiment_suite.py` | Source-bound reports and negative controls |
 | `project_paths.py` | `project_output_dirs()` |
 | `manuscript_variables.py` | Live `{{TOKEN}}` map and manuscript hydration |
-| [`figures/`](figures/README.md) | Matplotlib builders for the ten figures |
+| [`figures/`](figures/README.md) | Matplotlib builders for all registered figures |
 
 The package-level public API is whatever [`__init__.py`](__init__.py)
 re-exports; `policy_planning`, `project_paths`, and `manuscript_variables` are

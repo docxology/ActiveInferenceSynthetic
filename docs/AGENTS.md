@@ -20,7 +20,11 @@ valid from the project root unless a guide explicitly says “template root.”
 | [`forking_guide.md`](forking_guide.md) | Adapting the project to a new topic |
 | [`faq.md`](faq.md) | Short answers |
 | [`agent_instructions.md`](agent_instructions.md) | Working rules for agents editing this tree |
-| [`lecture.md`](lecture.md) | Outline of the video walkthrough built from the codebase |
+| [`lecture.md`](lecture.md) | Current frozen lecture, companions, and replay workflow |
+| [`publication.md`](publication.md) | Public release assets, version distinctions and Zenodo workflow |
+| [`methods.md`](methods.md) | Scientific carriers, units, oracles and limits |
+| [`resources.md`](resources.md) | Institute and ecosystem entry points |
+| [`gnn_specifications.md`](gnn_specifications.md) | Optional parser bridge and finite path-theorem scope |
 | [`manuscript/`](manuscript/AGENTS.md) | Manuscript sources, config, figure registry, bibliography |
 
 ## Sources of truth
@@ -45,10 +49,9 @@ uv run python scripts/generate_all_figures.py
 (cd formal && lake build)
 ```
 
-`ruff` and `mypy` are configured for this project (`[tool.ruff]` in
-[`../pyproject.toml`](../pyproject.toml)) but are supplied by the template's dev
-dependency group, not by this project's own dependencies — run them where that
-group is installed:
+The project's locked `dev` extra supplies Ruff, mypy and PyYAML typing stubs.
+Ruff's required version in [`../pyproject.toml`](../pyproject.toml) preserves
+the original validation rule set; update it intentionally with its lockfile:
 
 ```bash
 uv run ruff check src scripts tests

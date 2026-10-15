@@ -12,6 +12,10 @@ Current labels:
 
 | Label | Figure |
 | --- | --- |
+| `fig:graphical-abstract` | cover graphical abstract; see YAML for exact cover handling |
+| `fig:agent` | closed-loop cue and commitment |
+| `fig:hierarchy` | exact two-level inference |
+| `fig:decision-value` | information, utility and cost |
 | `fig:overview` | equilibrium and NESS flow |
 | `fig:belief` | belief and VFE descent |
 | `fig:trajectories` | integrated trajectories |

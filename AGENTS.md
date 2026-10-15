@@ -1,105 +1,61 @@
-# ActiveInferenceSynthetic — AGENTS.md
+# ActiveInferenceSynthetic
 
-Standalone educational paper and numerical demonstrations of Active Inference
-and synthetic intelligences in equilibrium/non-equilibrium settings. The formal
-layer selects real-valued results from `ActiveInferenceInstitute/fep_formal`;
-[docs/positioning.md](docs/positioning.md) owns upstream navigation and transfer
-boundaries. The template is used for publication rendering.
+Public educational paper, numerical demonstrations, formal adapters, and narrated
+lecture. Read [README.md](README.md) for the reader workflow and
+[docs/positioning.md](docs/positioning.md) before changing mathematical scope.
 
-## Layer contract
+## Ownership and sources
 
-| Surface | Rule |
-| --- | --- |
-| `src/` | Pure numerical cores and figure builders — no `infrastructure` imports |
-| `scripts/` | Thin orchestrators; may import `src/` and (for preflight) `infrastructure/` |
-| `formal/` | Lean 4 proofs; independent of Python runtime |
-| `tests/` | Real computation only; no mock frameworks |
-| `docs/` | Guides plus `docs/manuscript/` — the authored manuscript sources |
-| `data/` | Versioned inputs only (`claim_ledger.yaml`); never pipeline output |
-| `output/` | Disposable generated artifacts; regenerate, never hand-edit |
+- `src/`: deterministic numerical cores; `src/figures/`: presentation only.
+  Core mathematics belongs outside scripts and never imports template infrastructure.
+- `scripts/`: figure, hydration, experiment, and optional GNN entry points.
+  Publication verification checks files and documentation rather than scientific models.
+- `formal/`: paper adapters over pinned upstream `FepSketches`; generic proofs
+  belong in `fep_formal`. Preserve carriers, hypotheses, and complete axiom checks.
+- `docs/manuscript/`: authored paper sections and render metadata.
+- `data/`: claim ledger and authored GNN inputs.
+- `media/`: frozen lecture edition and companions. Read its nested guides before editing.
+- `output/`: generated working outputs; preserve existing evidence until replacement
+  validation succeeds. Root PDF/video are deliberate versioned publication copies.
 
-Per-directory guides: [`src/`](src/AGENTS.md), [`src/figures/`](src/figures/AGENTS.md),
-[`scripts/`](scripts/AGENTS.md), [`tests/`](tests/AGENTS.md),
-[`formal/`](formal/AGENTS.md),
-[`formal/ActiveInferenceFormal/`](formal/ActiveInferenceFormal/AGENTS.md),
-[`docs/`](docs/AGENTS.md), [`docs/manuscript/`](docs/manuscript/AGENTS.md),
-[`data/`](data/AGENTS.md). Every one of those directories also carries a
-`README.md` quick reference alongside its `AGENTS.md`.
+Each maintained folder has a `README.md` and `AGENTS.md`. Follow the nearest
+guide when changing that folder. The figure registry in
+`src/figures/render_all.py` and the authored YAML registry must agree.
 
-## Root files
+## Verification
 
-| File | Role |
-| --- | --- |
-| `README.md` / `AGENTS.md` | Project overview / this guide |
-| `STANDALONE.md` | Which surfaces are self-contained vs template-dependent |
-| `ISA.md` | Ideal-state artifact — purpose and completion criteria |
-| `TODO.md` | Remaining candidate directions |
-| `pyproject.toml` / `uv.lock` | Package metadata, dependencies, tool config |
-| `experiment_plan.yaml` | Declared conditions, metrics, and expected figures |
-| `domain_profile.yaml` | Domain, required packages, validation gates, output formats |
-| `CITATION.cff`, `codemeta.json`, `.zenodo.json` | Citation and archival metadata |
-
-## Source modules (`src/`)
-
-| Module | Role |
-| --- | --- |
-| `_prob.py` | Shared probability-vector validation and KL |
-| `ou_model.py` | `IsotropicOU` — precision/gamma/omega flow model |
-| `demos.py` | Shared demonstration parameters for figures and tests |
-| `free_energy_flow.py` | Gaussian free energy and Helmholtz flow field |
-| `generative_model.py` | Discrete generative model, VFE, `BeliefDescent` |
-| `trajectories.py` | RK4 integration, net rotation |
-| `expected_free_energy.py` | One-step EFE, pragmatic/epistemic value, `PolicySelection` |
-| `synthetic_agent.py` | Closed-loop cue, inference, commitment, and control |
-| `hierarchical_model.py` | Exact two-level prediction and conditioning |
-| `planning_bridge.py` | Normalized observation-history EFE correspondence |
-| `policy_planning.py` | Multi-step policies, `MultiStepSelection` (not re-exported by `src/__init__.py`) |
-| `markov_blanket.py` | Gaussian blanket / partial correlation |
-| `steady_state.py` | NESS current, entropy production |
-| `figures/` | Matplotlib figure builders + `render_all()` |
-| `project_paths.py` | `project_output_dirs()` |
-| `manuscript_variables.py` | Live `{{TOKEN}}` map from demos + cores |
-
-## Scripts
-
-| Script | Output |
-| --- | --- |
-| `generate_all_figures.py` | All nine PNGs + hydrate manuscript tokens |
-| `z_generate_manuscript_variables.py` | `output/data/manuscript_variables.json` + `output/manuscript/` |
-| `generate_overview_figure.py` | `active_inference_overview.png` |
-| `generate_belief_update_figure.py` | `belief_update.png` |
-| `generate_trajectory_figure.py` | `worked_trajectories.png` |
-| `generate_efe_figure.py` | `expected_free_energy.png` |
-| `generate_policy_planning_figure.py` | `policy_planning.png` |
-| `generate_markov_blanket_figure.py` | `markov_blanket.png` |
-| `generate_steady_state_figure.py` | `steady_state_current.png` |
-| `00_preflight.py` | Manuscript preflight via infrastructure |
-
-## Commands
+Run from the repository root:
 
 ```bash
-# From project root (private sidecar or template symlink):
 uv sync --locked --extra dev
 uv run pytest tests/ --cov=src --cov-fail-under=90
 uv run python scripts/generate_all_figures.py
-uv run python scripts/z_generate_manuscript_variables.py
-
-# Lint and type-check (ruff and mypy come from the template's dev group, not
-# from this project's pyproject.toml — run them where that group is installed):
-uv run ruff check src scripts tests
-uv run mypy src
-
-# Render PDF from template checkout (cwd = the template repo root):
-uv run python scripts/pipeline/stage_03_render.py --project working/ActiveInferenceSynthetic
-
-# Lean formal layer (cwd = formal/):
-(cd formal && lake build)  # pinned real-valued FepSketches dependency
+uv run python scripts/run_teaching_experiments.py
+uv run python scripts/verify_publication.py
 ```
 
-`pyproject.toml` declares `numpy`, `matplotlib`, `pyyaml` plus a `dev` extra of
-`pytest` / `pytest-cov`; `[tool.ruff]` and the 90% branch-coverage gate are
-configured here, but the ruff and mypy binaries themselves are not.
+The full suite includes real Lean builds and false-proposition controls when
+Lake is present. Report missing-tool skips explicitly; they do not verify proofs.
+Formal setup: [formal/README.md](formal/README.md).
+Use real files, numerical references, and subprocesses; mocking frameworks are prohibited.
+The locked dev extra supplies lint/type tools and YAML stubs:
+`uv run ruff check src scripts tests` and `uv run mypy src`.
+Ruff is pinned to the original template's 0.15.21 toolchain; advancing the
+linter is an explicit maintenance change rather than a silent default-rule change.
 
-## Version
+On GitVault, bind the Python environment, interpreter, temporary directory, uv
+cache, and matplotlib cache to the mounted SSD. Verify resolved `sys.prefix`
+and `sys.base_prefix` before Python source work; retain the existing environment
+and dirty files when creating an isolated verification environment.
 
-Manuscript and package version: **0.5.0** (`docs/manuscript/config.yaml`, `pyproject.toml`).
+## Publication
+
+[docs/publication.md](docs/publication.md) owns release/version distinctions and
+the upload procedure. `publication.json` binds the root deliverables to their
+hashes and archived lecture edition. `SHA256SUMS.txt` is the human-readable copy.
+Verify both before upload; download published assets anonymously and compare hashes.
+Create a successor Zenodo version while retaining earlier published records.
+
+Scientific package/manuscript version is `0.5.0`. Public distribution version
+`0.6.1` refreshes documentation and packages the revised paper and existing
+`edition_v15` lecture; it introduces no new scientific result.

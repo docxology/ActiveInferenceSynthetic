@@ -25,7 +25,7 @@ step with `pyproject.toml`.
 
 ## Figure references resolve at render time
 
-All nine sections embed their figure as
+Numbered sections embed their figures using paths such as
 `](../output/figures/<name>.png){#fig:<id> width=NN%}`. That path is relative to
 the **hydrated** manuscript in `output/manuscript/`, not to this directory — it
 is deliberately dead when browsed from `docs/manuscript/`. Do not "fix" it to
@@ -38,6 +38,10 @@ is deliberately dead when browsed from `docs/manuscript/`. Do not "fix" it to
 - Expected free energy: `src/expected_free_energy.py`
 - Blanket: `src/markov_blanket.py`
 - NESS current: `src/steady_state.py`
+- Closed-loop/hierarchy: `src/synthetic_agent.py`, `src/hierarchical_model.py`
+- Decision value: `src/value_of_information.py`, `src/experiment_suite.py`
+- History planning: `src/policy_planning.py`, `src/planning_bridge.py`
+- Finite path thermodynamics: `formal/ActiveInferenceFormal/Thermodynamics.lean`
 - Formal statements: `formal/ActiveInferenceFormal/`
 
 Numeric claims in numbered sections are `{{TOKEN}}` values from

@@ -12,4 +12,7 @@
   other `sys.path` manipulation. (`00_preflight.py` is not a `src` consumer — it
   locates and inserts the template repo root instead.)
 - Print generated paths for pipeline artifact collection.
-- Add a real smoke test for each new entry point.
+- Add a real smoke test for each new scientific entry point.
+- `validate_gnn_specifications.py` and `verify_publication.py` are operational
+  validators: external parser checks and publication file checks belong here;
+  numerical models remain in `src/`.

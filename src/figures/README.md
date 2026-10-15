@@ -1,13 +1,13 @@
 # `src/figures/`
 
-Matplotlib builders for the ten manuscript figures.
+Matplotlib builders for the registered manuscript figures.
 
 ## Quick start
 
 ```python
 from src.figures import FIGURE_RENDERERS, render_all
 
-manifest = render_all()                       # {filename: Path}, all ten
+manifest = render_all()                       # {filename: Path}, all registered figures
 path = FIGURE_RENDERERS["belief_update.png"]()  # just one
 ```
 
@@ -26,6 +26,9 @@ uv run python scripts/generate_all_figures.py   # from the project root
 
 | Module | Role |
 | --- | --- |
+| `graphical_abstract.py` | `graphical_abstract.png` — cover |
+| `synthetic_agent.py` | `synthetic_agent.png` — cue and commitment |
+| `hierarchy.py` | `hierarchical_inference.png` — two-level inference |
 | `overview.py` | `active_inference_overview.png` — equilibrium vs NESS flow |
 | `belief.py` | `belief_update.png` — perception as VFE descent |
 | `trajectories_figure.py` | `worked_trajectories.png` |

@@ -16,6 +16,7 @@ Re-exported from `src/__init__.py`:
   `correlation_matrix`, `is_markov_blanket`
 - Steady state: `drift_matrix`, `stationary_covariance`, `probability_current`,
   `entropy_production_rate`, `current_circulation`
+- Decision value: `DecisionValue`, `value_of_information`
 - Model: `IsotropicOU`
 
 ## Modules not re-exported at package level
@@ -28,7 +29,7 @@ Import these from their module, not from `src`:
 | `project_paths.py` | `resolve_project_root`, `project_output_dirs` |
 | `manuscript_variables.py` | `compute_claims`, `generate_variables`, `save_variables`, `manuscript_tokens`, `hydrate_manuscript`, `leftover_tokens` |
 
-`policy_planning.py` extends the one-step `expected_free_energy.py` currency to
+`policy_planning.py` extends the one-step `expected_free_energy.py` objective to
 short action *sequences*: terminal pragmatic value plus cumulative epistemic
 value, minimised over exhaustively enumerated branches — no sampling, no RNG.
 It backs §8 of the manuscript and `src/figures/policy_planning.py`.
@@ -40,6 +41,10 @@ It backs §8 of the manuscript and `src/figures/policy_planning.py`.
 - `hierarchical_model.py`: exact joint inference for context -> state -> observation.
 - `planning_bridge.py`: normalized two-step history carrier and EFE offset;
   it does not change the existing terminal/history objective.
+
+- `value_of_information.py`: utility gain and acquisition cost with informative,
+  uninformative, and irrelevant-payoff cases.
+- `experiment_suite.py`: source-bound experiment reports and analytic controls.
 
 ## Internal helpers
 

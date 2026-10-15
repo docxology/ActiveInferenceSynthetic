@@ -7,7 +7,7 @@ authors:
   family-names: Mikhailova
   given-names: Alexandra
 cff-version: 1.2.0
-date-released: '2026-10-12'
+date-released: '2026-10-15'
 keywords:
 - active inference
 - free energy principle
@@ -31,8 +31,9 @@ preferred-citation:
   - family-names: Mikhailova
     given-names: Alexandra
   year: 2026
-  doi: 10.5281/zenodo.23321281
-  url: https://zenodo.org/records/23321281
+  doi: 10.5281/zenodo.23396307
+  url: https://zenodo.org/records/23396307
+  version: 0.6.1
 references:
 - type: software
   title: 'fep_formal: Towards Lean 4 Formalization of the Free Energy Principle'

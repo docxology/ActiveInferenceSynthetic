@@ -6,9 +6,10 @@ Project-maintained inputs for the Active Inference overview.
 
 | File | Role |
 | --- | --- |
-| `claim_ledger.yaml` | 26 source-backed numeric, vector, and string claims for evidence validation, grouped by the figure each supports |
+| `claim_ledger.yaml` | Source-backed numeric, vector, and string claims for evidence validation, grouped by the figure each supports |
 
-This is the only file here. Generated analysis outputs belong under `output/`
+[`gnn/`](gnn/README.md) contains the authored optional GNN specifications.
+Query the YAML for the current ledger count. Generated analysis outputs belong under `output/`
 during pipeline runs, not in `data/`.
 
 Claims are the *code-sourced* counterpart to the manuscript's `{{TOKEN}}`

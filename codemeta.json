@@ -22,7 +22,7 @@
       "givenName": "Alexandra"
     }
   ],
-  "dateModified": "2026-10-12",
+  "dateModified": "2026-10-15",
   "keywords": [
     "active inference",
     "free energy principle",
@@ -37,7 +37,7 @@
   "version": "0.5.0",
   "codeRepository": "https://github.com/docxology/ActiveInferenceSynthetic",
   "relatedLink": [
-    "https://doi.org/10.5281/zenodo.23321281",
+    "https://doi.org/10.5281/zenodo.23396307",
     "https://github.com/ActiveInferenceInstitute/fep_formal",
     "https://github.com/ActiveInferenceInstitute/Generalized_Notation_Notation"
   ]

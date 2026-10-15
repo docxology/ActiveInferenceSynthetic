@@ -6,7 +6,7 @@
 uv run python scripts/generate_all_figures.py
 ```
 
-`src.figures.render_all()` writes the ten registered PNGs under
+`src.figures.render_all()` writes the registered PNGs under
 `output/figures/`. Individual `scripts/generate_*_figure.py` wrappers regenerate
 one figure.
 

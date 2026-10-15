@@ -1,20 +1,22 @@
-# Synthetic teaching release
+# Synthetic teaching media
 
-[Watch or download the twenty-minute Daniel lecture](https://github.com/docxology/ActiveInferenceSynthetic/releases/tag/synthetic-teaching-v0.6.0).
+The [root video](../../ActiveInferenceSynthetic_20min.mp4) and
+[root paper](../../ActiveInferenceSynthetic_Revised.pdf) accompany these
+[linked slides](slides.pdf), [SRT](captions.srt), [WebVTT](captions.vtt),
+[transcript](transcript.txt), [speaker notes](speaker_notes.md), and
+[poster](poster.png). [Lecture sources](lecture/README.md) describe their production.
 
-This directory holds the linked slides, transcript, speaker notes, captions,
-poster, executable lecture sources and release manifest. The MP4, revised paper
-and complete replay bundle are versioned release assets. Frozen measured audio,
-alignment data, scientific inputs and the scoped LectureCreate runtime are in
-the reproducibility ZIP; they are not ordinary Git binary history.
+The video is exactly 1200 seconds, with 26 chapters, five animations and
+344 aligned English caption cues. Known-text CTC alignment and independent
+machine transcription are distinct from a human listening-panel assessment.
 
-See [the lecture guide](../../docs/lecture.md) for model clocks, caption methods
-and reproduction. Five animations and 26 chapters run for exactly 1200 seconds.
-344 English captions preserve the complete authored script with measured CTC
-word timings. All narration received independent machine transcription; four
-flagged passages were regenerated and rechecked. This is not a claim of a
-human listening panel.
+`release_manifest.json` preserves the original
+[teaching release 0.6.0](https://github.com/docxology/ActiveInferenceSynthetic/releases/tag/synthetic-teaching-v0.6.0).
+The byte-identical assets are also included in
+[public distribution 0.6.1](https://github.com/docxology/ActiveInferenceSynthetic/releases/tag/synthetic-public-v0.6.1)
+and [Zenodo](https://zenodo.org/records/23396307). The root
+[publication manifest](../../publication.json) binds the current distribution.
 
-The teaching release is v0.6.0, while the scientific package and manuscript
-metadata remain v0.5.0. The paper is a revision of the
-[earlier Zenodo edition](https://zenodo.org/records/23321281).
+Use the [lecture guide](../../docs/lecture.md) for the frozen replay ZIP,
+runtime requirements and measured-audio workflow. Scientific package/manuscript
+version remains 0.5.0. [AGENTS.md](AGENTS.md) defines media edition boundaries.

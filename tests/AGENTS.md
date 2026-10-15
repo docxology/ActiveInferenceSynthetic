@@ -16,12 +16,22 @@ No mock frameworks. Every assertion uses real numerics or subprocess/tool execut
 | `test_steady_state.py` | `src/steady_state.py` |
 | `test_figures.py` | `src/figures/` |
 | `test_generate_overview_figure.py` | `scripts/generate_overview_figure.py` |
-| `test_generate_demonstration_figures.py` | The six other `scripts/generate_*_figure.py` wrappers |
+| `test_generate_demonstration_figures.py` | The individual `scripts/generate_*_figure.py` wrappers |
 | `test_preflight_standalone.py` | `scripts/00_preflight.py` outside a template checkout |
 | `test_manuscript_variables.py` | `src/manuscript_variables.py` |
 | `test_policy_planning.py` | `src/policy_planning.py` |
 | `test_formal_lean.py` | `formal/` Lean sources + real `lake build` |
 | `test_project_paths.py` | `src/project_paths.py` |
+| `test_synthetic_agent.py` | Cue-sensitive commitment and controls |
+| `test_hierarchical_model.py` | Exact context/state inference |
+| `test_planning_bridge.py` | Normalized history EFE |
+| `test_native_blanket_demo.py` | Canonical native Gaussian fixture |
+| `test_value_of_information.py` | Utility, cost and information boundaries |
+| `test_experiment_suite.py` | Source-bound report and controls |
+| `test_decision_value_figure.py` | Decision-value panel |
+| `test_figure_registry_export.py` | Complete renderer/YAML/PNG agreement |
+| `test_standalone_collection.py` | Collection without template infrastructure |
+| `test_publication.py` | Real corrupt assets, broken/untracked links, missing folder guides, and checksum drift |
 
 New behavioral tests cover `synthetic_agent`, `hierarchical_model`,
 `planning_bridge`, and the exact canonical native Gaussian fixture. Formal tests

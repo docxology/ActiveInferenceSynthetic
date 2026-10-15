@@ -20,7 +20,7 @@ flowchart LR
 - `src/ou_model.py`: canonical isotropic OU/Bayesian-mechanics parameter model.
 - Scientific cores: generative model, one-step EFE, multi-step policy planning,
   flow, trajectories, blanket, NESS, closed-loop commitments, hierarchical
-  inference, and the normalized history-channel bridge.
+  inference, decision value, and the normalized history-channel bridge.
 - `src/figures/`: importable presentation logic and output manifest.
 - `scripts/`: thin CLI-compatible wrappers.
 - `formal/`: independent Lean 4 side-spec for load-bearing theorems, one

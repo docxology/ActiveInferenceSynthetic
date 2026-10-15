@@ -15,10 +15,11 @@ publication or biological adequacy claims.
   The original numerical precision fixture remains separately qualified.
 - **Planning bridge:** a normalized two-step Boolean history channel proves the
   terminal objective's constant offset and exposes cumulative-scoring differences.
-- **Paper and lecture:** regenerate PDF/HTML and inspect their actual rendered
-  output; produce the comprehensive measured twenty-minute lecture and companions
-  through LectureCreate. Verification records and immutable source snapshots are
-  under `output/reports/comprehensive-20261011/` and the lecture delivery directory.
+- **Paper and lecture:** the revised paper and measured twenty-minute lecture
+  are distributed at the repository root and through the
+  [public release](https://github.com/docxology/ActiveInferenceSynthetic/releases/tag/synthetic-public-v0.6.1).
+  [Publication](docs/publication.md) and [lecture](docs/lecture.md) guides record
+  the archival boundary and frozen replay inputs.
 
 The selected additions are implemented. General learned models, arbitrary feedback
 control, empirical intelligence, or a universal physical equivalence are outside

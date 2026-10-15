@@ -8,6 +8,8 @@ Every name below is in namespace `ActiveInferenceFormal` and appears in
 
 | Adapter | Qualified principal declaration | Contract |
 | --- | --- | --- |
+| `Thermodynamics.lean` | `ActiveInferenceFormal.finite_path_entropy_nonnegative` | KL nonnegativity on the stated finite path carrier |
+| `Thermodynamics.lean` | `ActiveInferenceFormal.finite_path_integral_fluctuation` | Integral fluctuation identity under explicit positive support |
 | `GaussianBlanket.lean` | `ActiveInferenceFormal.ℝ_canonical_precision_entries` | Exact `Fin 4` transport of the upstream named-axis precision |
 | `GaussianBlanket.lean` | `ActiveInferenceFormal.ℝ_canonical_gaussian_blanket` | Native Gaussian conditional independence plus marginal covariance `1/24` |
 | `GaussianBlanket.lean` | `ActiveInferenceFormal.ℝ_canonical_conditional_rows` | Product endpoint conditional kernels, each variance `1/4` |
