@@ -14,6 +14,8 @@ A dated archive identifies an exact source snapshot; `main` may contain later wo
   verification explicitly outside the hosted Python job.
 - Include package construction and an isolated installed-wheel smoke check.
 - Make float64 array annotations compatible with NumPy on Python 3.10 and 3.14.
+- Keep GitHub's preferred `.github/README.md` synchronized with the root reader
+  guide, with a real drift-rejection test and publication check.
 
 ## Public distribution 0.6.1 — 2026-10-15
 

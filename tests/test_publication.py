@@ -71,3 +71,19 @@ def test_modified_checksum_list_is_rejected(tmp_path: Path) -> None:
     (tmp_path / "SHA256SUMS.txt").write_text("")
     with pytest.raises(ValueError, match="SHA256SUMS.txt differs"):
         verify(tmp_path, paths)
+
+
+def test_github_homepage_must_match_root_readme(tmp_path: Path) -> None:
+    paths = fixture_tree(tmp_path)
+    suffix = "[external](https://example.org)\n[section](#fixture)\n"
+    readme = tmp_path / "README.md"
+    readme.write_text(readme.read_text() + suffix)
+    (tmp_path / ".github").mkdir()
+    (tmp_path / ".github/AGENTS.md").write_text("# Automation instructions\n")
+    mirror = tmp_path / ".github/README.md"
+    mirror.write_text("# Fixture\n[paper](../ActiveInferenceSynthetic_Revised.pdf)\n" + suffix)
+    paths.extend([".github/AGENTS.md", ".github/README.md"])
+    assert verify(tmp_path, paths)["local_link_paths"] == 2
+    mirror.write_text("# Automation only\n")
+    with pytest.raises(ValueError, match="GitHub homepage README differs"):
+        verify(tmp_path, paths)

@@ -37,6 +37,11 @@ and preserve unrelated dirty files and evidence.
   `README.md` and `AGENTS.md`; the publication verifier checks their presence
   and local link paths.
 
+GitHub displays `.github/README.md` before the root README. Keep their reader
+content identical, prefixing local link/image paths with `../` in the `.github`
+copy. The publication verifier rejects drift; automation guidance lives in
+[the workflow guide](.github/workflows/README.md).
+
 ## Validate the affected surface
 
 ```bash

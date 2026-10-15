@@ -53,6 +53,22 @@ def verify(root: Path, paths: list[str] | None = None) -> dict[str, object]:
             if relative not in paths or not (root / relative).is_file():
                 raise ValueError(f"Missing maintained folder guide: {relative}")
 
+    if ".github/README.md" in paths:
+        def rebase_link(match: re.Match[str]) -> str:
+            destination = match.group(2)
+            url = urlsplit(destination)
+            if url.scheme or url.netloc or not url.path:
+                return match.group(0)
+            return f"{match.group(1)}../{destination})"
+
+        expected = re.sub(
+            r"(!?\[[^\]\n]*\]\()([^)\n]+)\)",
+            rebase_link,
+            (root / "README.md").read_text(),
+        )
+        if (root / ".github/README.md").read_text() != expected:
+            raise ValueError("GitHub homepage README differs from root reader guide")
+
     source = root / "src/figures/render_all.py"
     figures = set()
     if source.is_file():

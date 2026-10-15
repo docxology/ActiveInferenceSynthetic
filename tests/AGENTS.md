@@ -31,7 +31,7 @@ No mock frameworks. Every assertion uses real numerics or subprocess/tool execut
 | `test_decision_value_figure.py` | Decision-value panel |
 | `test_figure_registry_export.py` | Complete renderer/YAML/PNG agreement |
 | `test_standalone_collection.py` | Collection without template infrastructure |
-| `test_publication.py` | Real corrupt assets, broken/untracked links, missing folder guides, and checksum drift |
+| `test_publication.py` | Real corrupt assets, broken/untracked links, missing folder guides, checksum drift, and GitHub homepage README drift |
 
 New behavioral tests cover `synthetic_agent`, `hierarchical_model`,
 `planning_bridge`, and the exact canonical native Gaussian fixture. Formal tests

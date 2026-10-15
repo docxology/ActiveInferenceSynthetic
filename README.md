@@ -118,7 +118,7 @@ Missing native tools produce explicit test skips, not evidence of verified proof
 | [docs/](docs/README.md) | Reader/developer guides and authored manuscript |
 | [data/](data/README.md) | Claim ledger and GNN model inputs |
 | [media/](media/README.md) | Lecture companions and frozen authoring sources |
-| [.github/](.github/README.md) | Automated Python checks and their scope |
+| [.github/](.github/workflows/README.md) | Automated Python checks and their scope |
 
 Every maintained folder has a README and AGENTS guide.
 [AGENTS.md](AGENTS.md) defines contributor-agent boundaries;
