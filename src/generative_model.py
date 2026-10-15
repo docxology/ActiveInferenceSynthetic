@@ -265,6 +265,7 @@ def minimize_free_energy(
     log_joint = np.log(joint_x)
     n_states = p.shape[0]
 
+    q: NDArray[np.float64]
     if q_init is None:
         q = np.full(n_states, 1.0 / n_states, dtype=np.float64)
     else:

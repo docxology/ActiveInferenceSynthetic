@@ -13,6 +13,7 @@ A dated archive identifies an exact source snapshot; `main` may contain later wo
 - Add pinned GitHub Actions for Python 3.10 and 3.14 checks, with native Lean
   verification explicitly outside the hosted Python job.
 - Include package construction and an isolated installed-wheel smoke check.
+- Make float64 array annotations compatible with NumPy on Python 3.10 and 3.14.
 
 ## Public distribution 0.6.1 — 2026-10-15
 

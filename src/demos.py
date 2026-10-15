@@ -35,7 +35,7 @@ VOI_CHANNEL: NDArray[np.float64] = np.array([[0.9, 0.1], [0.1, 0.9]])
 VOI_UTILITIES: NDArray[np.float64] = np.eye(2)
 VOI_IRRELEVANT_UTILITIES: NDArray[np.float64] = np.array([[0.8, 0.8], [0.2, 0.2]])
 VOI_COST = 0.15
-VOI_ACCURACIES: NDArray[np.float64] = np.linspace(0.5, 1.0, 51)
+VOI_ACCURACIES: NDArray[np.float64] = np.linspace(0.5, 1.0, 51, dtype=np.float64)
 
 # Multi-step planning (policy-sequence EFE figure).
 #: Planning horizon: two steps — look, then leap.
