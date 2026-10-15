@@ -1,7 +1,7 @@
 # Code Project Configuration
 
 [build-system]
-requires = ["setuptools>=61.0"]
+requires = ["setuptools>=77.0.0"]
 build-backend = "setuptools.build_meta"
 
 [project]
@@ -9,6 +9,15 @@ name = "active_inference_synthetic"
 version = "0.5.0"
 description = "Active Inference -- A Synthetic Overview: an applicable introduction across equilibrium and far-from-equilibrium systems"
 readme = "README.md"
+license = "CC-BY-4.0"
+license-files = ["LICENSE"]
+keywords = ["active inference", "free energy principle", "Bayesian mechanics", "reproducible research"]
+classifiers = [
+    "Intended Audience :: Science/Research",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3 :: Only",
+    "Topic :: Scientific/Engineering",
+]
 authors = [
     {name = "Daniel Ari Friedman", email = "daniel@activeinference.institute"},
     {name = "Alexandra Mikhailova", email = "alexandra@activeinference.institute"}
@@ -22,6 +31,9 @@ dependencies = [
 
 [project.urls]
 "Source" = "https://github.com/docxology/ActiveInferenceSynthetic"
+"Documentation" = "https://github.com/docxology/ActiveInferenceSynthetic/tree/main/docs"
+"Issues" = "https://github.com/docxology/ActiveInferenceSynthetic/issues"
+"Paper and archived distribution" = "https://zenodo.org/records/23396307"
 "Formal reference" = "https://github.com/ActiveInferenceInstitute/fep_formal"
 "Model specification reference" = "https://github.com/ActiveInferenceInstitute/Generalized_Notation_Notation"
 

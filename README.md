@@ -1,147 +1,150 @@
 # Active Inference — A Synthetic Overview
 
-An executable introduction to Active Inference and synthetic intelligences across
-equilibrium and non-equilibrium thermodynamic and informational settings.
-Daniel Ari Friedman and Alexandra Mikhailova, Active Inference Institute.
+[![Python checks](https://github.com/docxology/ActiveInferenceSynthetic/actions/workflows/checks.yml/badge.svg)](https://github.com/docxology/ActiveInferenceSynthetic/actions/workflows/checks.yml)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23396307.svg)](https://doi.org/10.5281/zenodo.23396307)
+
+ActiveInferenceSynthetic is an executable teaching paper introducing Active
+Inference across equilibrium and non-equilibrium settings. Its Python
+demonstrations cover Bayesian inference, action selection, planning, Markov
+blankets, hierarchical inference, and the value of information. Tested numerical
+examples, selected Lean proofs, reproducible figures, a manuscript PDF, and a
+twenty-minute narrated lecture make the models and their assumptions explicit.
+
+**Daniel Ari Friedman and Alexandra Mikhailova · Active Inference Institute**
+
+[Read the paper](ActiveInferenceSynthetic_Revised.pdf) ·
+[Watch/download the lecture](https://github.com/docxology/ActiveInferenceSynthetic/releases/download/synthetic-public-v0.6.1/ActiveInferenceSynthetic_20min.mp4) ·
+[Documentation](docs/README.md) ·
+[Zenodo archive](https://zenodo.org/records/23396307)
+
+![Graphical abstract: matched stationary densities with different currents, a perception-action loop, and separate specification, computation, proof and interpretation layers.](docs/graphical_abstract.png)
 
 ## Read, watch, reproduce
 
-| Deliverable | Repository copy | Download |
+| Resource | Repository copy | Archived download |
 | --- | --- | --- |
 | Revised paper | [28-page PDF](ActiveInferenceSynthetic_Revised.pdf) | [Release PDF](https://github.com/docxology/ActiveInferenceSynthetic/releases/download/synthetic-public-v0.6.1/ActiveInferenceSynthetic_Revised.pdf) |
-| Daniel lecture | [Twenty-minute MP4](ActiveInferenceSynthetic_20min.mp4) | [Release video](https://github.com/docxology/ActiveInferenceSynthetic/releases/download/synthetic-public-v0.6.1/ActiveInferenceSynthetic_20min.mp4) |
-| Linked slides | [Slide PDF](media/synthetic/slides.pdf) | Included in the release |
-| Captions | [SRT](media/synthetic/captions.srt), [WebVTT](media/synthetic/captions.vtt) | Included in the release |
+| Daniel lecture | [Twenty-minute MP4](ActiveInferenceSynthetic_20min.mp4) | [1080p video](https://github.com/docxology/ActiveInferenceSynthetic/releases/download/synthetic-public-v0.6.1/ActiveInferenceSynthetic_20min.mp4) |
+| Linked slides | [Slide PDF](media/synthetic/slides.pdf) | [Release slides](https://github.com/docxology/ActiveInferenceSynthetic/releases/download/synthetic-public-v0.6.1/ActiveInferenceSynthetic_Slides.pdf) |
+| Captions | [SRT](media/synthetic/captions.srt), [WebVTT](media/synthetic/captions.vtt) | Included with the release |
 | Narration | [Transcript](media/synthetic/transcript.txt), [speaker notes](media/synthetic/speaker_notes.md) | Included in the source archive |
-| Replay inputs | [Lecture guide](docs/lecture.md) | [Frozen replay bundle](https://github.com/docxology/ActiveInferenceSynthetic/releases/download/synthetic-public-v0.6.1/ActiveInferenceSynthetic_Reproducibility.zip) |
+| Frozen lecture replay | [Replay instructions](docs/lecture.md) | [Recordings, inputs and runtime](https://github.com/docxology/ActiveInferenceSynthetic/releases/download/synthetic-public-v0.6.1/ActiveInferenceSynthetic_Reproducibility.zip) |
+| Archived repository | [Publication guide](docs/publication.md) | [Source ZIP, distribution 0.6.1](https://github.com/docxology/ActiveInferenceSynthetic/releases/download/synthetic-public-v0.6.1/ActiveInferenceSynthetic_Source_v0.6.1.zip) |
 
-The [public release](https://github.com/docxology/ActiveInferenceSynthetic/releases/tag/synthetic-public-v0.6.1)
-packages the revised paper, five-animation lecture, source snapshot and documentation.
-The [current Zenodo archive](https://zenodo.org/records/23396307) contains this
-distribution. The [Zenodo version history](https://doi.org/10.5281/zenodo.23321280) retains each
-archival edition, including the [original paper](https://zenodo.org/records/23321281).
-[Publication details](docs/publication.md) distinguish the distribution version
-**0.6.1**, scientific package/manuscript **0.5.0**, and frozen lecture **edition_v15**.
+The PDF and MP4 are ordinary root files. [publication.json](publication.json)
+and [SHA256SUMS.txt](SHA256SUMS.txt) bind their exact bytes and media companions.
+GitHub may require downloading the video for playback.
 
-The PDF and MP4 are ordinary files at the repository root. Their exact byte
-identities appear in [publication.json](publication.json) and
-[SHA256SUMS.txt](SHA256SUMS.txt). GitHub may require downloading the video for
-playback. Verify a checkout with `uv run python scripts/verify_publication.py`.
+The [0.6.1 release](https://github.com/docxology/ActiveInferenceSynthetic/releases/tag/synthetic-public-v0.6.1)
+and [Zenodo record](https://zenodo.org/records/23396307) are fixed archival
+snapshots. Development documentation and tooling on `main` can advance beyond
+them; use the archived source ZIP to reproduce that exact distribution.
+[CHANGELOG.md](CHANGELOG.md) separates unreleased changes from archived versions.
 
-## Purpose and relationship to fep_formal
+## Quick start
 
-Synthetic makes a selected mathematical story concrete: how a model updates
-beliefs, selects actions, plans, and represents a statistical boundary; how
-relaxation differs from persistent stationary probability current; and how
-these examples connect to the Free Energy Principle and Bayesian mechanics.
-Its contribution is the teaching sequence, minimal numerical models, tested
-examples, figures, and authored paper.
-
-Start with the [methods and experiment guide](docs/methods.md) and the
-[resource pathways](docs/resources.md). They distinguish numerical calculations,
-formal reuse, vocabulary, model specifications, curricula and transcripts.
-
-[**fep_formal**](https://github.com/ActiveInferenceInstitute/fep_formal) supplies
-the broader mathematical reference and reusable formal library. Its interfaces
-are `fep_lean` (Python), `fep-lean` (CLI), and `FepSketches` (Lean). Synthetic
-selects and explains results from that library; substantive generic proofs
-belong upstream. The optional
-[GNN model-specification pathway](https://github.com/ActiveInferenceInstitute/Generalized_Notation_Notation)
-is introduced in that guide; the current demonstrations do not require or
-execute GNN. See the [positioning and methods map](docs/positioning.md) for
-section-level links and the protocol for advancing the upstream pin.
-
-“Synthetic intelligences” is the intended application and teaching perspective.
-The current examples are controlled mathematical demonstrations, not empirical
-validation of an intelligent organism or a deployed autonomous agent. Persistent
-NESS current alone does not establish life or intelligence. Variational free
-energy, expected free energy, and thermodynamic free energy require their own
-models and units; sharing a name does not establish a physical equivalence.
-
-## The teaching sequence
-
-- **Perception:** a discrete model, Bayesian posterior, and VFE bound.
-- **Mechanics:** one Gaussian landscape with relaxation and circulating
-  flow; RK4 drift trajectories are checked against an analytic solution.
-- **Action:** pragmatic and epistemic contributions to one-step EFE.
-- **Boundary:** Gaussian marginal dependence and blanket-conditioned independence.
-- **Steady state:** matched-noise OU covariance, current, and entropy production.
-- **Formal reference:** selected real-valued upstream results and explicit assumptions.
-- **Planning:** action sequences with a static hidden state and conditional
-  observation updates; this is distinct from general closed-loop control.
-- **Synthetic agent:** informative observations change the next commitment,
-  with a state-independent cue as the matched control.
-- **Hierarchy:** context predicts state; one observation updates both hidden levels.
-- **Decision value:** feedback utility gain, acquisition cost, and informative-but-irrelevant evidence separate learning from useful control.
-- **Interpretation:** informational and thermodynamic units, assumptions, and limits.
-
-Parameters and live manuscript values come from the numerical cores, not hand
-edits to figures or rendered prose. Scientific scope and proof-transfer limits
-are explicit in the [manuscript](docs/manuscript/README.md).
-
-## Python package and imports
+Requirements: Python **3.10+** and [uv](https://docs.astral.sh/uv/getting-started/installation/).
+The numerical examples need no provider credentials, template checkout, Lean,
+or GNN installation.
 
 ```bash
+git clone https://github.com/docxology/ActiveInferenceSynthetic.git
+cd ActiveInferenceSynthetic
 uv sync --locked --extra dev
+uv run python -c "from active_inference_synthetic.synthetic_agent import synthetic_agent_demo; print(synthetic_agent_demo(observation=1).commitment.choice)"
 ```
 
-The installed distribution provides the import namespace
-`active_inference_synthetic`:
-
-```python
-from active_inference_synthetic import posterior
-from active_inference_synthetic.synthetic_agent import synthetic_agent_demo
-from active_inference_synthetic.hierarchical_model import hierarchical_demo
-
-episode = synthetic_agent_demo(observation=1)
-assert episode.commitment.choice == 1
-hierarchy = hierarchical_demo()
-```
-
-Scripts run from this checkout retain local `src` imports. Lean dependencies
-are acquired separately through Lake; there is no implicit Python import of
-`fep_lean` or `gnn`. Numerical imports do not run upstream pipelines or load
-provider credentials. Installed figure builders accept an explicit
-`project_root` for output; manuscript hydration requires the source checkout.
-
-## Run independently
+The example prints `1`: the informative observation changes the next commitment.
 
 ```bash
-uv sync --locked --extra dev
-uv run pytest tests/ --cov=src --cov-fail-under=90
+uv run python scripts/verify_publication.py
 uv run python scripts/generate_all_figures.py
+uv run python scripts/run_teaching_experiments.py
+uv run pytest tests/ --cov=src --cov-fail-under=90
 ```
 
-The numerical package, test collection, figures, and manuscript hydration need
-no template or upstream Python package. When Lake is installed, the full suite
-also builds the external formal dependency; missing formal prerequisites are
-failures, not numerical verification.
+Generated figures, hydrated manuscript sections and experiment reports appear
+under `output/`. The publication verifier needs a Git checkout.
+See [the full quick start](docs/quickstart.md) for installation modes,
+[troubleshooting](docs/troubleshooting.md) for failures, and
+[CONTRIBUTING.md](CONTRIBUTING.md) for the development workflow.
 
-For the real-valued formal layer, install the declared Lean toolchain and run:
+## What the examples teach
 
-```bash
-(cd formal && lake build)
+| Question | Demonstration | Start here |
+| --- | --- | --- |
+| What explains an observation? | Bayesian conditioning and variational-free-energy descent | [Generative model](src/generative_model.py) |
+| Which action or sequence should follow? | One-step EFE, finite-history planning and an explicit normalization bridge | [Action](src/expected_free_energy.py), [planning](src/policy_planning.py) |
+| When is information useful? | Feedback utility, acquisition cost, and irrelevant-payoff controls | [Decision value](src/value_of_information.py) |
+| How does an observation change behavior? | Informative and uninformative cue/commitment episodes | [Synthetic agent](src/synthetic_agent.py) |
+| How do levels of a model interact? | Exact context/state prediction and joint conditioning | [Hierarchy](src/hierarchical_model.py) |
+| What is a statistical boundary? | Gaussian marginal dependence and conditional independence | [Markov blanket](src/markov_blanket.py) |
+| How do relaxation and steady circulation differ? | Deterministic trajectories, matched-noise OU current and entropy production | [Trajectories](src/trajectories.py), [steady state](src/steady_state.py) |
+
+[Methods](docs/methods.md) explains carriers, units and analytical controls;
+[the manuscript](docs/manuscript/README.md) develops the teaching sequence.
+These are controlled model demonstrations. Persistent current alone does not
+establish life or intelligence, and informational VFE/EFE do not become physical
+free energy through shared terminology.
+
+## Numerical, formal and rendering boundaries
+
+- **Python:** deterministic numerical examples, figures and manuscript hydration.
+  Installed imports use `active_inference_synthetic`; checkout scripts use `src`.
+- **Lean:** selected real-valued results from the pinned
+  [fep_formal](https://github.com/ActiveInferenceInstitute/fep_formal) `FepSketches`
+  library, with paper-specific adapters and explicit hypotheses. Follow
+  [formal setup](formal/README.md); native checks require its exact toolchain and dependencies.
+- **GNN:** [authored optional specifications](data/gnn/README.md) and a real-parser
+  bridge. Parsing does not establish backend equivalence.
+- **Paper rendering:** the separate research template supplies PDF/HTML rendering.
+  [Rendering instructions](docs/rendering_pipeline.md) identify the required link and tools.
+- **Lecture replay:** the frozen bundle supplies measured recordings and a scoped
+  LectureCreate runtime. A source clone alone does not include those replay inputs.
+
+[STANDALONE.md](STANDALONE.md) and [project positioning](docs/positioning.md)
+define these boundaries. The Python CI badge covers numerical, publication,
+lint, type and packaging checks; native Lean proof verification remains separate.
+Missing native tools produce explicit test skips, not evidence of verified proofs.
+
+## Repository map
+
+| Path | Responsibility |
+| --- | --- |
+| [src/](src/README.md) | Numerical models and figure builders |
+| [scripts/](scripts/README.md) | Figure, experiment, hydration and verification entry points |
+| [tests/](tests/README.md) | Real-computation and file-based controls |
+| [formal/](formal/README.md) | Pinned Lean adapters, witnesses and axiom checks |
+| [docs/](docs/README.md) | Reader/developer guides and authored manuscript |
+| [data/](data/README.md) | Claim ledger and GNN model inputs |
+| [media/](media/README.md) | Lecture companions and frozen authoring sources |
+| [.github/](.github/README.md) | Automated Python checks and their scope |
+
+Every maintained folder has a README and AGENTS guide.
+[AGENTS.md](AGENTS.md) defines contributor-agent boundaries;
+[ISA.md](ISA.md) and [TODO.md](TODO.md) record purpose and implemented scope.
+
+## Cite and reuse
+
+Use GitHub's **Cite this repository** menu or [CITATION.cff](CITATION.cff).
+For the archived paper and public distribution:
+
+```bibtex
+@article{friedman2026synthetic,
+  author = {Friedman, Daniel Ari and Mikhailova, Alexandra},
+  title = {Active Inference -- A Synthetic Overview},
+  year = {2026},
+  version = {0.6.1},
+  doi = {10.5281/zenodo.23396307},
+  url = {https://zenodo.org/records/23396307}
+}
 ```
 
-The committed Lake manifest pins a revision observed on upstream `main`, along
-with its Lean/Mathlib dependencies. See [formal setup](formal/README.md) for
-first-run acquisition and axiom auditing. Do not substitute a moving branch or
-a local donor cache for the committed dependency.
+Scientific package/manuscript version is **0.5.0**; archived distribution is
+**0.6.1**, reusing lecture **edition_v15** from teaching release **0.6.0**.
+The [publication guide](docs/publication.md) explains which identity to cite.
 
-PDF/HTML rendering currently uses the research template. From that template root:
-
-```bash
-uv run python scripts/pipeline/stage_03_render.py --project working/ActiveInferenceSynthetic
-```
-
-See [STANDALONE.md](STANDALONE.md) for execution boundaries and
-[docs/README.md](docs/README.md) for operational guides. Outputs are generated
-under `output/`; authored sources live under `docs/manuscript/`.
-
-## Development
-
-`src/` owns numerical cores and figure builders; `scripts/` are thin
-orchestrators; `tests/` use real computation; `formal/` selects upstream theorems
-and supplies paper-specific controls. [AGENTS.md](AGENTS.md) states the layer
-contract. [ISA.md](ISA.md) defines purpose and acceptance;
-[TODO.md](TODO.md) records implemented teaching extensions and their scope.
+The project declares **CC-BY-4.0** in its archival/citation metadata.
+[LICENSE](LICENSE) contains the full license text. Retain attribution and
+identify modifications when reusing project material; external dependencies
+and referenced works retain their own terms.

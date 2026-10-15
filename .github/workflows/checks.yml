@@ -1,0 +1,49 @@
+name: Python checks
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  python:
+    name: Python ${{ matrix.python-version }} checks
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.10", "3.14"]
+    env:
+      MPLBACKEND: Agg
+      UV_LINK_MODE: copy
+    steps:
+      - name: Check out source
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - name: Set up uv and Python
+        uses: astral-sh/setup-uv@1c37ad07a6a961277cf70c0d37d6f313000f5884
+        with:
+          version: "0.12.0"
+          python-version: ${{ matrix.python-version }}
+          enable-cache: true
+      - name: Install locked development dependencies
+        run: uv sync --locked --extra dev
+      - name: Check lint and types
+        run: |
+          uv run --frozen --no-sync ruff check src scripts tests
+          uv run --frozen --no-sync mypy src
+      - name: Verify publication assets and documentation
+        run: uv run --frozen --no-sync python scripts/verify_publication.py
+      - name: Test Python and source contracts
+        run: uv run --frozen --no-sync pytest tests/ --cov=src --cov-fail-under=90 --cov-report=term-missing -ra
+      - name: Build the package
+        run: uv build --out-dir build/distributions
+      - name: Exercise the installed wheel
+        run: |
+          uv run --isolated --no-project --with build/distributions/*.whl python -c "from active_inference_synthetic.synthetic_agent import synthetic_agent_demo; assert synthetic_agent_demo(observation=1).commitment.choice == 1; print('Installed wheel behavior verified')"

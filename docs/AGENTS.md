@@ -27,6 +27,12 @@ valid from the project root unless a guide explicitly says “template root.”
 | [`gnn_specifications.md`](gnn_specifications.md) | Optional parser bridge and finite path-theorem scope |
 | [`manuscript/`](manuscript/AGENTS.md) | Manuscript sources, config, figure registry, bibliography |
 
+For repository-wide contributions, read [CONTRIBUTING.md](../CONTRIBUTING.md).
+Record source/tooling changes in [CHANGELOG.md](../CHANGELOG.md); distinguish
+development documentation from the frozen archive in the publication guide.
+The README's `graphical_abstract.png` is a generated documentation snapshot:
+regenerate through the source builder if its inputs change.
+
 ## Sources of truth
 
 - Public Python API: [`../src/__init__.py`](../src/__init__.py)

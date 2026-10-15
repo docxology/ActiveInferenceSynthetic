@@ -25,6 +25,15 @@ bytes, copied to the repository root. Their embedded earlier links remain
 part of that edition. The scientific manuscript config continues to describe
 that PDF; citation metadata points readers to the current distribution.
 
+## Development after the archive
+
+The 0.6.1 GitHub/Zenodo source archive binds commit
+`65b57d8a579834003f02ada0ff13f902e6cc6aa4`.
+Later README, licensing, contribution and CI improvements on `main` are
+tracked under Unreleased in [CHANGELOG.md](../CHANGELOG.md). They do not
+retroactively change the archived source ZIP or its verification receipts.
+The root paper/video remain the same byte-preserved teaching-edition artifacts.
+
 ## Files and provenance
 
 `publication.json` binds maintained root/media copies to hashes, sizes and

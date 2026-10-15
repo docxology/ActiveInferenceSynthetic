@@ -18,6 +18,11 @@ lecture. Read [README.md](README.md) for the reader workflow and
 - `output/`: generated working outputs; preserve existing evidence until replacement
   validation succeeds. Root PDF/video are deliberate versioned publication copies.
 
+[CONTRIBUTING.md](CONTRIBUTING.md) owns contributor setup and acceptance.
+Read [.github/AGENTS.md](.github/AGENTS.md) before changing automation.
+Update [CHANGELOG.md](CHANGELOG.md) for repository-level changes; keep Unreleased
+work distinct from immutable release snapshots and their existing receipts.
+
 Each maintained folder has a `README.md` and `AGENTS.md`. Follow the nearest
 guide when changing that folder. The figure registry in
 `src/figures/render_all.py` and the authored YAML registry must agree.
@@ -55,6 +60,10 @@ the upload procedure. `publication.json` binds the root deliverables to their
 hashes and archived lecture edition. `SHA256SUMS.txt` is the human-readable copy.
 Verify both before upload; download published assets anonymously and compare hashes.
 Create a successor Zenodo version while retaining earlier published records.
+
+The Python CI workflow checks numerical, source-contract, publication, lint,
+type and packaging behavior. Native Lean checks and rendered-media verification
+remain separate; preserve explicit skip reporting.
 
 Scientific package/manuscript version is `0.5.0`. Public distribution version
 `0.6.1` refreshes documentation and packages the revised paper and existing

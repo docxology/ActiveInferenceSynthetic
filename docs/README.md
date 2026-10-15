@@ -24,6 +24,17 @@ section-to-method map with upstream documentation entry points.
 | [Publication](publication.md) | Synthetic DOI, source archive and published upstream references |
 | [GNN specifications](gnn_specifications.md) | Authored models, optional parser checks and thermodynamic transfer |
 
+## Contribute, validate and cite
+
+- [Contributor workflow](../CONTRIBUTING.md): setup, layer ownership, real controls and PR evidence.
+- [Change history](../CHANGELOG.md): development work versus immutable archives.
+- [Python CI](../.github/workflows/README.md): supported runtimes and verification scope.
+- [Citation metadata](../CITATION.cff) and [project license](../LICENSE).
+
+`graphical_abstract.png` is a documentation copy of the generated cover panel,
+produced by `src/figures/graphical_abstract.py`. Regenerate from that builder
+when its scientific inputs change; do not hand-edit numerical content.
+
 ## Manuscript
 
 The [methods guide](methods.md) maps carriers, units, analytical checks and
