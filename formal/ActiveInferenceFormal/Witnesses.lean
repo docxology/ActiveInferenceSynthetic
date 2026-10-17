@@ -1,5 +1,8 @@
-import ActiveInferenceFormal.Geometry
-import ActiveInferenceFormal.Information
+module
+public import ActiveInferenceFormal.Geometry
+public import ActiveInferenceFormal.Information
+
+@[expose] public section
 
 /-! Concrete controls expose the assumptions needed by the paper's exposition.
 They complement upstream witnesses and do not claim to verify Python code. -/

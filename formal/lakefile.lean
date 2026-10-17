@@ -8,7 +8,7 @@ package «active-inference-formal» where
 
 require FepSketches from git
   "https://github.com/ActiveInferenceInstitute/fep_formal.git" @
-  "99276926da1df4287a2e13e9aa7f6d1822cfdca3" / "lean"
+  "8ac7761635d20d87790d6018495051fe5f9ad6a8" / "lean"
 
 @[default_target]
 lean_lib «ActiveInferenceFormal» where

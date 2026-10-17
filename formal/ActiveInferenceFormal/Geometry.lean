@@ -1,8 +1,11 @@
+module
 /-
 Copyright (c) 2026 Daniel Ari Friedman, Alexandra Mikhailova.
 Released under the CC-BY-4.0 license (matching the manuscript).
 -/
-import FepSketches.ness_flow
+public import FepSketches.ness_flow
+
+@[expose] public section
 
 /-!
 # Bayesian-mechanics flow geometry — equilibrium vs non-equilibrium

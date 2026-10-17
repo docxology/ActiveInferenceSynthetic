@@ -1,4 +1,7 @@
-import FepSketches.path_thermodynamics
+module
+public import FepSketches.path_thermodynamics
+
+@[expose] public section
 
 namespace ActiveInferenceFormal
 

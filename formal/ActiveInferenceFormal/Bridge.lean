@@ -1,3 +1,6 @@
+module
+
+@[expose] public section
 /-!
 # Paper-to-library correspondence
 

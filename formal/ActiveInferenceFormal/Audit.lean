@@ -1,9 +1,12 @@
-import ActiveInferenceFormal.Geometry
-import ActiveInferenceFormal.Thermodynamics
-import ActiveInferenceFormal.Information
-import ActiveInferenceFormal.Witnesses
-import ActiveInferenceFormal.GaussianBlanket
-import ActiveInferenceFormal.Planning
+module
+public import ActiveInferenceFormal.Geometry
+public import ActiveInferenceFormal.Thermodynamics
+public import ActiveInferenceFormal.Information
+public import ActiveInferenceFormal.Witnesses
+public import ActiveInferenceFormal.GaussianBlanket
+public import ActiveInferenceFormal.Planning
+
+@[expose] public section
 
 /-! Audit every selected proposition and boundary witness. No sorryAx is allowed. -/
 namespace ActiveInferenceFormal

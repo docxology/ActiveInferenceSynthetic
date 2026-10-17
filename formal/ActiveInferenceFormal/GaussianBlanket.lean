@@ -1,4 +1,7 @@
-import FepSketches.gaussian_precision_conditioning
+module
+public import FepSketches.gaussian_precision_conditioning
+
+@[expose] public section
 
 /-! Exact adapter for the second, canonical Gaussian demonstration. The first
 paper precision with diagonal 2.5 is a different model and is not covered.

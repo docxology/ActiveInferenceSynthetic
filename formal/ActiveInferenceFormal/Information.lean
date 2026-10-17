@@ -1,10 +1,13 @@
+module
 /-
 Copyright (c) 2026 Daniel Ari Friedman, Alexandra Mikhailova.
 Released under the CC-BY-4.0 license (matching the manuscript).
 -/
-import FepSketches.finite_information
-import FepSketches.finite_probability
-import FepSketches.active_inference
+public import FepSketches.finite_information
+public import FepSketches.finite_probability
+public import FepSketches.active_inference
+
+@[expose] public section
 
 /-!
 # Perception as inference — the variational free-energy bound

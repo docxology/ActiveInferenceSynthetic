@@ -1,11 +1,14 @@
-import ActiveInferenceFormal.Geometry
-import ActiveInferenceFormal.Thermodynamics
-import ActiveInferenceFormal.Information
-import ActiveInferenceFormal.Witnesses
-import ActiveInferenceFormal.GaussianBlanket
-import ActiveInferenceFormal.Planning
-import ActiveInferenceFormal.Bridge
-import ActiveInferenceFormal.Audit
+module
+public import ActiveInferenceFormal.Geometry
+public import ActiveInferenceFormal.Thermodynamics
+public import ActiveInferenceFormal.Information
+public import ActiveInferenceFormal.Witnesses
+public import ActiveInferenceFormal.GaussianBlanket
+public import ActiveInferenceFormal.Planning
+public import ActiveInferenceFormal.Bridge
+public import ActiveInferenceFormal.Audit
+
+@[expose] public section
 
 /-! Selected real-valued fep_formal results, paper exposition, concrete
 boundary witnesses, and an axiom audit. Python remains a separate numerical

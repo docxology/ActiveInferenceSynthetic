@@ -1,4 +1,7 @@
-import FepSketches.active_inference
+module
+public import FepSketches.active_inference
+
+@[expose] public section
 
 /-! A bounded, exact two-step Boolean-history adapter for the paper's terminal
 payoff. A whole observation history is one outcome of the upstream finite
