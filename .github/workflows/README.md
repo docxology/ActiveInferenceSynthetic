@@ -5,9 +5,9 @@
 | Setting | Value |
 | --- | --- |
 | Python matrix | 3.10 minimum and established 3.14 verification runtime |
-| uv | 0.12.0 |
+| uv | 0.13.5 |
 | checkout | actions/checkout v7.0.1, pinned to its full commit |
-| setup-uv | astral-sh/setup-uv v10.3.0, pinned to its full commit |
+| setup-uv | astral-sh/setup-uv v10.3.2, pinned to its full commit |
 | Permissions | Repository contents read only |
 
 Each job installs the locked dev extra, runs Ruff/mypy, checks tracked publication

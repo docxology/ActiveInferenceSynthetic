@@ -16,6 +16,7 @@ A dated archive identifies an exact source snapshot; `main` may contain later wo
 - Make float64 array annotations compatible with NumPy on Python 3.10 and 3.14.
 - Keep GitHub's preferred `.github/README.md` synchronized with the root reader
   guide, with a real drift-rejection test and publication check.
+- Update the pinned setup-uv action and uv runtime used by Python checks.
 
 ## Public distribution 0.6.1 — 2026-10-15
 
