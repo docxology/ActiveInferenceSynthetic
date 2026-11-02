@@ -6,7 +6,7 @@ assumptions, source function and independent analytical or negative control.
 
 ## Set up
 
-Use Python 3.10+ and uv in a Git checkout:
+Use Python (the bound in `pyproject.toml`) or newer and uv in a Git checkout:
 
 ```bash
 uv sync --locked --extra dev
