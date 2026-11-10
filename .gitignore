@@ -27,3 +27,6 @@ output/manuscript/
 /.omo/
 /media/synthetic/lecture/sources/
 /media/synthetic/lecture/assets/
+
+# OS, editor and Python cache files
+.DS_Store
