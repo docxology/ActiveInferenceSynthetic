@@ -43,7 +43,7 @@ them; use the archived source ZIP to reproduce that exact distribution.
 
 ## Quick start
 
-Requirements: Python **3.10+** and [uv](https://docs.astral.sh/uv/getting-started/installation/).
+Requirements: Python **3.11+** and [uv](https://docs.astral.sh/uv/getting-started/installation/).
 The numerical examples need no provider credentials, template checkout, Lean,
 or GNN installation.
 
