@@ -49,11 +49,13 @@ def test_evidence_is_marginal_likelihood() -> None:
     ) == pytest.approx(1.0)
 
 
-def test_posterior_matches_exact_bayes() -> None:
+@pytest.mark.parametrize("obs", [0, np.int64(0), np.uint64(0)])
+def test_posterior_matches_exact_bayes(obs: int | np.integer) -> None:
     # p(x|s=0) = [0.54, 0.08] / 0.62
     expected = np.array([0.54, 0.08]) / 0.62
-    assert np.allclose(posterior(_LIKELIHOOD, _PRIOR, 0), expected)
-    assert posterior(_LIKELIHOOD, _PRIOR, 0).sum() == pytest.approx(1.0)
+    post = posterior(_LIKELIHOOD, _PRIOR, obs)
+    assert np.allclose(post, expected)
+    assert post.sum() == pytest.approx(1.0)
 
 
 def test_surprise_equals_neg_log_evidence() -> None:
@@ -205,6 +207,16 @@ def test_prior_must_be_1d() -> None:
 def test_obs_out_of_range_raises() -> None:
     with pytest.raises(ValueError, match="obs must be an integer"):
         posterior(_LIKELIHOOD, _PRIOR, 5)
+
+
+@pytest.mark.parametrize(
+    "obs",
+    [True, False, np.bool_(True), np.bool_(False)],
+    ids=["python-true", "python-false", "numpy-true", "numpy-false"],
+)
+def test_boolean_observation_is_rejected(obs: bool | np.bool_) -> None:
+    with pytest.raises(ValueError, match="obs must be an integer"):
+        posterior(_LIKELIHOOD, _PRIOR, obs)
 
 
 def test_q_length_must_match_states() -> None:

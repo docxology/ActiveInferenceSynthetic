@@ -6,6 +6,7 @@ A dated archive identifies an exact source snapshot; `main` may contain later wo
 
 ## Unreleased
 
+- Reject Boolean observation indices in the discrete generative model.
 - Enforce absolute tolerances for likelihood column sums and precision matrix symmetry.
 - Reorganize the GitHub README around the paper/video, a runnable example,
   scientific questions, execution boundaries, repository navigation and citation.
