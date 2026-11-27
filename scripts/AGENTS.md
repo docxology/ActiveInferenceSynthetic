@@ -16,7 +16,7 @@ Every script in this directory is a **thin orchestrator** and only does:
 Scientific model, plot, and analysis logic is prohibited here — it belongs in
 `src/`, where it is importable and tested. Do not duplicate palettes,
 numerical constants, or scientific formulas; see
-[`CONVENTIONS.md`](CONVENTIONS.md).
+[`CONVENTIONS.md`](../docs/developer/script_conventions.md).
 
 ## Files
 
@@ -79,7 +79,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 That makes them runnable directly (`uv run python scripts/<name>.py`) whether
 or not the project is installed. Keep the bootstrap identical when adding a
-script — see [`CONVENTIONS.md`](CONVENTIONS.md).
+script — see [`CONVENTIONS.md`](../docs/developer/script_conventions.md).
 
 Two files differ, deliberately:
 
@@ -123,7 +123,7 @@ this standalone repository alone therefore returns `2` by design.
 
 ## See Also
 
-- [`CONVENTIONS.md`](CONVENTIONS.md) — rules every script must follow
+- [`CONVENTIONS.md`](../docs/developer/script_conventions.md) — rules every script must follow
 - [`../src/figures/AGENTS.md`](../src/figures/AGENTS.md) — the builders these wrap
 - [`../src/AGENTS.md`](../src/AGENTS.md) — the numerical cores
 - [`../docs/rendering_pipeline.md`](../docs/rendering_pipeline.md) — where these fit in the render pipeline

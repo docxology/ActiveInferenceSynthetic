@@ -2,7 +2,7 @@
 
 ## What is actually imported from FEP_Formal
 
-The immutable `FepSketches` dependency remains revision `99276926` of
+The immutable `FepSketches` dependency remains revision `8ac77616` of
 `ActiveInferenceInstitute/fep_formal`. `Geometry.lean` imports `ness_flow`:
 solenoidal orthogonality, the dissipative work identity, a pointwise
 zero-drive equivalence away from a zero gradient, and the isotropic entropy-rate

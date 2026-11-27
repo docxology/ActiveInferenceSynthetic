@@ -30,7 +30,7 @@ Additional entry points:
 
 Run each from the repository root with `uv run python scripts/<name>.py`.
 The GNN bridge additionally requires `--gnn-root`; see
-[the specification guide](../docs/gnn_specifications.md).
+[the specification guide](../gnn_specifications.md).
 Publication verification uses only the standard library.
 
 ## More information
@@ -39,8 +39,8 @@ Publication verification uses only the standard library.
 informative, uninformative and irrelevant-payoff controls.
 `generate_decision_value_figure.py` renders the corresponding accuracy sweep.
 
-See [AGENTS.md](AGENTS.md) for the thin-orchestrator contract, the import
-bootstrap, and gotchas; [CONVENTIONS.md](CONVENTIONS.md) for the rules every
+See [AGENTS.md](../../scripts/AGENTS.md) for the thin-orchestrator contract, the import
+bootstrap, and gotchas; [CONVENTIONS.md](script_conventions.md) for the rules every
 script follows.
 
 The closed-loop and hierarchical panels are built by

@@ -25,11 +25,9 @@ step with `pyproject.toml`.
 
 ## Figure references resolve at render time
 
-Numbered sections embed their figures using paths such as
-`](../output/figures/<name>.png){#fig:<id> width=NN%}`. That path is relative to
-the **hydrated** manuscript in `output/manuscript/`, not to this directory — it
-is deliberately dead when browsed from `docs/manuscript/`. Do not "fix" it to
-`../../output/figures/`.
+Numbered sections reference PNGs at `../../output/figures/` from this
+directory. The hydrator rewrites those paths to `../figures/` in
+`output/manuscript/`. Author paths against this canonical source tree.
 
 ## Claim bindings
 

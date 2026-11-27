@@ -18,7 +18,7 @@ publication or biological adequacy claims.
 - **Paper and lecture:** the revised paper and measured twenty-minute lecture
   are distributed at the repository root and through the
   [public release](https://github.com/docxology/ActiveInferenceSynthetic/releases/tag/synthetic-public-v0.6.1).
-  [Publication](docs/publication.md) and [lecture](docs/lecture.md) guides record
+  [Publication](publication.md) and [lecture](lecture.md) guides record
   the archival boundary and frozen replay inputs.
 
 The selected additions are implemented. General learned models, arbitrary feedback
@@ -34,11 +34,11 @@ must name its own model and acceptance tests.
   - **Probe:** From the repository root, run `uv run pytest tests/test_prob.py tests/test_markov_blanket.py tests/test_generative_model.py tests/test_expected_free_energy.py -q`; the new near-tolerance negative controls and all existing analytic references pass.
   - **Dependencies/constraints:** Set `rtol=0.0` at these validation gates rather than tightening the declared absolute tolerances or changing downstream formulas. Preserve the existing finite/nonnegative/SPD checks and intentional clipping semantics.
 
-- [ ] **AIS-02 · P1 — Rebind live formal documentation and citations to the actual Lean dependency.**
-  - **Evidence:** The executable dependency is `FepSketches` revision `8ac7761635d20d87790d6018495051fe5f9ad6a8` with `leanprover/lean4:v4.35.0` (`formal/lakefile.lean:7-11`, `formal/lake-manifest.json:4-13`, `formal/lean-toolchain:1`), while `formal/README.md:9-12`, `docs/positioning.md:33-45,131-139,170`, `docs/manuscript/07_formal_verification.md:7-10`, `docs/manuscript/07_thermodynamic_transfer.md:5-14`, `docs/manuscript/references.bib:92-95`, and `CITATION.cff:39-46` still name revision `99276926da1df4287a2e13e9aa7f6d1822cfdca3` and, where stated, Lean/Mathlib `v4.34.1`. `tests/test_formal_lean.py:97-117` checks Lake/manifest alignment but not these reader-facing claims.
-  - **Outcome:** All live dependency links, setup prose, authored manuscript statements, and software citation metadata identify the same imported revision/toolchain; a source-contract test derives the revision from the manifest and rejects stale live references.
-  - **Probe:** Run `uv run pytest tests/test_formal_lean.py tests/test_publication.py -q -rs`; new revision/documentation consistency checks and existing source/publication contracts pass. Any Lake skips remain explicit and are not counted as native proof verification.
-  - **Dependencies/constraints:** Read upstream `CITATION.cff` at `8ac7761635d20d87790d6018495051fe5f9ad6a8` before changing its version, DOI, or access-date metadata; do not blindly carry forward `1.6.0`. Render and inspect changed manuscript source through the documented template pipeline. Do not overwrite the frozen root PDF/publication hashes without the successor-release procedure.
+- [x] **AIS-02 — Rebind live formal documentation and citations.** The
+  [formal setup](developer/formal.md), [positioning guide](positioning.md),
+  [manuscript](manuscript/README.md) and citation metadata record the pins in
+  `formal/lake-manifest.json` and `formal/lean-toolchain`. The chapter claims
+  retain their existing mathematical hypotheses.
 
 - [ ] **AIS-03 · P1 — Align Python support, lint target, and CI inventory with executable metadata.**
   - **Evidence:** `pyproject.toml:25` and `uv.lock:3` require Python `>=3.11`, and `src/value_of_information.py:73` uses Python 3.10's `zip(..., strict=True)`, but `README.md:46`, `.github/README.md:46`, `docs/quickstart.md:7`, and `docs/troubleshooting.md:5-6` still advertise 3.10. The actual CI matrix is 3.14/3.15 and setup-uv is v10.3.3 (`.github/workflows/checks.yml:19-20,27-33`), whereas `.github/workflows/README.md:7-10` and `docs/testing_philosophy.md:25-27` report 3.10/3.14 and v10.3.2. `pyproject.toml:86-88` also leaves Ruff at `target-version = "py310"` despite the 3.11 package floor; `CHANGELOG.md:13-16` repeats stale Unreleased runtime claims.

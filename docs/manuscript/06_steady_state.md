@@ -71,4 +71,4 @@ $\sigma=2\omega^2\Pi/\gamma>0$ (here $\sigma\approx{{NESS_SIGMA_APPROX}}$ nats/t
 vanishes at the mode (where $QPx=0$) and in the tails (where $\rho\to0$), peaking
 on an annulus between. Rendered deterministically by
 `scripts/generate_steady_state_figure.py` over the tested core in
-`src/steady_state.py`.](../output/figures/steady_state_current.png){#fig:steady width=94%}
+`src/steady_state.py`.](../../output/figures/steady_state_current.png){#fig:steady width=94%}

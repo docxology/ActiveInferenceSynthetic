@@ -2,7 +2,7 @@
 
 This directory is the historical `edition_v15` input set, not a live reflection
 of current repository prose. Its original publication links and source inventory
-remain part of that edition. Read [README.md](README.md) for script roles and
+remain part of that edition. Read [README.md](../../../docs/developer/media_synthetic_lecture.md) for script roles and
 [the lecture guide](../../../docs/lecture.md) for replay prerequisites.
 
 For a new media edition, use a fresh output directory, freeze scientific and

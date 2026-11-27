@@ -6,7 +6,7 @@ replacement permits retirement.
 
 The root PDF and MP4 are deliberate tracked publication copies. Their hashes
 are bound by [publication.json](../publication.json); committed companions live
-in [media/synthetic/](../media/synthetic/README.md). Release assets and Zenodo
+in [media/synthetic/](developer/media_synthetic.md). Release assets and Zenodo
 archives retain the corresponding frozen distribution.
 
 | Path | Producer |

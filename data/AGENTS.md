@@ -26,4 +26,4 @@ parsing does not establish backend equivalence.
 2. Re-run evidence validation / pipeline stages that consume the ledger.
 3. Do not store generated CSV/JSON/PNG under `data/`.
 
-Quick orientation: [`README.md`](README.md).
+Quick orientation: [`README.md`](../docs/developer/data.md).

@@ -6,8 +6,8 @@ stable and retain upstream hypotheses. `Witnesses.lean` supplies concrete
 boundary cases. `GaussianBlanket.lean` transports the canonical four-axis
 precision; `Planning.lean` represents two-step Boolean observation histories
 with the terminal-preference normalization correction. Before changing either
-adapter, read its qualified declaration map in [README.md](README.md) and the
-exact carriers in [../README.md](../README.md). `Bridge.lean` documents numerical
+adapter, read its qualified declaration map in [README.md](../../docs/developer/formal_ActiveInferenceFormal.md) and the
+exact carriers in [../README.md](../../docs/developer/formal.md). `Bridge.lean` documents numerical
 correspondence; `Audit.lean` prints every selected axiom footprint.
 
 Before adding a result, inspect the upstream canonical declaration and reviewed
@@ -16,5 +16,5 @@ belong in `fep_formal`; paper-specific adapters require an explicit justified
 carrier match. Include the declaration in the audit and source/native tests.
 No admissions or assumed replacement axioms are allowed.
 
-Build and run axiom inspection as documented in [../README.md](../README.md).
+Build and run axiom inspection as documented in [../README.md](../../docs/developer/formal.md).
 The full suite must reject a false Lean proposition and incomplete audit output.

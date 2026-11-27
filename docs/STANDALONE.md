@@ -3,7 +3,7 @@
 Synthetic owns its paper, numerical examples, figures, tests, and publication
 metadata. Linking it into the research template as
 `projects/working/ActiveInferenceSynthetic` is an optional publication arrangement.
-The [positioning guide](docs/positioning.md) defines its relationship to `fep_formal`.
+The [positioning guide](positioning.md) defines its relationship to `fep_formal`.
 
 ## Independent Python workflow
 
@@ -28,7 +28,7 @@ must be reported as unverified.
 `formal/` imports `FepSketches` from a pinned `fep_formal` main revision. Lake
 acquires the checkout and matching Mathlib dependencies into this project's own
 `.lake/`; it does not need the neighboring upstream checkout. Follow
-[formal/README.md](formal/README.md) for toolchain setup, cache acquisition, build,
+[formal/README.md](developer/formal.md) for toolchain setup, cache acquisition, build,
 and axiom audit. First-run downloads require network access and substantial disk
 space. The mathematical library is external; the paper is independently authored.
 
@@ -54,5 +54,5 @@ paper outputs require separate review after source changes.
 The repository's development scripts and tests still use local `src` imports.
 `FepSketches` is acquired by Lake in the independent Lean workspace.
 `fep_lean` and `gnn` are not Python runtime dependencies. Authored GNN inputs and the optional real-parser bridge are documented in
-[the specification guide](docs/gnn_specifications.md). Numerical execution does
+[the specification guide](gnn_specifications.md). Numerical execution does
 not depend on GNN and parser success does not establish backend equivalence.

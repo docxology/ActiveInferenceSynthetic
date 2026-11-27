@@ -31,5 +31,5 @@ current examples do not establish empirical intelligence or biological adequacy.
   numerical, native proof, rendered-paper, and publication evidence are distinct.
 - PDF/HTML outputs are regenerated and reviewed separately through the template.
 
-See [README.md](README.md) for commands and [TODO.md](TODO.md) for prospective
+See [README.md](../README.md) for commands and [TODO.md](TODO.md) for prospective
 extensions. Completion is established by actual receipts, not these criteria.

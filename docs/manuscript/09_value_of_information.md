@@ -50,7 +50,7 @@ information when the utility matrix is replaced by state-independent outcomes,
 yet its gross instrumental value then vanishes. An independent cue gives both
 zero information and zero gross value.
 
-![**Decision value and information have distinct units.** The left panel sweeps known cue accuracy for an observation-contingent commitment, its acquisition cost, and a state-independent utility counterexample. The right panel shows the same channel's mutual information. Positive information does not imply positive instrumental value; a beneficial cue can also be too costly. Both panels use exact finite computation, not sampled performance estimates.](../output/figures/value_of_information.png){#fig:decision-value width=100%}
+![**Decision value and information have distinct units.** The left panel sweeps known cue accuracy for an observation-contingent commitment, its acquisition cost, and a state-independent utility counterexample. The right panel shows the same channel's mutual information. Positive information does not imply positive instrumental value; a beneficial cue can also be too costly. Both panels use exact finite computation, not sampled performance estimates.](../../output/figures/value_of_information.png){#fig:decision-value width=100%}
 
 `src/value_of_information.py` enumerates every reachable observation; tests
 independently enumerate every deterministic feedback policy. Unreachable

@@ -34,4 +34,4 @@ observations update that higher level through the shared generative structure
 ![**Prediction downward, inference upward.** The context law induces a state
 prediction and an observation prediction. Conditioning on one observation
 updates both context and state using the same posterior joint, without discarding
-their dependence.](../output/figures/hierarchical_inference.png){#fig:hierarchy width=94%}
+their dependence.](../../output/figures/hierarchical_inference.png){#fig:hierarchy width=94%}

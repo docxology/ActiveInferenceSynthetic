@@ -50,4 +50,4 @@ implementation or general policy-tree optimization.
 ![**Finite sequence scoring.** The four two-step sequences share a static hidden
 state. Cue-then-bet minimizes the declared terminal-preference minus history-information
 objective. The bet remains state-independent; the advantage is information
-scoring, not an observation-conditioned improvement in its payout.](../output/figures/policy_planning.png){#fig:planning width=94%}
+scoring, not an observation-conditioned improvement in its payout.](../../output/figures/policy_planning.png){#fig:planning width=94%}

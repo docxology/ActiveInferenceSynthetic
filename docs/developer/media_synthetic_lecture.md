@@ -14,6 +14,6 @@ which are supplied in the release replay ZIP rather than ordinary Git history.
 | `render.py`, `package_delivery.py` | Frozen-audio production and delivery packaging |
 | `verify.py`, `check_animation.py`, `qa_encoded_animations.py` | Source, audio, timeline, and encoded-animation checks |
 
-Use the [replay instructions](../../../docs/lecture.md) from an extracted release
+Use the [replay instructions](../lecture.md) from an extracted release
 bundle. A plain repository clone intentionally lacks the measured recordings and
-scoped LectureCreate runtime. [AGENTS.md](AGENTS.md) defines edition boundaries.
+scoped LectureCreate runtime. [AGENTS.md](../../media/synthetic/lecture/AGENTS.md) defines edition boundaries.

@@ -2,9 +2,9 @@
 
 The [root video](../../ActiveInferenceSynthetic_20min.mp4) and
 [root paper](../../ActiveInferenceSynthetic_Revised.pdf) accompany these
-[linked slides](slides.pdf), [SRT](captions.srt), [WebVTT](captions.vtt),
-[transcript](transcript.txt), [speaker notes](speaker_notes.md), and
-[poster](poster.png). [Lecture sources](lecture/README.md) describe their production.
+[linked slides](../../media/synthetic/slides.pdf), [SRT](../../media/synthetic/captions.srt), [WebVTT](../../media/synthetic/captions.vtt),
+[transcript](../../media/synthetic/transcript.txt), [speaker notes](../../media/synthetic/speaker_notes.md), and
+[poster](../../media/synthetic/poster.png). [Lecture sources](media_synthetic_lecture.md) describe their production.
 
 The video is exactly 1200 seconds, with 26 chapters, five animations and
 344 aligned English caption cues. Known-text CTC alignment and independent
@@ -17,6 +17,6 @@ The byte-identical assets are also included in
 and [Zenodo](https://zenodo.org/records/23396307). The root
 [publication manifest](../../publication.json) binds the current distribution.
 
-Use the [lecture guide](../../docs/lecture.md) for the frozen replay ZIP,
+Use the [lecture guide](../lecture.md) for the frozen replay ZIP,
 runtime requirements and measured-audio workflow. Scientific package/manuscript
-version remains 0.5.0. [AGENTS.md](AGENTS.md) defines media edition boundaries.
+version remains 0.5.0. [AGENTS.md](../../media/synthetic/AGENTS.md) defines media edition boundaries.

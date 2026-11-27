@@ -3,7 +3,7 @@
 ## uv or the expected Python is missing
 
 Install [uv](https://docs.astral.sh/uv/getting-started/installation/) and use Python
-3.10 or newer. Run `uv sync --locked --extra dev` from the repository root.
+3.11 or newer. Run `uv sync --locked --extra dev` from the repository root.
 For GitVault work, verify the mounted volume and resolved interpreter prefixes
 as described in [AGENTS.md](../AGENTS.md); an external virtualenv can still point
 to an internal interpreter.
@@ -37,7 +37,7 @@ PDF/HTML rendering requires the separate template checkout and tools:
 ## Native Lean checks are skipped or fail
 
 Missing Lake skips native tests. Install the toolchain in `formal/lean-toolchain`
-and acquire the committed dependency/cache using [formal setup](../formal/README.md).
+and acquire the committed dependency/cache using [formal setup](developer/formal.md).
 From the project root, `(cd formal && lake build)` must succeed.
 A present but incomplete Lean environment fails rather than substituting a
 Python test for proof verification. Source-level formal checks still run without Lake.
@@ -64,5 +64,5 @@ controls intact; correct the implementation or add an independent real control.
 The [0.6.1 archive](https://zenodo.org/records/23396307) is immutable and binds
 commit `65b57d8a579834003f02ada0ff13f902e6cc6aa4`. Later `main`
 documentation and tooling are recorded under Unreleased in
-[CHANGELOG.md](../CHANGELOG.md). Use the archived source ZIP for exact historical
+[CHANGELOG.md](CHANGELOG.md). Use the archived source ZIP for exact historical
 reproduction.

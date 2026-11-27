@@ -4,8 +4,8 @@
 
 - **Read/watch:** open the [root PDF](../ActiveInferenceSynthetic_Revised.pdf) or
   [video](../ActiveInferenceSynthetic_20min.mp4). No installation is required.
-- **Run models:** use Python 3.10+ and [uv](https://docs.astral.sh/uv/getting-started/installation/).
-- **Verify native proofs:** prepare [Lean and pinned dependencies](../formal/README.md).
+- **Run models:** use Python 3.11+ and [uv](https://docs.astral.sh/uv/getting-started/installation/).
+- **Verify native proofs:** prepare [Lean and pinned dependencies](developer/formal.md).
 - **Render the paper:** use [the research template workflow](rendering_pipeline.md).
 - **Replay the lecture:** extract [the frozen replay bundle](lecture.md), which
   includes recordings and its own scoped runtime.
@@ -58,7 +58,7 @@ These operations do not render a new PDF or replace the root video.
 
 When Lake is on PATH, the full suite invokes native Lean builds and
 false-proposition controls. Missing Lake produces explicit skips; a present but
-broken toolchain fails. The [Python CI job](../.github/workflows/README.md)
+broken toolchain fails. The [Python CI job](developer/github_workflows.md)
 does not install Lean; prepare it separately to claim native proof verification.
 
 ## Build and verify an installed wheel
@@ -74,8 +74,8 @@ through the repository and release archives rather than as Python package data.
 
 ## Render or extend
 
-See [STANDALONE.md](../STANDALONE.md) for execution boundaries,
-[CONTRIBUTING.md](../CONTRIBUTING.md) for changes and checks, and
+See [STANDALONE.md](STANDALONE.md) for execution boundaries,
+[CONTRIBUTING.md](CONTRIBUTING.md) for changes and checks, and
 [troubleshooting](troubleshooting.md) for failures.
 
 Paper rendering runs from a linked `docxology/template` checkout:

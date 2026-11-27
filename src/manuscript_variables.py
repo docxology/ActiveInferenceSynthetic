@@ -254,6 +254,7 @@ def hydrate_manuscript(
             continue
         text = path.read_text()
         if path.suffix == ".md" and path.name not in _DOC_ONLY:
+            text = text.replace("../../output/figures/", "../figures/")
             for key, value in variables.items():
                 text = text.replace("{{" + key + "}}", value)
         out = dest / path.name

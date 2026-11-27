@@ -18,13 +18,13 @@ lecture. Read [README.md](README.md) for the reader workflow and
 - `output/`: generated working outputs; preserve existing evidence until replacement
   validation succeeds. Root PDF/video are deliberate versioned publication copies.
 
-[CONTRIBUTING.md](CONTRIBUTING.md) owns contributor setup and acceptance.
+[CONTRIBUTING.md](docs/CONTRIBUTING.md) owns contributor setup and acceptance.
 Read [.github/AGENTS.md](.github/AGENTS.md) before changing automation.
-Update [CHANGELOG.md](CHANGELOG.md) for repository-level changes; keep Unreleased
+Update [CHANGELOG.md](docs/CHANGELOG.md) for repository-level changes; keep Unreleased
 work distinct from immutable release snapshots and their existing receipts.
 
-Each maintained folder has a `README.md` and `AGENTS.md`. Follow the nearest
-guide when changing that folder. The figure registry in
+Working instructions remain in each folder's `AGENTS.md`. Reader guides
+are indexed under [docs](docs/README.md). The figure registry in
 `src/figures/render_all.py` and the authored YAML registry must agree.
 
 ## Verification
@@ -41,7 +41,7 @@ uv run python scripts/verify_publication.py
 
 The full suite includes real Lean builds and false-proposition controls when
 Lake is present. Report missing-tool skips explicitly; they do not verify proofs.
-Formal setup: [formal/README.md](formal/README.md).
+Formal setup: [formal/README.md](docs/developer/formal.md).
 Use real files, numerical references, and subprocesses; mocking frameworks are prohibited.
 The locked dev extra supplies lint/type tools and YAML stubs:
 `uv run ruff check src scripts tests` and `uv run mypy src`.

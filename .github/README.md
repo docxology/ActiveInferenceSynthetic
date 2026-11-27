@@ -39,7 +39,7 @@ The [0.6.1 release](https://github.com/docxology/ActiveInferenceSynthetic/releas
 and [Zenodo record](https://zenodo.org/records/23396307) are fixed archival
 snapshots. Development documentation and tooling on `main` can advance beyond
 them; use the archived source ZIP to reproduce that exact distribution.
-[CHANGELOG.md](../CHANGELOG.md) separates unreleased changes from archived versions.
+[CHANGELOG.md](../docs/CHANGELOG.md) separates unreleased changes from archived versions.
 
 ## Quick start
 
@@ -67,7 +67,7 @@ Generated figures, hydrated manuscript sections and experiment reports appear
 under `output/`. The publication verifier needs a Git checkout.
 See [the full quick start](../docs/quickstart.md) for installation modes,
 [troubleshooting](../docs/troubleshooting.md) for failures, and
-[CONTRIBUTING.md](../CONTRIBUTING.md) for the development workflow.
+[CONTRIBUTING.md](../docs/CONTRIBUTING.md) for the development workflow.
 
 ## What the examples teach
 
@@ -94,15 +94,15 @@ free energy through shared terminology.
 - **Lean:** selected real-valued results from the pinned
   [fep_formal](https://github.com/ActiveInferenceInstitute/fep_formal) `FepSketches`
   library, with paper-specific adapters and explicit hypotheses. Follow
-  [formal setup](../formal/README.md); native checks require its exact toolchain and dependencies.
-- **GNN:** [authored optional specifications](../data/gnn/README.md) and a real-parser
+  [formal setup](../docs/developer/formal.md); native checks require its exact toolchain and dependencies.
+- **GNN:** [authored optional specifications](../docs/developer/data_gnn.md) and a real-parser
   bridge. Parsing does not establish backend equivalence.
 - **Paper rendering:** the separate research template supplies PDF/HTML rendering.
   [Rendering instructions](../docs/rendering_pipeline.md) identify the required link and tools.
 - **Lecture replay:** the frozen bundle supplies measured recordings and a scoped
   LectureCreate runtime. A source clone alone does not include those replay inputs.
 
-[STANDALONE.md](../STANDALONE.md) and [project positioning](../docs/positioning.md)
+[STANDALONE.md](../docs/STANDALONE.md) and [project positioning](../docs/positioning.md)
 define these boundaries. The Python CI badge covers numerical, publication,
 lint, type and packaging checks; native Lean proof verification remains separate.
 Missing native tools produce explicit test skips, not evidence of verified proofs.
@@ -111,18 +111,18 @@ Missing native tools produce explicit test skips, not evidence of verified proof
 
 | Path | Responsibility |
 | --- | --- |
-| [src/](../src/README.md) | Numerical models and figure builders |
-| [scripts/](../scripts/README.md) | Figure, experiment, hydration and verification entry points |
-| [tests/](../tests/README.md) | Real-computation and file-based controls |
-| [formal/](../formal/README.md) | Pinned Lean adapters, witnesses and axiom checks |
+| [src/](../docs/developer/src.md) | Numerical models and figure builders |
+| [scripts/](../docs/developer/scripts.md) | Figure, experiment, hydration and verification entry points |
+| [tests/](../docs/developer/tests.md) | Real-computation and file-based controls |
+| [formal/](../docs/developer/formal.md) | Pinned Lean adapters, witnesses and axiom checks |
 | [docs/](../docs/README.md) | Reader/developer guides and authored manuscript |
-| [data/](../data/README.md) | Claim ledger and GNN model inputs |
-| [media/](../media/README.md) | Lecture companions and frozen authoring sources |
-| [.github/](../.github/workflows/README.md) | Automated Python checks and their scope |
+| [data/](../docs/developer/data.md) | Claim ledger and GNN model inputs |
+| [media/](../docs/developer/media.md) | Lecture companions and frozen authoring sources |
+| [.github/](../docs/developer/github_workflows.md) | Automated Python checks and their scope |
 
 Every maintained folder has a README and AGENTS guide.
 [AGENTS.md](../AGENTS.md) defines contributor-agent boundaries;
-[ISA.md](../ISA.md) and [TODO.md](../TODO.md) record purpose and implemented scope.
+[ISA.md](../docs/ISA.md) and [TODO.md](../docs/TODO.md) record purpose and implemented scope.
 
 ## Cite and reuse
 
