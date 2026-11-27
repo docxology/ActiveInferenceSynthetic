@@ -6,7 +6,9 @@ assumptions, source function and independent analytical or negative control.
 
 ## Set up
 
-Use Python (the bound in `pyproject.toml`) or newer and uv in a Git checkout:
+The package supports Python 3.11 or newer, as declared in
+[`pyproject.toml`](../pyproject.toml). The checkout selects Python 3.15 through
+[`.python-version`](../.python-version). Use uv from a Git checkout.
 
 ```bash
 uv sync --locked --extra dev
@@ -56,8 +58,9 @@ Changes to narration, captions or encoded media require a new verified edition;
 see [lecture instructions](lecture.md). A prior PDF/video hash is evidence
 for its frozen bytes, not for newly edited source.
 
-[Python CI](developer/github_workflows.md) checks supported Python endpoints,
-lint, types, asset/documentation consistency, tests and package construction.
+The [Python workflow](developer/github_workflows.md) configures jobs for
+Python 3.14 and 3.15. Each job covers lint, types, asset and documentation
+consistency, tests and package construction.
 It does not install the separate Lean toolchain or render the manuscript/video.
 
 ## Report or submit
