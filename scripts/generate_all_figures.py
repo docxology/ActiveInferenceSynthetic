@@ -16,9 +16,7 @@ def main() -> dict[str, Path]:
     for path in manifest.values():
         print(path)
     print(export_registry(Path(__file__).resolve().parent.parent))
-    # The variables + hydration tail belongs to z_generate_manuscript_variables;
-    # reuse its main() so both entry points share one code path (including the
-    # template-infrastructure injector preference).
+    # Share the project-owned variable generation and hydration entry point.
     from scripts.z_generate_manuscript_variables import main as generate_variables_tail
 
     generate_variables_tail()

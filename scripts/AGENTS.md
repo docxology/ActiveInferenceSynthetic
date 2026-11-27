@@ -55,19 +55,17 @@ Outputs land in `output/figures/` via `src.project_paths.project_output_dirs()`.
 ## Manuscript variables
 
 `z_generate_manuscript_variables.py` calls
-`src.manuscript_variables.generate_variables()`, writes
-`output/data/manuscript_variables.json`, and then hydrates
-`output/manuscript/`. It prefers the template's
-`infrastructure.rendering.manuscript_injection.write_resolved_manuscript_tree`
-when importable and falls back to the standalone
-`src.manuscript_variables.hydrate_manuscript` otherwise, so it works in both the
-standalone repository and the template checkout. It prints both output paths.
+`src.manuscript_variables.generate_variables()` and writes
+`output/data/manuscript_variables.json`. It then calls
+`src.manuscript_variables.hydrate_manuscript()` to replace tokens in numbered
+sections from `docs/manuscript/` and write `output/manuscript/`. It prints both
+output paths.
 
-`generate_all_figures.py` does not re-implement that tail: it imports
-`scripts.z_generate_manuscript_variables` and calls its `main()`, so both entry
-points share one code path (identical injector preference, identical printed
-paths). Injector discovery lives in the script layer, not in `src/`, because
-`src/` must not import `infrastructure`.
+`generate_all_figures.py` calls the same `main()` after rendering the figures
+and exporting their registry. Both standalone and Template-registered
+checkouts use the project hydrator. The
+[Template pipeline](../docs/rendering_pipeline.md) runs the variable script
+before rendering and validates the rendered outputs separately.
 
 ## Import bootstrap
 
