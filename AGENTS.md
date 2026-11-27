@@ -61,8 +61,8 @@ hashes and archived lecture edition. `SHA256SUMS.txt` is the human-readable copy
 Verify both before upload; download published assets anonymously and compare hashes.
 Create a successor Zenodo version while retaining earlier published records.
 
-The Python CI workflow checks numerical, source-contract, publication, lint,
-type and packaging behavior. Native Lean checks and rendered-media verification
+The tracked Python workflow defines numerical, source-contract, publication, lint,
+type and packaging checks. Native Lean checks and rendered-media verification
 remain separate; preserve explicit skip reporting.
 
 Scientific package/manuscript version is `0.5.0`. Public distribution version

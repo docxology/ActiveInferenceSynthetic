@@ -1,6 +1,5 @@
 # Active Inference — A Synthetic Overview
 
-[![Python checks](https://github.com/docxology/ActiveInferenceSynthetic/actions/workflows/checks.yml/badge.svg)](https://github.com/docxology/ActiveInferenceSynthetic/actions/workflows/checks.yml)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23396307.svg)](https://doi.org/10.5281/zenodo.23396307)
 
 ActiveInferenceSynthetic is an executable teaching paper introducing Active
@@ -103,7 +102,7 @@ free energy through shared terminology.
   LectureCreate runtime. A source clone alone does not include those replay inputs.
 
 [STANDALONE.md](docs/STANDALONE.md) and [project positioning](docs/positioning.md)
-define these boundaries. The Python CI badge covers numerical, publication,
+define these boundaries. The tracked Python workflow defines numerical, publication,
 lint, type and packaging checks; native Lean proof verification remains separate.
 Missing native tools produce explicit test skips, not evidence of verified proofs.
 
