@@ -24,6 +24,17 @@ def test_as_column_stochastic_validates_columns() -> None:
     assert np.allclose(out.sum(axis=0), 1.0)
 
 
+def test_as_column_stochastic_uses_absolute_sum_tolerance() -> None:
+    within_tolerance = np.array([[0.5], [0.500000005]])
+    np.testing.assert_array_equal(
+        as_column_stochastic(within_tolerance, "likelihood"), within_tolerance
+    )
+
+    outside_tolerance = np.array([[0.5], [0.500005]])
+    with pytest.raises(ValueError, match="sum to 1"):
+        as_column_stochastic(outside_tolerance, "likelihood")
+
+
 def test_kl_divergence_hand_value() -> None:
     q = np.array([0.9, 0.1])
     p = np.array([0.5, 0.5])

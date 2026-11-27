@@ -42,7 +42,7 @@ def as_column_stochastic(
     if np.any(arr < -_TOL):
         raise ValueError(f"{name} must be non-negative")
     col_sums = arr.sum(axis=0)
-    if not np.allclose(col_sums, 1.0, atol=1e-8):
+    if not np.allclose(col_sums, 1.0, atol=1e-8, rtol=0.0):
         raise ValueError(
             f"each column of {name} must sum to 1, got column sums {col_sums}"
         )
