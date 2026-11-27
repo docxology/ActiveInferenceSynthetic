@@ -17,6 +17,7 @@ A dated archive identifies an exact source snapshot; `main` may contain later wo
 - Include package construction and an isolated installed-wheel smoke check.
 - Consolidate reader and developer guides under `docs/`. Build the paper from
   `docs/manuscript/` with the pinned Template renderer.
+- Use a physical working checkout inside Template for manuscript rendering.
 - Document project-owned manuscript hydration and the Template's render and
   validation stages.
 - Align live formal documentation and citations with the Lean 4.35.0 dependency.
