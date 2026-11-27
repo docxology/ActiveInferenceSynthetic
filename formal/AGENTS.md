@@ -2,7 +2,7 @@
 
 One real-valued exposition target imports the pinned `FepSketches` library from
 `ActiveInferenceInstitute/fep_formal`. Generic proofs belong upstream. Read
-[README.md](README.md) when setting up or advancing dependencies; read
+[README.md](../docs/developer/formal.md) when setting up or advancing dependencies; read
 [../docs/positioning.md](../docs/positioning.md) before claiming a mathematical
 transfer to a paper example.
 
@@ -17,7 +17,7 @@ transfer to a paper example.
 - Changing a statement requires checking its upstream hypotheses and the local
   example's carrier; a numerical test is not a formal transfer theorem.
 - For Gaussian or planning changes, read the exact carrier contracts in
-  [README.md](README.md): the canonical Gaussian fixture and two-step Boolean
+  [README.md](../docs/developer/formal.md): the canonical Gaussian fixture and two-step Boolean
   history adapter have distinct boundaries from the other paper examples.
 
 Verify with `(cd formal && lake build)` and

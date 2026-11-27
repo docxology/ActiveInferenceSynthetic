@@ -20,9 +20,9 @@ Every name below is in namespace `ActiveInferenceFormal` and appears in
 
 The planning source also exposes exact history predictive/posterior masses,
 the fair zero-information witness and both terminal EFE evaluations. Read
-the exact matrices, support assumptions and exclusions in [formal setup](../README.md)
+the exact matrices, support assumptions and exclusions in [formal setup](formal.md)
 before claiming a correspondence to another numerical example.
 
-See [formal setup](../README.md) for the pinned dependency and commands,
-[the section map](../../docs/positioning.md) for mathematical scope, and
-[AGENTS.md](AGENTS.md) for editing rules.
+See [formal setup](formal.md) for the pinned dependency and commands,
+[the section map](../positioning.md) for mathematical scope, and
+[AGENTS.md](../../formal/ActiveInferenceFormal/AGENTS.md) for editing rules.

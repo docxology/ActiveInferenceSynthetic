@@ -63,4 +63,4 @@ $\arg\min G$ rule exploits (bet, $G={{EFE_SHARP_BET}}$). A single rule; the bala
 two terms — not a hand-coded switch — is what turns over between the panels.
 Rendered deterministically by
 `scripts/generate_efe_figure.py` over the tested core in
-`src/expected_free_energy.py`.](../output/figures/expected_free_energy.png){#fig:efe width=92%}
+`src/expected_free_energy.py`.](../../output/figures/expected_free_energy.png){#fig:efe width=92%}

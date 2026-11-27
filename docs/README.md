@@ -8,6 +8,10 @@ section-to-method map with upstream documentation entry points.
 
 | Guide | Purpose |
 | --- | --- |
+| [Developer guides](developer/README.md) | Source, data, proofs, CI, and media |
+| [Standalone boundaries](STANDALONE.md) | Package and external tooling scope |
+| [Project ISA](ISA.md) | Project purpose and evidence boundaries |
+| [Maintenance backlog](TODO.md) | Open and completed maintenance work |
 | [Quick start](quickstart.md) | Install, test, generate figures, render |
 | [Architecture](architecture.md) | Python, figure, script, and Lean boundaries |
 | [Testing](testing_philosophy.md) | Real-computation tests and coverage |
@@ -26,9 +30,9 @@ section-to-method map with upstream documentation entry points.
 
 ## Contribute, validate and cite
 
-- [Contributor workflow](../CONTRIBUTING.md): setup, layer ownership, real controls and PR evidence.
-- [Change history](../CHANGELOG.md): development work versus immutable archives.
-- [Python CI](../.github/workflows/README.md): supported runtimes and verification scope.
+- [Contributor workflow](CONTRIBUTING.md): setup, layer ownership, real controls and PR evidence.
+- [Change history](CHANGELOG.md): development work versus immutable archives.
+- [Python CI](developer/github_workflows.md): supported runtimes and verification scope.
 - [Citation metadata](../CITATION.cff) and [project license](../LICENSE).
 
 `graphical_abstract.png` is a documentation copy of the generated cover panel,
@@ -41,8 +45,7 @@ The [methods guide](methods.md) maps carriers, units, analytical checks and
 limitations. The [resource guide](resources.md) gives verified Institute and
 ecosystem routes for the next learning or implementation question.
 
-The manuscript sources are a subdirectory here, not a guide:
-[`manuscript/`](manuscript/README.md) holds the numbered Markdown sections,
+The [manuscript](manuscript/README.md) contains the numbered Markdown sections,
 `config.yaml`, `figure_registry.yaml`, `references.bib`, and the render
 preamble.
 

@@ -12,16 +12,33 @@ one figure.
 
 ## Manuscript
 
-From the `docxology/template` checkout whose
-`projects/working/ActiveInferenceSynthetic` link resolves to this repository:
+Use [docxology/template at the pinned
+revision](https://github.com/docxology/template/tree/87704feae0a4490ef7dad9c931d268e8c30273c2).
+Install its locked environment and put Pandoc, its matching pandoc-crossref,
+XeLaTeX and BibTeX on PATH. Install DejaVu Sans Mono for the portable
+monospace fallback when JuliaMono is unavailable. From an isolated project
+checkout, install the
+project and produce the native figure and teaching outputs:
 
 ```bash
-uv run python projects/working/ActiveInferenceSynthetic/scripts/00_preflight.py
-uv run python -m infrastructure.validation.cli prerender \
-  projects/working/ActiveInferenceSynthetic/docs/manuscript --repo-root .
-uv run python scripts/pipeline/stage_03_render.py \
+uv sync --locked --extra dev
+uv run --no-sync python scripts/generate_all_figures.py
+uv run --no-sync python scripts/run_teaching_experiments.py
+export PROJECT_ROOT="$(pwd -P)"
+export TEMPLATE_ROOT=/path/to/template
+git -C "$TEMPLATE_ROOT" rev-parse HEAD
+mkdir -p "$TEMPLATE_ROOT/projects/working"
+ln -s "$PROJECT_ROOT" "$TEMPLATE_ROOT/projects/working/ActiveInferenceSynthetic"
+```
+
+Check that HEAD is the pin and the link resolves to the intended checkout.
+From the Template root:
+
+```bash
+cd "$TEMPLATE_ROOT"
+uv run --no-sync python scripts/pipeline/stage_03_render.py \
   --project working/ActiveInferenceSynthetic
-uv run python scripts/pipeline/stage_04_validate.py \
+uv run --no-sync python scripts/pipeline/stage_04_validate.py \
   --project working/ActiveInferenceSynthetic
 ```
 
@@ -41,9 +58,9 @@ Stage 04 validates the generated artifacts and writes
 composition, and output fingerprints. A successful render alone does not replace
 this validation receipt or visual review of the actual PDF and HTML.
 
-The local template-render verification records are under
-`output/reports/template-render-20261011/`. The lecture retains its separate
-frozen sources and delivery receipt; regenerating the paper does not replace it.
+Inspect `output/pdf/ActiveInferenceSynthetic_combined.pdf` and
+`output/web/index.html` in the project checkout. The [lecture](lecture.md)
+retains its separate frozen sources and delivery receipt.
 
 Do not edit generated files under `output/pdf/`, `output/web/`, or
 `output/figures/`; change sources and rerun the relevant stage.

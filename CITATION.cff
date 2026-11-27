@@ -43,7 +43,7 @@ references:
   version: 1.6.0
   doi: 10.5281/zenodo.23196891
   repository-code: https://github.com/ActiveInferenceInstitute/fep_formal
-  commit: 99276926da1df4287a2e13e9aa7f6d1822cfdca3
+  commit: 8ac7761635d20d87790d6018495051fe5f9ad6a8
 - type: article
   title: 'Towards Lean 4 Formalization of the Free Energy Principle: AI-Driven Theorem
     Sketching and Verification for Active Inference and Bayesian Mechanics'

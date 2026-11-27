@@ -81,4 +81,4 @@ monotonically. The nonzero rotation rate witnesses the broken detailed balance
 in the corresponding stochastic model; [@sec:steady-state] computes its stationary probability
 current. Rendered deterministically by
 `scripts/generate_trajectory_figure.py` over the tested cores in
-`src/trajectories.py` and `src/free_energy_flow.py`.](../output/figures/worked_trajectories.png){#fig:trajectories width=94%}
+`src/trajectories.py` and `src/free_energy_flow.py`.](../../output/figures/worked_trajectories.png){#fig:trajectories width=94%}

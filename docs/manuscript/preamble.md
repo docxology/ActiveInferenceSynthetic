@@ -1,7 +1,7 @@
 # LaTeX Preamble
 
-Publication layout and Unicode-capable source-code typography. TeX resolves
-font filenames through its own search path; no machine-specific path is required.
+Publication layout and Unicode-capable source-code typography. XeLaTeX uses
+JuliaMono when installed and DejaVu Sans Mono otherwise.
 
 ```latex
 \usepackage{amsmath}
@@ -31,11 +31,15 @@ font filenames through its own search path; no machine-specific path is required
 \usepackage{hyperref}
 \hypersetup{colorlinks=true,allcolors=red,allbordercolors={1 0 0}}
 \usepackage{fontspec}
-\setmonofont{JuliaMono-Regular.ttf}[
-  BoldFont=JuliaMono-Bold.ttf,
-  ItalicFont=JuliaMono-RegularItalic.ttf,
-  BoldItalicFont=JuliaMono-BoldItalic.ttf,
-  Scale=MatchLowercase
-]
+\IfFontExistsTF{JuliaMono-Regular.ttf}{
+  \setmonofont{JuliaMono-Regular.ttf}[
+    BoldFont=JuliaMono-Bold.ttf,
+    ItalicFont=JuliaMono-RegularItalic.ttf,
+    BoldItalicFont=JuliaMono-BoldItalic.ttf,
+    Scale=MatchLowercase
+  ]
+}{
+  \setmonofont{DejaVu Sans Mono}[Scale=MatchLowercase]
+}
 \setmathfont{latinmodern-math.otf}
 ```

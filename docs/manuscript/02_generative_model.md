@@ -63,4 +63,4 @@ the surprise $-\ln p(s)$ (dashed) that it bounds; the shaded gap is exactly
 $\mathrm{KL}[q_t\Vert p(x\mid s)]$, the belief's error, which closes as
 inference completes. Minimizing free energy is Bayesian updating. Rendered
 deterministically by `scripts/generate_belief_update_figure.py` over the tested
-core in `src/generative_model.py`.](../output/figures/belief_update.png){#fig:belief width=92%}
+core in `src/generative_model.py`.](../../output/figures/belief_update.png){#fig:belief width=92%}

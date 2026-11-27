@@ -5,7 +5,7 @@ real-valued results from the Institute's
 [fep_formal repository](https://github.com/ActiveInferenceInstitute/fep_formal)
 [@fepformal2026software; @friedman2026formalization]. Lake imports its
 `FepSketches` Lean modules from the
-[pinned revision](https://github.com/ActiveInferenceInstitute/fep_formal/tree/99276926da1df4287a2e13e9aa7f6d1822cfdca3)
+[pinned revision](https://github.com/ActiveInferenceInstitute/fep_formal/tree/8ac7761635d20d87790d6018495051fe5f9ad6a8)
 in `formal/lakefile.lean`. Generic proofs remain upstream; Synthetic's Python
 cores do not import `fep_lean`.
 

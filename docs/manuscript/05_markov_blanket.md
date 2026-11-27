@@ -74,4 +74,4 @@ diagonal conditioned endpoint covariance despite nonzero marginal coupling.
 The sensory and active states screen the internal states
 from the external world. Rendered deterministically by
 `scripts/generate_markov_blanket_figure.py` over the tested core in
-`src/markov_blanket.py`.](../output/figures/markov_blanket.png){#fig:blanket width=94%}
+`src/markov_blanket.py`.](../../output/figures/markov_blanket.png){#fig:blanket width=94%}

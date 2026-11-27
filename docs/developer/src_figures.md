@@ -44,7 +44,7 @@ uv run python scripts/generate_all_figures.py   # from the project root
 
 ## More information
 
-See [AGENTS.md](AGENTS.md) for the builder contract and how to add a figure.
+See [AGENTS.md](../../src/figures/AGENTS.md) for the builder contract and how to add a figure.
 
 The closed-loop and hierarchical panels are built by
 `src/figures/synthetic_agent.py` and `src/figures/hierarchy.py`, with the thin

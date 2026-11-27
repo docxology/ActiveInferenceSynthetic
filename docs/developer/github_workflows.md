@@ -1,13 +1,13 @@
 # Python checks
 
-[checks.yml](checks.yml) runs on `main` pushes, pull requests and manual dispatch.
+[checks.yml](../../.github/workflows/checks.yml) runs on `main` pushes, pull requests and manual dispatch.
 
 | Setting | Value |
 | --- | --- |
-| Python matrix | 3.10 minimum and established 3.14 verification runtime |
+| Python matrix | 3.14 and 3.15; the package supports Python 3.11+ |
 | uv | 0.13.5 |
 | checkout | actions/checkout v7.0.1, pinned to its full commit |
-| setup-uv | astral-sh/setup-uv v10.3.2, pinned to its full commit |
+| setup-uv | astral-sh/setup-uv v10.4.0, pinned to its full commit |
 | Permissions | Repository contents read only |
 
 Each job installs the locked dev extra, runs Ruff/mypy, checks tracked publication
@@ -19,6 +19,6 @@ tests report skips if Lake is absent; source-level formal contracts still run.
 A green Python badge does not certify a native Lean build, rendered paper,
 encoded video, hosted release or physical interpretation.
 
-Reproduce the Python checks with [CONTRIBUTING.md](../../CONTRIBUTING.md).
-For full proofs, use [formal setup](../../formal/README.md). Keep the action
-versions and this inventory aligned. Edit requirements: [AGENTS.md](AGENTS.md).
+Reproduce the Python checks with [CONTRIBUTING.md](../CONTRIBUTING.md).
+For full proofs, use [formal setup](formal.md). Keep the action
+versions and this inventory aligned. Edit requirements: [AGENTS.md](../../.github/workflows/AGENTS.md).

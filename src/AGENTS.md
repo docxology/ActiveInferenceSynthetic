@@ -63,7 +63,7 @@ It backs §8 of the manuscript and `src/figures/policy_planning.py`.
 - Cores never import matplotlib; drawing lives in `figures/` only.
 - `src/` never imports the template `infrastructure` package.
 
-Full conventions: [`STYLE.md`](STYLE.md).
+Full conventions: [`STYLE.md`](../docs/developer/source_style.md).
 
 ## See Also
 

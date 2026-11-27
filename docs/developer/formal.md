@@ -3,19 +3,20 @@
 This is an exposition and verification layer over
 [ActiveInferenceInstitute/fep_formal](https://github.com/ActiveInferenceInstitute/fep_formal).
 The generic real-valued mathematics lives upstream in `FepSketches`.
-[Positioning and methods](../docs/positioning.md) links each paper section to
+[Positioning and methods](../positioning.md) links each paper section to
 its upstream carrier and explains where a transfer remains unproved.
 
 The dependency is pinned to upstream main revision
-`99276926da1df4287a2e13e9aa7f6d1822cfdca3`, with Lean/Mathlib `v4.34.1`.
+`8ac7761635d20d87790d6018495051fe5f9ad6a8`, with Lean/Mathlib `v4.35.0`.
 `lakefile.lean` and `lake-manifest.json` record the portable Git dependency and
 transitive revisions. This package has one real-valued library target.
 
 ## First build
 
-With elan/Lake installed, from this directory:
+With Lean 4.35.0 and Lake installed, run from the repository root:
 
 ```bash
+cd formal
 lake exe cache get
 lake build
 lake env lean ActiveInferenceFormal/Audit.lean
@@ -94,4 +95,4 @@ maintained authority. `sorryAx`, missing audit
 entries, and admission keywords fail the checks. Positive support and other
 hypotheses remain visible rather than being inferred from theorem names.
 
-Module instructions: [ActiveInferenceFormal/AGENTS.md](ActiveInferenceFormal/AGENTS.md).
+Module instructions: [ActiveInferenceFormal/AGENTS.md](../../formal/ActiveInferenceFormal/AGENTS.md).

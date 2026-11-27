@@ -36,4 +36,4 @@ still depend on the stated model [@parr2022active].
 produce different posterior beliefs and opposite commitments. Replacing the cue
 with a state-independent coin leaves the prior unchanged and fails to produce
 an observation-sensitive commitment. Every panel comes from the same exact
-finite inference and action-selection core.](../output/figures/synthetic_agent.png){#fig:agent width=94%}
+finite inference and action-selection core.](../../output/figures/synthetic_agent.png){#fig:agent width=94%}

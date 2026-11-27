@@ -96,7 +96,7 @@ one = FIGURE_RENDERERS["belief_update.png"]()
 ## See Also
 
 - [`../AGENTS.md`](../AGENTS.md) — the numerical cores these builders consume
-- [`../STYLE.md`](../STYLE.md) — source conventions
+- [`../STYLE.md`](../../docs/developer/source_style.md) — source conventions
 - [`../../scripts/AGENTS.md`](../../scripts/AGENTS.md) — the orchestrators
 - [`../../tests/AGENTS.md`](../../tests/AGENTS.md) — `test_figures.py` coverage
 

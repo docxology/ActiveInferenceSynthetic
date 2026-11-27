@@ -119,6 +119,24 @@ def test_upstream_dependency_is_immutable_and_toolchain_aligned() -> None:
         ).read_text()
 
 
+def test_live_formal_guides_and_citations_follow_dependency_pin() -> None:
+    manifest = json.loads((_FORMAL / "lake-manifest.json").read_text())
+    revision = next(
+        package["rev"] for package in manifest["packages"] if package["name"] == "FepSketches"
+    )
+    root = _FORMAL.parent
+    for relative in (
+        "docs/developer/formal.md",
+        "docs/positioning.md",
+        "docs/manuscript/07_formal_verification.md",
+        "docs/manuscript/references.bib",
+        "CITATION.cff",
+    ):
+        assert revision in (root / relative).read_text(), relative
+    version = (_FORMAL / "lean-toolchain").read_text().strip().split(":")[-1]
+    assert version in (root / "docs/developer/formal.md").read_text()
+
+
 @pytest.mark.skipif(shutil.which("lake") is None, reason="Lean/lake not installed")
 def test_lake_build_and_axiom_audit() -> None:
     build = subprocess.run(

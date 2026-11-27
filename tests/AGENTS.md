@@ -55,7 +55,7 @@ test run never writes into the real `output/` tree.
 
 ## Conventions
 
-See [`PATTERNS.md`](PATTERNS.md). In short: no mock frameworks, compare against
+See [`PATTERNS.md`](../docs/developer/test_patterns.md). In short: no mock frameworks, compare against
 independent formulas or hand calculations, assert invariants (normalization,
 orthogonality, detailed-balance limits), and exercise script wrappers through
 their real `main()`.

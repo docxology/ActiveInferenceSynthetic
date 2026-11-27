@@ -10,10 +10,12 @@ A dated archive identifies an exact source snapshot; `main` may contain later wo
   scientific questions, execution boundaries, repository navigation and citation.
 - Add the existing CC-BY-4.0 license text and explicit package license metadata.
 - Add contributor guidance, prerequisite/failure instructions and release history.
-- Add pinned GitHub Actions for Python 3.10 and 3.14 checks, with native Lean
+- Run Python CI on 3.14 and 3.15, with native Lean
   verification explicitly outside the hosted Python job.
 - Include package construction and an isolated installed-wheel smoke check.
-- Make float64 array annotations compatible with NumPy on Python 3.10 and 3.14.
+- Consolidate reader and developer guides under `docs/`. Build the paper from
+  `docs/manuscript/` with the pinned Template renderer.
+- Align live formal documentation and citations with the Lean 4.35.0 dependency.
 - Keep GitHub's preferred `.github/README.md` synchronized with the root reader
   guide, with a real drift-rejection test and publication check.
 - Update the pinned setup-uv action and uv runtime used by Python checks.

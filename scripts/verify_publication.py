@@ -48,10 +48,14 @@ def verify(root: Path, paths: list[str] | None = None) -> dict[str, object]:
     for name in paths:
         folders.update(Path(name).parents)
     for folder in sorted(folders):
-        for name in ("README.md", "AGENTS.md"):
-            relative = (folder / name).as_posix()
-            if relative not in paths or not (root / relative).is_file():
-                raise ValueError(f"Missing maintained folder guide: {relative}")
+        relative = (folder / "README.md").as_posix()
+        slug = folder.as_posix().lstrip(".").replace("/", "_")
+        centralized = f"docs/developer/{slug}.md"
+        if not any(name in paths and (root / name).is_file() for name in (relative, centralized)):
+            raise ValueError(f"Missing maintained folder guide: {relative}")
+        relative = (folder / "AGENTS.md").as_posix()
+        if relative not in paths or not (root / relative).is_file():
+            raise ValueError(f"Missing maintained folder guide: {relative}")
 
     if ".github/README.md" in paths:
         def rebase_link(match: re.Match[str]) -> str:
@@ -94,7 +98,7 @@ def verify(root: Path, paths: list[str] | None = None) -> dict[str, object]:
             if url.scheme or url.netloc or not url.path:
                 continue
             relative = unquote(url.path)
-            if relative.startswith("../output/figures/") and name.startswith("docs/manuscript/"):
+            if relative.startswith("../../output/figures/") and name.startswith("docs/manuscript/"):
                 if Path(relative).name not in figures:
                     raise ValueError(f"Unknown manuscript figure in {name}: {relative}")
             else:
@@ -111,7 +115,7 @@ def verify(root: Path, paths: list[str] | None = None) -> dict[str, object]:
         "maintained_folders": len(folders),
         "markdown_files": sum(name.endswith(".md") for name in paths),
         "local_link_paths": checked,
-        "scope": "Asset bytes, paired tracked folder guides, and local Markdown target paths; external URLs and anchors need separate checks",
+        "scope": "Asset bytes, indexed folder guides and scoped AGENTS files, and local Markdown target paths; external URLs and anchors need separate checks",
     }
 
 

@@ -1,7 +1,7 @@
 # Contributing
 
-Start with [the README](README.md), [methods](docs/methods.md), and
-[AGENTS.md](AGENTS.md). Before changing a scientific claim, identify its carrier,
+Start with [the README](../README.md), [methods](methods.md), and
+[AGENTS.md](../AGENTS.md). Before changing a scientific claim, identify its carrier,
 assumptions, source function and independent analytical or negative control.
 
 ## Set up
@@ -16,7 +16,7 @@ uv run python scripts/verify_publication.py
 uv run pytest tests/ --cov=src --cov-fail-under=90
 ```
 
-Prepare [the pinned Lean environment](formal/README.md) to run native proof
+Prepare [the pinned Lean environment](developer/formal.md) to run native proof
 checks. Missing Lake skips those checks; report the skips explicitly.
 For GitVault work, follow the runtime/cache/storage bindings in the root agent guide
 and preserve unrelated dirty files and evidence.
@@ -40,7 +40,7 @@ and preserve unrelated dirty files and evidence.
 GitHub displays `.github/README.md` before the root README. Keep their reader
 content identical, prefixing local link/image paths with `../` in the `.github`
 copy. The publication verifier rejects drift; automation guidance lives in
-[the workflow guide](.github/workflows/README.md).
+[the workflow guide](developer/github_workflows.md).
 
 ## Validate the affected surface
 
@@ -51,12 +51,12 @@ uv build --out-dir build/distributions
 ```
 
 Changes to numbered manuscript content, figure inputs or render metadata require
-the separate [paper rendering and inspection workflow](docs/rendering_pipeline.md).
+the separate [paper rendering and inspection workflow](rendering_pipeline.md).
 Changes to narration, captions or encoded media require a new verified edition;
-see [lecture instructions](docs/lecture.md). A prior PDF/video hash is evidence
+see [lecture instructions](lecture.md). A prior PDF/video hash is evidence
 for its frozen bytes, not for newly edited source.
 
-[Python CI](.github/workflows/README.md) checks supported Python endpoints,
+[Python CI](developer/github_workflows.md) checks supported Python endpoints,
 lint, types, asset/documentation consistency, tests and package construction.
 It does not install the separate Lean toolchain or render the manuscript/video.
 
@@ -69,7 +69,7 @@ actual output. Preserve the failure and avoid including credentials.
 For a contribution, keep the diff focused, include checks and limitations in
 the PR description, and update [CHANGELOG.md](CHANGELOG.md) under Unreleased.
 Keep existing published files and tags immutable; follow
-[publication instructions](docs/publication.md) for a successor archive.
+[publication instructions](publication.md) for a successor archive.
 
-The existing project license is [CC-BY-4.0](LICENSE). Preserve attribution,
+The existing project license is [CC-BY-4.0](../LICENSE). Preserve attribution,
 upstream references and the scientific interpretation boundaries.

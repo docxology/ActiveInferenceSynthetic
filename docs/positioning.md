@@ -26,19 +26,19 @@ formal library**. This paper can develop on its own publication schedule while
 attributing reused results to upstream. Running its Python demonstrations needs
 neither the upstream Python package nor Lean. Its real-valued Lean exposition
 has an external dependency; PDF/HTML production currently uses the research
-template. [STANDALONE.md](../STANDALONE.md) separates these execution surfaces.
+template. [STANDALONE.md](STANDALONE.md) separates these execution surfaces.
 
 ## Where to start upstream
 
 The following guides are revision-bound to the formal dependency used here.
 The repository landing page provides the evolving current documentation:
 
-- [Documentation map](https://github.com/ActiveInferenceInstitute/fep_formal/blob/99276926da1df4287a2e13e9aa7f6d1822cfdca3/docs/README.md): navigation across methods, formalization, validation, and research programs.
-- [Mathematical methods](https://github.com/ActiveInferenceInstitute/fep_formal/blob/99276926da1df4287a2e13e9aa7f6d1822cfdca3/docs/mathematical-methods.md): portable `fep_lean.methods` inspection, exact theorem statements, boundary probes, and transfer rules.
-- [Formal-kernel methods](https://github.com/ActiveInferenceInstitute/fep_formal/blob/99276926da1df4287a2e13e9aa7f6d1822cfdca3/docs/formal-kernel-methods.md): normalized carriers, support conditions, foundation versus composition ownership, and validation tiers.
-- [Lean workspace](https://github.com/ActiveInferenceInstitute/fep_formal/blob/99276926da1df4287a2e13e9aa7f6d1822cfdca3/docs/lean4.md): pinned Lean/Mathlib setup and canonical-source projection.
-- [Theorem maturity audit](https://github.com/ActiveInferenceInstitute/fep_formal/blob/99276926da1df4287a2e13e9aa7f6d1822cfdca3/docs/theorem-maturity-audit.md): semantic scope beyond a successful compilation.
-- [Getting started](https://github.com/ActiveInferenceInstitute/fep_formal/blob/99276926da1df4287a2e13e9aa7f6d1822cfdca3/docs/getting-started.md): separate offline inspection, native verification, and full workflows.
+- [Documentation map](https://github.com/ActiveInferenceInstitute/fep_formal/blob/8ac7761635d20d87790d6018495051fe5f9ad6a8/docs/README.md): navigation across methods, formalization, validation, and research programs.
+- [Mathematical methods](https://github.com/ActiveInferenceInstitute/fep_formal/blob/8ac7761635d20d87790d6018495051fe5f9ad6a8/docs/mathematical-methods.md): portable `fep_lean.methods` inspection, exact theorem statements, boundary probes, and transfer rules.
+- [Formal-kernel methods](https://github.com/ActiveInferenceInstitute/fep_formal/blob/8ac7761635d20d87790d6018495051fe5f9ad6a8/docs/formal-kernel-methods.md): normalized carriers, support conditions, foundation versus composition ownership, and validation tiers.
+- [Lean workspace](https://github.com/ActiveInferenceInstitute/fep_formal/blob/8ac7761635d20d87790d6018495051fe5f9ad6a8/docs/lean4.md): pinned Lean/Mathlib setup and canonical-source projection.
+- [Theorem maturity audit](https://github.com/ActiveInferenceInstitute/fep_formal/blob/8ac7761635d20d87790d6018495051fe5f9ad6a8/docs/theorem-maturity-audit.md): semantic scope beyond a successful compilation.
+- [Getting started](https://github.com/ActiveInferenceInstitute/fep_formal/blob/8ac7761635d20d87790d6018495051fe5f9ad6a8/docs/getting-started.md): separate offline inspection, native verification, and full workflows.
 
 These guide links are pinned to the dependency used by the paper. The repository
 landing page follows upstream development. A reused result must record its exact
@@ -131,10 +131,10 @@ For each proposed reuse:
 ## Pinned alignment with upstream main
 
 The formal dependency selects upstream main revision
-`99276926da1df4287a2e13e9aa7f6d1822cfdca3` through a portable Git dependency
+`8ac7761635d20d87790d6018495051fe5f9ad6a8` through a portable Git dependency
 in [lakefile.lean](../formal/lakefile.lean). The
 [manifest](../formal/lake-manifest.json) locks its transitive dependencies, and
-[lean-toolchain](../formal/lean-toolchain) selects `v4.34.1`, matching that
+[lean-toolchain](../formal/lean-toolchain) selects `v4.35.0`, matching that
 revision's Lean/Mathlib workspace. This project's `.lake/` is isolated from
 neighboring worktrees. Python test collection also runs without the template.
 
@@ -157,7 +157,7 @@ To advance the alignment:
    manuscript values, and review any changed scientific correspondence.
 5. Regenerate and inspect the rendered paper separately before publication.
 
-[Formal setup](../formal/README.md) documents reproduction from the committed
+[Formal setup](developer/formal.md) documents reproduction from the committed
 manifest. Main-branch alignment is a pinned snapshot with evidence; it is not
 permission to follow upstream changes automatically.
 
@@ -167,7 +167,7 @@ permission to follow upstream changes automatically.
 | Project | What Synthetic uses | Reader entry point |
 | --- | --- | --- |
 | Synthetic | Numerical teaching models and standalone paper | Installed `active_inference_synthetic`; local checkout scripts use `src` |
-| [fep_formal](https://github.com/ActiveInferenceInstitute/fep_formal) | Direct Lean dependency on pinned `FepSketches` modules | [Pinned citation metadata](https://github.com/ActiveInferenceInstitute/fep_formal/blob/99276926da1df4287a2e13e9aa7f6d1822cfdca3/CITATION.cff); upstream Python `fep_lean` and CLI `fep-lean` are optional inspection interfaces |
+| [fep_formal](https://github.com/ActiveInferenceInstitute/fep_formal) | Direct Lean dependency on pinned `FepSketches` modules | [Pinned citation metadata](https://github.com/ActiveInferenceInstitute/fep_formal/blob/8ac7761635d20d87790d6018495051fe5f9ad6a8/CITATION.cff); upstream Python `fep_lean` and CLI `fep-lean` are optional inspection interfaces |
 | [Generalized Notation Notation](https://github.com/ActiveInferenceInstitute/Generalized_Notation_Notation) | Optional upstream parser validates authored specifications against Synthetic parameters; no GNN backend execution | [Reviewed README](https://github.com/ActiveInferenceInstitute/Generalized_Notation_Notation/blob/9255e19f951d4c9c1461514464d420bd3fc8b912/README.md) and [citation metadata](https://github.com/ActiveInferenceInstitute/Generalized_Notation_Notation/blob/9255e19f951d4c9c1461514464d420bd3fc8b912/CITATION.cff) |
 | [docxology/template](https://github.com/docxology/template) | Manuscript hydration, PDF/HTML rendering, and validation | [Local reproduction steps](rendering_pipeline.md) |
 
