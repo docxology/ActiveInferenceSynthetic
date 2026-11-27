@@ -28,11 +28,13 @@ must name its own model and acceptance tests.
 
 ## Workflowz review — 2026-11-10
 
-- [ ] **AIS-01 · P1 — Make probability and symmetry validation tolerances absolute.**
-  - **Evidence:** `src/_prob.py:44-48` calls `np.allclose(col_sums, 1.0, atol=1e-8)` without `rtol=0`, so NumPy's default relative tolerance admits column sums roughly `1e-5` away from one despite the stated absolute tolerance. `src/markov_blanket.py:56-65` similarly checks symmetry with `atol=1e-10` but the default relative tolerance, allowing large absolute asymmetry in high-scale SPD matrices. Existing malformed-input tests use only gross errors (`tests/test_prob.py:20-24`, `tests/test_markov_blanket.py:55-57,141-143`).
-  - **Outcome:** `as_column_stochastic` and `_check_spd` enforce their documented absolute tolerances, with regressions that reject a column sum of `1.00002` and a high-scale matrix whose asymmetry exceeds `1e-10`; ordinary valid fixtures and accepted floating-point roundoff remain supported.
-  - **Probe:** From the repository root, run `uv run pytest tests/test_prob.py tests/test_markov_blanket.py tests/test_generative_model.py tests/test_expected_free_energy.py -q`; the new near-tolerance negative controls and all existing analytic references pass.
-  - **Dependencies/constraints:** Set `rtol=0.0` at these validation gates rather than tightening the declared absolute tolerances or changing downstream formulas. Preserve the existing finite/nonnegative/SPD checks and intentional clipping semantics.
+- [x] **AIS-01 — Enforce absolute probability and precision symmetry tolerances.**
+  - Likelihood column sums use `atol=1e-8` and precision symmetry uses
+    `atol=1e-10`, both with `rtol=0.0`.
+  - Regression tests reject a column sum of `1.000005` and an off-diagonal
+    difference of `25` at matrix scale `2e8`. They accept a sum of `1.000000005`
+    and a symmetric positive-definite matrix at the same scale.
+  - Run `uv run pytest tests/test_prob.py tests/test_markov_blanket.py tests/test_generative_model.py tests/test_expected_free_energy.py -q`.
 
 - [x] **AIS-02 — Rebind live formal documentation and citations.** The
   [formal setup](developer/formal.md), [positioning guide](positioning.md),

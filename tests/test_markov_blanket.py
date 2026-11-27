@@ -57,6 +57,17 @@ def test_covariance_from_precision_rejects_asymmetric() -> None:
         covariance_from_precision(np.array([[2.0, 0.5], [1.0, 2.0]]))
 
 
+def test_covariance_from_precision_uses_absolute_symmetry_tolerance() -> None:
+    symmetric = np.array([[2e8, 5e7], [5e7, 2e8]])
+    covariance = covariance_from_precision(symmetric)
+    np.testing.assert_allclose(covariance @ symmetric, np.eye(2), atol=1e-12, rtol=0.0)
+
+    asymmetric = symmetric.copy()
+    asymmetric[0, 1] += 25.0
+    with pytest.raises(ValueError, match="symmetric"):
+        covariance_from_precision(asymmetric)
+
+
 def test_precision_is_valid_spd_covariance() -> None:
     # Sanity: the constructed joint is a proper Gaussian.
     assert np.allclose(_COV, _COV.T)

@@ -59,7 +59,7 @@ def _check_spd(matrix: NDArray[np.float64], name: str) -> NDArray[np.float64]:
         raise ValueError(f"{name} must be square 2-D, got shape {arr.shape}")
     if not np.all(np.isfinite(arr)):
         raise ValueError(f"{name} must be finite (no NaN/inf)")
-    if not np.allclose(arr, arr.T, atol=1e-10):
+    if not np.allclose(arr, arr.T, atol=1e-10, rtol=0.0):
         raise ValueError(f"{name} must be symmetric")
     if float(np.linalg.eigvalsh(arr).min()) <= 0.0:
         raise ValueError(f"{name} must be positive-definite")
