@@ -3,7 +3,7 @@
 GitHub gives `.github/README.md` precedence on the repository homepage. Keep it
 identical to the root reader README, prefixing each local link/image path with
 `../` for this folder. The publication verifier rejects drift between the two.
-Automation documentation belongs in `workflows/README.md`.
+Use the [workflow guide](../docs/developer/github_workflows.md) for automation documentation.
 
 Read [workflows/AGENTS.md](workflows/AGENTS.md) before editing workflows.
 Use read-only permissions and immutable action revisions. Keep event triggers

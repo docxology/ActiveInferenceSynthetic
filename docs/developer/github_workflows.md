@@ -1,6 +1,9 @@
 # Python checks
 
-[checks.yml](../../.github/workflows/checks.yml) runs on `main` pushes, pull requests and manual dispatch.
+[checks.yml](../../.github/workflows/checks.yml) configures Python checks for
+`main` pushes, pull requests and manual dispatch. See GitHub for current hosted status and results.
+[Workflow status](https://api.github.com/repos/docxology/ActiveInferenceSynthetic/actions/workflows/checks.yml) ·
+[Run history](https://api.github.com/repos/docxology/ActiveInferenceSynthetic/actions/workflows/checks.yml/runs)
 
 | Setting | Value |
 | --- | --- |
