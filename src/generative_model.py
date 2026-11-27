@@ -87,7 +87,11 @@ def _prepare(
         raise ValueError(
             f"prior length {p.shape[0]} != likelihood state count {n_states}"
         )
-    if not isinstance(obs, (int, np.integer)) or not 0 <= int(obs) < n_obs:
+    if (
+        isinstance(obs, bool)
+        or not isinstance(obs, (int, np.integer))
+        or not 0 <= int(obs) < n_obs
+    ):
         raise ValueError(f"obs must be an integer in [0, {n_obs}), got {obs!r}")
     return a[int(obs)], p
 

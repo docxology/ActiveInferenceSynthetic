@@ -54,8 +54,10 @@ must name its own model and acceptance tests.
   - **Probe:** Run `uv sync --locked --extra dev --python 3.15.2 && uv run --frozen --no-sync python -c "import sys; assert sys.version_info[:3] == (3, 15, 2); print(sys.version)" && uv run --frozen --no-sync pytest tests/test_runtime_metadata.py -q`; synchronization preserves the lock, the interpreter assertion prints 3.15.2, and metadata checks pass.
   - **Dependencies/constraints:** Land after AIS-03 to avoid conflicting documentation edits. This is an interpreter reproducibility pin, not a dependency upgrade: do not regenerate `uv.lock` or raise the package minimum solely for this change.
 
-- [ ] **AIS-05 · P2 — Reject Boolean observation indices in the generative-model core.**
-  - **Evidence:** `src/generative_model.py:82-92` accepts `bool`/`np.bool_` because they satisfy the integer check, silently interpreting `True` as observation 1 and `False` as observation 0. The sibling public entry points explicitly reject these values (`src/hierarchical_model.py:48-51`, `src/synthetic_agent.py:53-54`), and their tests include Boolean controls (`tests/test_hierarchical_model.py:37`, `tests/test_synthetic_agent.py:50`), but `tests/test_generative_model.py:205-207` covers only an out-of-range integer.
-  - **Outcome:** `joint`, `evidence`, `surprise`, `posterior`, VFE, and descent consistently raise the documented `ValueError` for Python and NumPy Boolean observations while retaining valid Python/NumPy integer indices.
-  - **Probe:** Run `uv run pytest tests/test_generative_model.py tests/test_hierarchical_model.py tests/test_synthetic_agent.py -q`; parametrized `True`, `False`, `np.bool_(True)`, and `np.bool_(False)` rejection tests pass alongside all existing posterior and agent controls.
-  - **Dependencies/constraints:** Change only `_prepare` index validation and its shared tests; do not alter numeric observation results, bounds, or the sibling implementations.
+- [x] **AIS-05 — Reject Boolean observation indices in the generative-model core.**
+  - Built-in Boolean values previously selected observations 0 and 1. NumPy
+    Boolean values already raised `ValueError`. The shared observation guard now
+    rejects both types consistently across the seven public functions.
+  - The focused regressions exercise both Boolean values for each type and
+    check exact Bayesian results for Python, signed NumPy, and unsigned NumPy
+    integer indices.
